@@ -73,6 +73,10 @@ $donatecoinreward4 = 40;
 // Turn error reporting on or of (1=on | 0=off)
 define("USE_REPORTING", 1);
 
+// Enable or Disable Telnet, require config
+// Default: 0 (1=on | 0=off )
+define("USE_TELNET", 0);
+
 if (USE_REPORTING == true)
 {
 	// empty
