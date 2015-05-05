@@ -13,6 +13,7 @@
 	
 	<!-- Connect -->
 	<?
+		include_once 'common.php';
 		require "system/config.php";
 		require "system/connect.php";
 		
@@ -37,13 +38,16 @@
 									<center>
 										<table>
 											<tr>
-												<td><center>Name of Character:</center></td>
+												<td><center><?php echo $lang['character_name']; ?></center></td>
 											</tr>
 											<tr>
 												<td><center><input type="text" name="custom" value="<?php echo $charname?>" style="width: 135px"></center></td>
 											</tr>
 											<tr>
-												<td><center><input type="submit" name="submit" value="Confirm Character"></center></td>
+												<td><center><input type="submit" name="submit" value="<?php echo $lang['character_button']; ?>"></center></td>
+											</tr>
+											<tr>
+												<td><center><a href="?lang=en"><img src="images/flag/en.png"></a> <a href="?lang=es"><img src="images/flag/es.png"></a></center></td>
 											</tr>
 										</table>
 									</center> 
@@ -83,7 +87,7 @@
 													{
 														include("recallform.php");
 														?>
-															<center>Sorry character <b><?php echo $charname?></b> does not exist.</center>
+															<center><?php echo $lang['message_1']; ?> <b><?php echo $charname?></b> <?php echo $lang['message_2']; ?></center>
 														<?php
 													}
 													else
@@ -111,7 +115,7 @@
 																<input type="hidden" name="rm" value="2" />
 																
 																<!-- Player logged in successfully and the character is logged out -->
-																<center>Success! <b><?php echo $charname?></b> exists.</center><br>
+																<center><?php echo $lang['message_3']; ?>  <b><?php echo $charname?></b> <?php echo $lang['message_4']; ?> </center><br>
 																
 																<!-- General configuration variables for the paypal landing page. Consult -->
 																<!-- http://www.paypal.com/IntegrationCenter/ic_std-variable-ref-donate.html for more info -->
@@ -124,13 +128,13 @@
 																<!-- here the amount of the coins donation can be configured visible html only -->
 																<center>
 																	<table>
-																		<tr><td>Get Coins:</td><td>
+																		<tr><td><?php echo $lang['message_5']; ?></td><td>
 																		<!-- The amount of the transaction: -->
 																		<select name="amount" style="width: 150px">
-																			<option value="<?php echo $donatecoinamount1?>"><?php echo $donatecoinreward1?> coins $<?php echo $donatecoinamount1?>.00 </option>
-																			<option value="<?php echo $donatecoinamount2?>"><?php echo $donatecoinreward2?> coins $<?php echo $donatecoinamount2?>.00</option>
-																			<option value="<?php echo $donatecoinamount3?>"><?php echo $donatecoinreward3?> coins $<?php echo $donatecoinamount3?>.00</option>
-																			<option value="<?php echo $donatecoinamount4?>"><?php echo $donatecoinreward4?> coins $<?php echo $donatecoinamount4?>.00</option>
+																			<option value="<?php echo $donatecoinamount1?>"><?php echo $donatecoinreward1?> <?php echo $lang['message_6']; ?><?php echo $donatecoinamount1?>.00 </option>
+																			<option value="<?php echo $donatecoinamount2?>"><?php echo $donatecoinreward2?> <?php echo $lang['message_6']; ?><?php echo $donatecoinamount2?>.00</option>
+																			<option value="<?php echo $donatecoinamount3?>"><?php echo $donatecoinreward3?> <?php echo $lang['message_6']; ?><?php echo $donatecoinamount3?>.00</option>
+																			<option value="<?php echo $donatecoinamount4?>"><?php echo $donatecoinreward4?> <?php echo $lang['message_6']; ?><?php echo $donatecoinamount4?>.00</option>
 																		</select>
 																		</td></tr></table>
 																</center>
@@ -157,7 +161,7 @@
 														{
 															include("recallform.php");
 															?>
-																<center>Sorry character <b><?php echo $charname?></b> does not exist.</center>
+																<center><?php echo $lang['message_1']; ?> <b><?php echo $charname?></b> <?php echo $lang['message_2']; ?></center>
 															<?php
 														}
 														else
@@ -185,7 +189,7 @@
 																	<input type="hidden" name="rm" value="2" />
 																	
 																	<!-- Player logged in successfully and the character is logged out -->
-																	<center>Success! <b><?php echo $charname?></b> exists.</center><br>
+																	<center><?php echo $lang['message_3']; ?>  <b><?php echo $charname?></b> <?php echo $lang['message_4']; ?> </center><br>
 																	
 																	<!-- General configuration variables for the paypal landing page. Consult -->
 																	<!-- http://www.paypal.com/IntegrationCenter/ic_std-variable-ref-donate.html for more info -->
@@ -198,13 +202,13 @@
 																	<!-- here the amount of the coins donation can be configured visible html only -->
 																	<center>
 																		<table>
-																			<tr><td>Get Coins:</td><td>
+																			<tr><td><?php echo $lang['message_5']; ?></td><td>
 																			<!-- The amount of the transaction: -->
 																			<select name="amount" style="width: 150px">
-																				<option value="<?php echo $donatecoinamount1?>"><?php echo $donatecoinreward1?> coins $<?php echo $donatecoinamount1?>.00 </option>
-																				<option value="<?php echo $donatecoinamount2?>"><?php echo $donatecoinreward2?> coins $<?php echo $donatecoinamount2?>.00</option>
-																				<option value="<?php echo $donatecoinamount3?>"><?php echo $donatecoinreward3?> coins $<?php echo $donatecoinamount3?>.00</option>
-																				<option value="<?php echo $donatecoinamount4?>"><?php echo $donatecoinreward4?> coins $<?php echo $donatecoinamount4?>.00</option>
+																				<option value="<?php echo $donatecoinamount1?>"><?php echo $donatecoinreward1?> <?php echo $lang['message_6']; ?><?php echo $donatecoinamount1?>.00 </option>
+																				<option value="<?php echo $donatecoinamount2?>"><?php echo $donatecoinreward2?> <?php echo $lang['message_6']; ?><?php echo $donatecoinamount2?>.00</option>
+																				<option value="<?php echo $donatecoinamount3?>"><?php echo $donatecoinreward3?> <?php echo $lang['message_6']; ?><?php echo $donatecoinamount3?>.00</option>
+																				<option value="<?php echo $donatecoinamount4?>"><?php echo $donatecoinreward4?> <?php echo $lang['message_6']; ?><?php echo $donatecoinamount4?>.00</option>
 																			</select>
 																			</td></tr></table>
 																	</center>
@@ -226,7 +230,7 @@
 													{
 														include("recallform.php");
 														?>
-															<center>Characters is online! Disconnect the characters to make the donation.</center><br>
+															<center><?php echo $lang['recallform_1']; ?> </center><br>
 														<?php
 													}
 												}
@@ -235,7 +239,7 @@
 											{
 												include("recallform.php");
 												?>
-													<center>Please insert a minimal of 3 characters.</center><br>
+													<center><?php echo $lang['recallform_2']; ?> </center><br>
 												<?php
 											}
 										}
@@ -243,28 +247,28 @@
 										{
 											include("recallform.php");
 											?>
-												<center>You forgot to type a Character name.</center><br>
+												<center><?php echo $lang['recallform_3']; ?> </center><br>
 											<?php
 										}
 									}
 									else
 									{
 										?>
-											<center>Cannot select login server database.</center><br>
+											<center><?php echo $lang['recallform_4']; ?> </center><br>
 										<?php	
 									}
 								}
 								else
 								{
 									?>
-										<center>Cannot select game sever database.</center><br>
+										<center><?php echo $lang['recallform_5']; ?> </center><br>
 									<?php	
 								}
 							}
 							else
 							{
 								?>
-									<center>No connection can be made to the server.</center><br>
+									<center><?php echo $lang['recallform_6']; ?> </center><br>
 								<?php
 							}
 						}

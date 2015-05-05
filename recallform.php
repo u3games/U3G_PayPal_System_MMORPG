@@ -3,12 +3,16 @@
 		<center>
 		<table>
 			<tr>
-				<td>Character:</td><td><input type="text" name="custom" value="<?php echo $charname;?>" style="width: 135px"></td>
+				<td><center><?php echo $lang['character_name']; ?></center></td>
 			</tr>
 			<tr>
-				<td></td><td><input type="submit" name="submit" value="Select"></td>
+				<td><center><input type="text" name="custom" value="<?php echo $charname?>" style="width: 135px"></center></td>
 			</tr>
-			</table>
-			</center>
-		</form>
+			<tr>
+				<td><center><input type="submit" name="submit" value="<?php echo $lang['character_button']; ?>"></center></td>
+			</tr>
+			<tr>
+		</table>
+		</center>
+	</form>
 	<br>
