@@ -70,7 +70,7 @@ if ($p->validate_ipn())
 				if ($rowonline['online'] == 1)
 				{
 					// if character is online lets send some telnet commands
-					include "l2jTelnet.php";
+					include "l2j_telnet.php";
 					
 					//Telnet host, port, pass, timeout
 					$telnet = new telnet("".$telnet_host."", "".$telnet_port."", "".$telnet_pass."", 2);
@@ -120,7 +120,7 @@ if ($p->validate_ipn())
 				if ($rowonline['online'] == 1)
 				{
 					// if character is online lets send some telnet commands
-					include "l2jTelnet.php";
+					include "l2j_telnet.php";
 					
 					//Telnet host, port, pass, timeout
 					$telnet = new telnet("".$telnet_host."", "".$telnet_port."", "".$telnet_pass."", 2);
@@ -170,7 +170,7 @@ if ($p->validate_ipn())
 				if ($rowonline['online'] == 1)
 				{
 					// if character is online lets send some telnet commands
-					include "l2jTelnet.php";
+					include "l2j_telnet.php";
 					
 					//Telnet host, port, pass, timeout
 					$telnet = new telnet("".$telnet_host."", "".$telnet_port."", "".$telnet_pass."", 2);
@@ -220,7 +220,7 @@ if ($p->validate_ipn())
 				if ($rowonline['online'] == 1)
 				{
 					// if character is online lets send some telnet commands
-					include "l2jTelnet.php";
+					include "l2j_telnet.php";
 					
 					//Telnet host, port, pass, timeout
 					$telnet = new telnet("".$telnet_host."", "".$telnet_port."", "".$telnet_pass."", 2);
