@@ -12,6 +12,8 @@
 				<td><center><input type="submit" name="submit" value="<?php echo $lang['character_button']; ?>"></center></td>
 			</tr>
 			<tr>
+				<td><center><a href="?lang=en"><img src="images/flag/en.png"></a> <a href="?lang=es"><img src="images/flag/es.png"></a></center></td>
+			</tr>
 		</table>
 		</center>
 	</form>
