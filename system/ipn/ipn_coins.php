@@ -36,16 +36,16 @@ if ($p->validate_ipn())
 		
 		// Get character name from paypal ipn data
 		$custom = $p->ipn_data['custom'];
-	
+		
 		// Here we will make a log of all the donations after the payment status is complete
-		mysqli_query($db_link, "	INSERT INTO dc_donations (transaction_id,donation,amount,character_name)
-						VALUES (
-							'".esc($p->ipn_data['txn_id'])."',
-							'Paypal, Coins',
-							".(float)$amount.",
-							'".esc($custom)."'
-						)");
-
+		mysqli_query($db_link, "INSERT INTO log_paypal_donations (transaction_id,donation,amount,character_name) VALUES
+		(
+			'".esc($p->ipn_data['txn_id'])."',
+			'Paypal, Coins',
+			".(float)$amount.",
+			'".esc($custom)."'
+		)");
+		
 		// Gets the amount that the player donated
 		$getamount = $p->ipn_data['mc_gross'];
 		
@@ -55,12 +55,12 @@ if ($p->validate_ipn())
 		$total 		= mysqli_num_rows($result);
 		$row = mysqli_fetch_assoc($result);
 		$charId = $row[charId];
-
+		
 		// Check if character is online
 		$isonline = "SELECT online FROM characters WHERE char_name='".$custom."' LIMIT 1";
 		$resultonline = mysqli_query($db_link, $isonline);
 		$rowonline = mysqli_fetch_array($resultonline);
-
+		
 		// Donate Rewards Coins I
 		if ($getamount == $donatecoinamount1)
 		{
