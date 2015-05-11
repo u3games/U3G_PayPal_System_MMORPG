@@ -75,7 +75,7 @@ define("USE_REPORTING", true);
 
 // Enable or Disable Telnet, require config (true=on | false=off )
 // Default: false
-define("USE_TELNET", true);
+define("USE_TELNET", false);
 
 // TODO: Enabled reports
 // Default: true
