@@ -26,4 +26,7 @@ $lang['recallform_4'] = 'Ha habido un error al intentar conectar con el Login Se
 $lang['recallform_5'] = 'Ha habido un error al intentar conectar con el Game Server.';
 $lang['recallform_6'] = 'Ha habido un error al intentar conectar con la Base de Datos';
 
+$lang['done_1'] = 'Gracias por la donación realizada, ahora revisa que el item ha sido enviado al personaje indicado.';
+$lang['done_2'] = 'Si no habéis recibido el item, contacte con la administración antes de realizar una nueva donación.';
+
 ?>

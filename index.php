@@ -12,7 +12,7 @@
 	<meta name="author" content="u3games, swarlog">
 	
 	<!-- Connect -->
-	<?
+	<?php
 		include_once 'common.php';
 		require "system/config.php";
 		require "system/connect.php";
@@ -31,11 +31,11 @@
 	?>
 </head>
 <body>
-	<table cellpadding="0" cellspacing="0" width="600" height="89">
+	<table cellpadding="0" cellspacing="0" width="100%">
 		<table border="0" width="100%" id="login">
 			<tr>
 				<td align="center">
-					<?
+					<?php
 						if (!isset($_POST['submit']))
 						{
 							?>
@@ -59,7 +59,7 @@
 									</center> 
 								</form>
 							</div>
-							<?
+							<?php
 						}
 						
 						if (isset($_POST['submit']))
@@ -116,7 +116,7 @@
 																	<input type="hidden" name="notify_url" value="<?php echo $urlipn?>/ipn_coins.php" />
 																	
 																	<!-- The return page to which the user is navigated after the donations is complete -->
-																	<input type="hidden" name="return" value="<?php echo $urlthx?>/thankyou.php" />
+																	<input type="hidden" name="return" value="done.php" />
 																	
 																	<!-- Signifies that the transaction data will be passed to the return page by POST -->
 																	<input type="hidden" name="rm" value="2" />
@@ -185,7 +185,7 @@
 																<input type="hidden" name="notify_url" value="<?php echo $urlipn?>/ipn_coins.php" />
 																
 																<!-- The return page to which the user is navigated after the donations is complete -->
-																<input type="hidden" name="return" value="<?php echo $urlthx?>/thankyou.php" />
+																<input type="hidden" name="return" value="done.php" />
 																
 																<!-- Signifies that the transaction data will be passed to the return page by POST -->
 																<input type="hidden" name="rm" value="2" />

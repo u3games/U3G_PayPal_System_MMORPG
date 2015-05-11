@@ -26,4 +26,7 @@ $lang['recallform_4'] = 'Cannot select login server database.';
 $lang['recallform_5'] = 'Cannot select game sever database.';
 $lang['recallform_6'] = 'No connection can be made to the server.';
 
+$lang['done_1'] = 'Thank you for donating, now check donation in your character.';
+$lang['done_2'] = 'If the item has not been sent to your character, contact the administration.';
+
 ?>

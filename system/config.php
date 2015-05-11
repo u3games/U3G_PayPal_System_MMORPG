@@ -23,28 +23,27 @@
 // Here you can find the Paypal ipn simulator https://developer.paypal.com/webapps/developer/applications/ipn_simulator
 // NOTICE: IPN simulator will give invalid response back if this is set to 1
 
-// Set to 1 once you're ready to go live
-define("USE_SANDBOX", 0);
+// Enabled SandBox for test system.
+// Set "true" for test and "false" for live.
+// Default: true
+define("USE_SANDBOX", true);
 
 if (USE_SANDBOX == true)
+{
+	// Test seller account
+	$myPayPalEmail = 'test.seller@account.com';
+	$payPalURL = "https://www.sandbox.paypal.com/cgi-bin/webscr";
+}
+else
 {
 	// Fill your PayPal email below
 	// This is where you will receive the donations
 	$myPayPalEmail = 'YourPaypal@Account.com';
 	$payPalURL = "https://www.paypal.com/cgi-bin/webscr";
 }
-else
-{
-	// Test seller account
-	$myPayPalEmail = 'test.seller@account.com';
-	$payPalURL = "https://www.sandbox.paypal.com/cgi-bin/webscr";
-}
 
 // Your paypal ipn's files directory
-$urlipn = 'http://yourweb.site/paypalsystem/donate/ipn';
-
-// Your paypal thank you page directory
-$urlthx = 'http://yourweb.site/paypalsystem/paypal';
+$urlipn = 'system/ipn';
 
 // Define your currency code
 // You can find them here https://developer.paypal.com/docs/classic/api/currency_codes/
@@ -70,13 +69,16 @@ $donatecoinreward3 = 15;
 $donatecoinamount4 = 20;
 $donatecoinreward4 = 40;
 
-// Turn error reporting on or of (1=on | 0=off)
-define("USE_REPORTING", 1);
+// Turn error reporting on or of (true=on | false=off)
+// Default: true
+define("USE_REPORTING", true);
 
-// Enable or Disable Telnet, require config
-// Default: 0 (1=on | 0=off )
-define("USE_TELNET", 0);
+// Enable or Disable Telnet, require config (true=on | false=off )
+// Default: false
+define("USE_TELNET", true);
 
+// TODO: Enabled reports
+// Default: true
 if (USE_REPORTING == true)
 {
 	// empty
@@ -88,8 +90,9 @@ else
 
 // Use a delay when someone submit a form
 // It will give a little bit protection against a brute force attack
-// Enable or Disable loading delay: (1=on | 0=off)
-define("LOADING_DELAY", 1);
+// Enable or Disable loading delay: (true=on | false=off)
+// Default: true
+define("LOADING_DELAY", true);
 
 // Total delay in seconds
 // Default: 3
