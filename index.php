@@ -17,17 +17,22 @@
 		require "system/config.php";
 		require "system/connect.php";
 		
-		// Select character name
-		$charname = mysqli_real_escape_string($db_link, $_POST['custom']);
-		$query = "SELECT charId FROM characters WHERE char_name='$charname' LIMIT 1";
-		$result = mysqli_query($db_link, $query);
-		$total_rows = mysqli_num_rows($result);
-		
-		// Check if character is online
-		$onlinechar = mysqli_real_escape_string($db_link, $_POST['custom']);
-		$isonlinechar = "SELECT online FROM characters WHERE char_name='$onlinechar' LIMIT 1";
-		$resultonlinechar = mysqli_query($db_link, $isonlinechar);
-		$rowonlinechar = mysqli_fetch_array($resultonlinechar);
+		$charname = false;
+		$PHP_SELF = false;
+		if (isset($_POST["submit"]))
+		{
+			// Select character name
+			$charname = mysqli_real_escape_string($db_link, $_POST['custom']);
+			$query = "SELECT charId FROM characters WHERE char_name='$charname' LIMIT 1";
+			$result = mysqli_query($db_link, $query);
+			$total_rows = mysqli_num_rows($result);
+	
+			// Check if character is online
+			$onlinechar = mysqli_real_escape_string($db_link, $_POST['custom']);
+			$isonlinechar = "SELECT online FROM characters WHERE char_name='$onlinechar' LIMIT 1";
+			$resultonlinechar = mysqli_query($db_link, $isonlinechar);
+			$rowonlinechar = mysqli_fetch_array($resultonlinechar);
+		}
 	?>
 </head>
 <body>
