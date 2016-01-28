@@ -1,5 +1,4 @@
 <?php
-
 /*
  * This program is free software: you can redistribute it and/or modify it under
  * the terms of the GNU General Public License as published by the Free Software
@@ -21,14 +20,14 @@
 
 // Here we can define if we want to work on the sandbox or live
 // Here you can find the Paypal ipn simulator https://developer.paypal.com/webapps/developer/applications/ipn_simulator
-// NOTICE: IPN simulator will give invalid response back if this is set to 1
 
-// Enabled SandBox for test system.
+// Enabled sandbox for test system.
+// NOTICE: IPN simulator will give invalid response back if this is set to false
 // Set "true" for test and "false" for live.
 // Default: true
-define("USE_SANDBOX", true);
+$use_sandbox = true;
 
-if (USE_SANDBOX == true)
+if ($use_sandbox == true)	// <-- there is no need to touch this line.
 {
 	// Test seller account
 	$myPayPalEmail = 'test.seller@account.com';
@@ -43,12 +42,15 @@ else
 }
 
 // Your paypal ipn's files directory
+// Default: system/ipn
 $urlipn = 'system/ipn';
 
-// Define your currency code
+// Define the currency you want to use for paypal
 // You can find them here https://developer.paypal.com/docs/classic/api/currency_codes/
-// Notice: if you wanna change the currency on the donation centre page also ? Go here \paypalsystem\paypal and change the $ signs manually
 $currency_code = 'EUR';
+
+//change the currency on the donation centre page. Visible html only
+$currency_code_html = '€';
 
 // Define the donation item_id
 $item_id = '3470'; // Gold Bar 
@@ -69,32 +71,53 @@ $donatecoinreward3 = 15;
 $donatecoinamount4 = 20;
 $donatecoinreward4 = 40;
 
-// Turn error reporting on or of (true=on | false=off)
-// Default: true
-define("USE_REPORTING", true);
-
 // Enable or Disable Telnet, require config (true=on | false=off )
 // Default: false
-define("USE_TELNET", false);
+$use_telnet = false;
 
-// TODO: Enabled reports
+// Turn error reporting on or off (true=on | false=off)
+// NOTE: this option only applies to errors to end users
 // Default: true
-if (USE_REPORTING == true)
-{
-	// empty
-}
-else
-{
-	error_reporting(E_ALL ^ (E_NOTICE | E_WARNING));
-}
+$use_reporting = true;
+
+// Turn error reporting to file on or off (true=on | false=off)
+// NOTE: this will only disable or enable logging from your web page not the ipn file.
+// Default: true
+$use_local_reporting = true;
+
+// File location for log file
+// Default: system/admin/log/website_error_log.php
+$log_location = 'system/admin/log/website_error_log.php';
+
+// specify log location for the ipn file
+// Default: ../admin/log/website_error_log.php
+$log_location_ipn = '../admin/log/website_error_log.php';
 
 // Use a delay when someone submit a form
 // It will give a little bit protection against a brute force attack
 // Enable or Disable loading delay: (true=on | false=off)
 // Default: true
-define("LOADING_DELAY", true);
+$loading_delay = true;
 
 // Total delay in seconds
 // Default: 3
 $delaytime = 3;
+
+// Donate overview settings
+// Enable or disable donate overview
+// Default: true
+$donate_overview = true;
+
+// Enable or disable ip access security
+// NOTE: when you disable this everyone can access the donate overview login page
+// NOTE: Separate access to website_error_log.php and ipn_log.php will be blocked for everyone even if enabled
+// Default: true
+$overview_ip_security = true;
+
+// Ip adresses allowed to access the donate overview and log files
+$allowed_client1 = '127.0.0.1';
+$allowed_client2 = '127.0.0.1';
+$allowed_client3 = '127.0.0.1';
+$allowed_client4 = '127.0.0.1';
+$allowed_client5 = '127.0.0.1';
 ?>

@@ -19,34 +19,19 @@
  * PayPal System - Connect
  */
 
-// Game Server Database Config
+// Server Database Config
 $db_host		= 'localhost';
 $db_user		= 'root';
 $db_pass		= '';
 $db_database	= '';
-
-// Login Server Database Config
-$login_host		= 'localhost';
-$login_user		= 'root';
-$login_pass		= '';
-$login_database = '';
 
 // Telnet Config
 $telnet_host		= '';
 $telnet_port		= '';
 $telnet_pass		= '';
 
-// Connect and select game server database
-$db_link = mysqli_connect($db_host, $db_user, $db_pass);
-mysqli_set_charset($db_link,'utf8');
-$db_select = mysqli_select_db($db_link, $db_database);
+// Admin Panel Config
+$overview_user		= 'admin';
+$overview_password	= 'password';
 
-// Connect and select login server database
-$db_link2 = mysqli_connect($login_host, $login_user, $login_pass);
-mysqli_set_charset($db_link2,'utf8');
-$db_select2 = mysqli_select_db($db_link2, $login_database);
-
-// Select
-mysqli_select_db($db_link, $db_database);
-mysqli_select_db($db_link2, $login_database);
 ?>

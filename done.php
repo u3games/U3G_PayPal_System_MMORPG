@@ -9,7 +9,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta name="description" content="Lineage 2: PayPal System!">
 	<meta name="keywords" content="l2, lineage, lineage2, u3games, u3g, u3, paypal, system">
-	<meta name="author" content="u3games, swarlog">
+	<meta name="author" content="u3games, swarlog, Dasoldier">
 	
 	<!-- Connect -->
 	<?php

@@ -223,6 +223,7 @@ class paypal_class {
  
       // Log the response from the paypal server
       $text .= "\nIPN Response from Paypal Server:\n ".$this->ipn_response;
+	  $text .= '</td></tr><tr><td>';
       
       // Write to log
       $fp=fopen($this->ipn_log_file,'a');

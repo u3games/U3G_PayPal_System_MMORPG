@@ -1,110 +1,154 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<!-- Title -->
-	<title>U3G | PayPal System</title>
-	
-	<!-- Meta -->
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<meta name="description" content="Lineage 2: PayPal System!">
-	<meta name="keywords" content="l2, lineage, lineage2, u3games, u3g, u3, paypal, system">
-	<meta name="author" content="u3games, swarlog">
-	
-	<!-- Connect -->
-	<?php
-		include_once 'common.php';
-		require "system/config.php";
-		require "system/connect.php";
-		
-		$charname = false;
-		$PHP_SELF = false;
-		if (isset($_POST["submit"]))
-		{
-			// Select character name
-			$charname = mysqli_real_escape_string($db_link, $_POST['custom']);
-			$query = "SELECT charId FROM characters WHERE char_name='$charname' LIMIT 1";
-			$result = mysqli_query($db_link, $query);
-			$total_rows = mysqli_num_rows($result);
-	
-			// Check if character is online
-			$onlinechar = mysqli_real_escape_string($db_link, $_POST['custom']);
-			$isonlinechar = "SELECT online FROM characters WHERE char_name='$onlinechar' LIMIT 1";
-			$resultonlinechar = mysqli_query($db_link, $isonlinechar);
-			$rowonlinechar = mysqli_fetch_array($resultonlinechar);
+<!-- Title -->
+<title>U3G | PayPal System</title>
+
+<!-- Meta -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Lineage 2: PayPal System!">
+<meta name="keywords" content="l2, lineage, lineage2, u3games, u3g, u3, paypal, system">
+<meta name="author" content="U3games, Swarlog, Dasoldier">
+<?php
+require 'system/connect.php';
+require 'system/config.php';
+include_once 'common.php';
+
+	//reporting to end users
+	if ($use_reporting == false)
+	{
+		error_reporting(E_ALL ^ (E_NOTICE | E_WARNING));
+	}
+
+	$charname = false;
+	if (isset($_POST["submit"]))
+	{
+		// Get POST character name
+		$charname = htmlspecialchars($_POST['custom']);
+
+		try {
+				//try to make connection
+				$connection = new PDO("mysql:host=$db_host;dbname=$db_database", $db_user, $db_pass);
+				$connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+				//query for checking if character exists
+				$character_row = $connection->prepare('SELECT char_name FROM characters WHERE char_name = :charname LIMIT 1');
+				$character_row->execute(array('charname' => $charname));
+				$character_row_fetch = $character_row->fetchAll();
+				$character_row_count = count($character_row_fetch);
+
+				// Check if character is online
+				$onlinechar_row = $connection->prepare('SELECT online FROM characters WHERE char_name = :charname LIMIT 1');
+				$onlinechar_row->execute(array('charname' => $charname));
+				$character_row_fetch = $onlinechar_row->fetchAll();
+						
+			if (!isset($character_row_fetch[0]['online']))
+			{
+				$character_row_fetch[0]['online'] = null;
+			}
+				$onlinearray = $character_row_fetch[0]['online'];
 		}
+		
+		catch(PDOException $e) {
+			// set connection to false
+			$connection = false;
+
+			// visible end user reporting
+			if ($use_reporting == true)
+			{
+				echo 'ERROR: ' . $e->getMessage();
+			}
+
+			// local file reporting
+			if ($use_local_reporting == true)
+			{
+				//logging: file location
+				$local_log_file = $log_location;
+
+				//logging: Timestamp
+				$local_log = '['.date('m/d/Y g:i A').'] - '; 
+
+				//logging: response from the server
+				$local_log .= "INDEX.PHP ERROR: ". $e->getMessage();	
+				$local_log .= '</td></tr><tr><td>';
+
+				// Write to log
+				$fp=fopen($local_log_file,'a');
+				fwrite($fp, $local_log . ""); 
+
+				// close file
+				fclose($fp);  
+			}
+		}
+	}
 	?>
 </head>
 <body>
-	<table cellpadding="0" cellspacing="0" width="100%">
-		<table border="0" width="100%" id="login">
-			<tr>
-				<td align="center">
+	<table cellpadding="0" cellspacing="0" border="0" width="100%" id="login">
+		<tr>
+			<td align="center">
+				<?php
+					// first form
+					if (!isset($_POST['submit']))
+					{
+						?>
+						<div id="login">
+							<form action="index.php" method="post">
+								<center>
+									<table>
+										<tr>
+											<td><center><?php echo $lang['character_name']; ?></center></td>
+										</tr>
+										<tr>
+											<td><center><input type="text" name="custom" value="<?php echo $charname?>" style="width: 135px"></center></td>
+										</tr>
+										<tr>
+											<td><center><input type="submit" name="submit" value="<?php echo $lang['character_button']; ?>"></center></td>
+										</tr>
+										<tr>
+											<td><center><a href="?lang=en"><img src="images/flag/en.png"></a> <a href="?lang=es"><img src="images/flag/es.png"></a> <a href="?lang=nl"><img src="images/flag/nl.png"></a></center></td>
+										</tr>
+									</table>
+								</center> 
+							</form>
+						</div>
 					<?php
-						if (!isset($_POST['submit']))
-						{
-							?>
-							<div id="login">
-								<form action="<?php echo $PHP_SELF;?>" method="post">
-									<center>
-										<table>
-											<tr>
-												<td><center><?php echo $lang['character_name']; ?></center></td>
-											</tr>
-											<tr>
-												<td><center><input type="text" name="custom" value="<?php echo $charname?>" style="width: 135px"></center></td>
-											</tr>
-											<tr>
-												<td><center><input type="submit" name="submit" value="<?php echo $lang['character_button']; ?>"></center></td>
-											</tr>
-											<tr>
-												<td><center><a href="?lang=en"><img src="images/flag/en.png"></a> <a href="?lang=es"><img src="images/flag/es.png"></a></center></td>
-											</tr>
-										</table>
-									</center> 
-								</form>
-							</div>
-							<?php
 						}
-						
+						// checks for the first form
 						if (isset($_POST['submit']))
 						{
 							// Wait for x seconds
-							if (LOADING_DELAY == true)
+							if ($loading_delay == true)
 							{
 								sleep($delaytime);
 							}
-							
-							// Checks mysql server
-							if ($db_link)
-							{
-								// Checks game server database
-								if ($db_select)
+								// Checks the connection
+								if ($connection == true)
 								{
-									// Checks login server database
-									if ($db_select2)
+									// Checks if the character name text field is empty
+									if ($charname != "")
 									{
-										// Checks if the character name text field is empty
-										if ($charname != "")
+										// Checks if character name is minimal 3 characters
+										if (strlen($charname) > 2)
 										{
-											// Checks if character name is minimal 3 characters
-											if (strlen($charname) > 2)
+											// Checks if the character exists
+											if ($character_row_count == 0)
 											{
-												// Checks if the character exists
-												if ($total_rows == 0)
-												{
-													include("recallform.php");
-													?>
-														<center><?php echo $lang['message_1']; ?> <b><?php echo $charname?></b> <?php echo $lang['message_2']; ?></center>
-													<?php
-												}
+												include("recallform.php");
+												?>
+													<center><?php echo $lang['message_1']; ?> <b><?php echo $charname?></b> <?php echo $lang['message_2']; ?></center>
+												<?php
+											}
 												else
 												{
-													if ($rowonlinechar['online'] == 1)
+													// Checks if the character is online
+													if ($onlinearray == 1)
 													{
-														if (USE_TELNET == 1)
+														//Checks if telnet is enabled in the config
+														if ($use_telnet == true)
 														{
-															?>
+														?>
 																<div id="loginsuccess">
 																	<!-- oke now lets show the donation options -->
 																	<!-- The PayPal coins Donation option list -->
@@ -143,26 +187,24 @@
 																			<tr><td><?php echo $lang['message_5']; ?></td><td>
 																			<!-- The amount of the transaction: -->
 																			<select name="amount" style="width: 150px">
-																				<option value="<?php echo $donatecoinamount1?>"><?php echo $donatecoinreward1?> <?php echo $lang['message_6']; ?><?php echo $donatecoinamount1?>.00 </option>
-																				<option value="<?php echo $donatecoinamount2?>"><?php echo $donatecoinreward2?> <?php echo $lang['message_6']; ?><?php echo $donatecoinamount2?>.00</option>
-																				<option value="<?php echo $donatecoinamount3?>"><?php echo $donatecoinreward3?> <?php echo $lang['message_6']; ?><?php echo $donatecoinamount3?>.00</option>
-																				<option value="<?php echo $donatecoinamount4?>"><?php echo $donatecoinreward4?> <?php echo $lang['message_6']; ?><?php echo $donatecoinamount4?>.00</option>
+																				<option value="<?php echo $donatecoinamount1?>"><?php echo $donatecoinreward1?> <?php echo $lang['message_6']; echo' '; echo $currency_code_html; ?><?php echo $donatecoinamount1?>.00 </option>
+																				<option value="<?php echo $donatecoinamount2?>"><?php echo $donatecoinreward2?> <?php echo $lang['message_6']; echo' '; echo $currency_code_html;?><?php echo $donatecoinamount2?>.00</option>
+																				<option value="<?php echo $donatecoinamount3?>"><?php echo $donatecoinreward3?> <?php echo $lang['message_6']; echo' '; echo $currency_code_html;?><?php echo $donatecoinamount3?>.00</option>
+																				<option value="<?php echo $donatecoinamount4?>"><?php echo $donatecoinreward4?> <?php echo $lang['message_6']; echo' '; echo $currency_code_html;?><?php echo $donatecoinamount4?>.00</option>
 																			</select>
 																			</td></tr></table>
 																	</center>
 																	<br>
-																	
 																	<!-- Here you can change the image of the coins donation button  -->
 																	<input type="image" src="https://www.paypal.com/en_US/i/btn/btn_donate_LG.gif" name="submit" alt="PayPal - The safer, easier way to pay online!" />
 																	<img alt="" src="https://www.paypal.com/en_US/i/scr/pixel.gif" width="1" height="1" />
 																	<input type="hidden" name="bn" value="PP-DonationsBF:btn_donate_LG.gif:NonHostedGuest" />
 																	</form>
 																	<br>
-																	<br>
-																	<br>
 																</div>
 															<?php
 														}
+														// message if telnet is disabled in config
 														else
 														{
 															include("recallform.php");
@@ -171,9 +213,10 @@
 															<?php
 														}
 													}
+													// character is offline
 													else
 													{
-														?>
+													?>
 															<div id="loginsuccess">
 																<!-- oke now lets show the donation options -->
 																<!-- The PayPal coins Donation option list -->
@@ -212,10 +255,10 @@
 																		<tr><td><?php echo $lang['message_5']; ?></td><td>
 																		<!-- The amount of the transaction: -->
 																		<select name="amount" style="width: 150px">
-																			<option value="<?php echo $donatecoinamount1?>"><?php echo $donatecoinreward1?> <?php echo $lang['message_6']; ?><?php echo $donatecoinamount1?>.00 </option>
-																			<option value="<?php echo $donatecoinamount2?>"><?php echo $donatecoinreward2?> <?php echo $lang['message_6']; ?><?php echo $donatecoinamount2?>.00</option>
-																			<option value="<?php echo $donatecoinamount3?>"><?php echo $donatecoinreward3?> <?php echo $lang['message_6']; ?><?php echo $donatecoinamount3?>.00</option>
-																			<option value="<?php echo $donatecoinamount4?>"><?php echo $donatecoinreward4?> <?php echo $lang['message_6']; ?><?php echo $donatecoinamount4?>.00</option>
+																			<option value="<?php echo $donatecoinamount1?>"><?php echo $donatecoinreward1?> <?php echo $lang['message_6']; echo' '; echo $currency_code_html;?><?php echo $donatecoinamount1?>.00 </option>
+																			<option value="<?php echo $donatecoinamount2?>"><?php echo $donatecoinreward2?> <?php echo $lang['message_6']; echo' '; echo $currency_code_html;?><?php echo $donatecoinamount2?>.00</option>
+																			<option value="<?php echo $donatecoinamount3?>"><?php echo $donatecoinreward3?> <?php echo $lang['message_6']; echo' '; echo $currency_code_html;?><?php echo $donatecoinamount3?>.00</option>
+																			<option value="<?php echo $donatecoinamount4?>"><?php echo $donatecoinreward4?> <?php echo $lang['message_6']; echo' '; echo $currency_code_html;?><?php echo $donatecoinamount4?>.00</option>
 																		</select>
 																		</td></tr></table>
 																</center>
@@ -227,54 +270,45 @@
 																<input type="hidden" name="bn" value="PP-DonationsBF:btn_donate_LG.gif:NonHostedGuest" />
 																</form>
 																<br>
-																<br>
-																<br>
 															</div>
 														<?php
 													}
 												}
 											}
-											else
-											{
-												include("recallform.php");
-												?>
-													<center><?php echo $lang['recallform_2']; ?> </center><br>
-												<?php
-											}
-										}
+										//message if character name is less then 3 characters
 										else
 										{
 											include("recallform.php");
 											?>
-												<center><?php echo $lang['recallform_3']; ?> </center><br>
+												<center><?php echo $lang['recallform_2']; ?> </center><br>
 											<?php
 										}
 									}
-									else
-									{
-										?>
-											<center><?php echo $lang['recallform_4']; ?> </center><br>
-										<?php	
-									}
-								}
+								//message if textfield is empty
 								else
 								{
+									include("recallform.php");
 									?>
-										<center><?php echo $lang['recallform_5']; ?> </center><br>
-									<?php	
+										<center><?php echo $lang['recallform_3']; ?> </center><br>
+									<?php
 								}
 							}
-							else
-							{
-								?>
-									<center><?php echo $lang['recallform_6']; ?> </center><br>
-								<?php
-							}
+						// message when the connection fails
+						else
+						{
+							include("recallform.php");
+							?>
+							<center><?php echo $lang['recallform_6']; ?> </center><br>
+						<?php
 						}
-					?>
+					}
+				if ($use_sandbox == true)
+					{
+						echo $lang['message_7'];
+					}
+						?>
 				</td>
 			</tr>
 		</table>
-	</table>
-</body>
+	</body>
 </html>
