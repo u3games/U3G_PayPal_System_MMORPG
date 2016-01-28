@@ -40,17 +40,4 @@ $telnet_pass		= '';
 $overview_user		= 'admin';
 $overview_password		= 'password';
 
-// Connect and select game server database
-$db_link = mysqli_connect($db_host, $db_user, $db_pass);
-mysqli_set_charset($db_link,'utf8');
-$db_select = mysqli_select_db($db_link, $db_database);
-
-// Connect and select login server database
-$db_link2 = mysqli_connect($login_host, $login_user, $login_pass);
-mysqli_set_charset($db_link2,'utf8');
-$db_select2 = mysqli_select_db($db_link2, $login_database);
-
-// Select
-mysqli_select_db($db_link, $db_database);
-mysqli_select_db($db_link2, $login_database);
 ?>
