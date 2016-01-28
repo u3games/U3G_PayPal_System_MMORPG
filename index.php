@@ -25,7 +25,7 @@ include_once 'common.php';
 	if (isset($_POST["submit"]))
 	{
 		// Get POST character name
-		$charname = $_POST['custom'];
+		$charname = htmlspecialchars($_POST['custom']);
 
 		try {
 				//try to make connection
