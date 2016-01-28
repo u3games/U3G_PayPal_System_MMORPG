@@ -19,7 +19,7 @@
  * PayPal System - Connect
  */
 
-// Game Server Database Config
+// Server Database Config
 $db_host		= 'localhost';
 $db_user		= 'root';
 $db_pass		= '';
@@ -32,6 +32,6 @@ $telnet_pass		= '';
 
 // Admin Panel Config
 $overview_user		= 'admin';
-$overview_password		= 'password';
+$overview_password	= 'password';
 
 ?>
