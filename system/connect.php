@@ -36,6 +36,10 @@ $telnet_host		= '';
 $telnet_port		= '';
 $telnet_pass		= '';
 
+// Admin Panel Config
+$overview_user		= 'admin';
+$overview_password		= 'password';
+
 // Connect and select game server database
 $db_link = mysqli_connect($db_host, $db_user, $db_pass);
 mysqli_set_charset($db_link,'utf8');
