@@ -115,9 +115,9 @@ $donate_overview = true;
 $overview_ip_security = true;
 
 // Ip adresses allowed to access the donate overview and log files
-$allowed_client1 = '123.123.1.123';
-$allowed_client2 = '123.123.1.123';
-$allowed_client3 = '123.123.1.123';
-$allowed_client4 = '123.123.1.123';
-$allowed_client5 = '123.123.1.123';
+$allowed_client1 = '127.0.0.1';
+$allowed_client2 = '127.0.0.1';
+$allowed_client3 = '127.0.0.1';
+$allowed_client4 = '127.0.0.1';
+$allowed_client5 = '127.0.0.1';
 ?>
