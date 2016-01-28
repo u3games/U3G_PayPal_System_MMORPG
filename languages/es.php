@@ -29,8 +29,8 @@ $lang['recallform_6'] = 'Ha habido un error al intentar conectar con la Base de 
 $lang['done_1'] = 'Gracias por la donación realizada, ahora revisa que el item ha sido enviado al personaje indicado.';
 $lang['done_2'] = 'Si no habéis recibido el item, contacte con la administración antes de realizar una nueva donación.';
 
-$lang['dc_overview_name'] = 'Login credentials';
-$lang['dc_overview_login'] = 'Login';
+$lang['dc_overview_name'] = 'Administración';
+$lang['dc_overview_login'] = 'Conectarse';
 
 $lang['dc_overview_war1'] = 'Ha habido un error al intentar conectar con el servidor.';
 $lang['dc_overview_war2'] = 'No has indicado el nombre de usuario.';

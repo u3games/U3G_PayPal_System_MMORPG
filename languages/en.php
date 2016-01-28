@@ -29,7 +29,7 @@ $lang['recallform_6'] = 'No connection can be made to the server.';
 $lang['done_1'] = 'Thank you for donating, now check donation in your character.';
 $lang['done_2'] = 'If the item has not been sent to your character, contact the administration.';
 
-$lang['dc_overview_name'] = 'Login credentials';
+$lang['dc_overview_name'] = 'Admin Login Panel';
 $lang['dc_overview_login'] = 'Login';
 
 $lang['dc_overview_war1'] = 'No connection can be made to the server.';

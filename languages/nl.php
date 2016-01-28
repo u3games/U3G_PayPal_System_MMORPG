@@ -29,7 +29,7 @@ $lang['recallform_6'] = 'Er kan geen verbinding gemaakt worden naar de server.';
 $lang['done_1'] = 'Dank u voor het doneren, controleer nu de donatie in je karakter.';
 $lang['done_2'] = 'Als de donatie niet verschijnt op je karakter, Neem dan contact op met de administratie.';
 
-$lang['dc_overview_name'] = 'Login credentials';
+$lang['dc_overview_name'] = 'Admin Login Panel';
 $lang['dc_overview_login'] = 'Login';
 
 $lang['dc_overview_war1'] = 'No connection can be made to the server.';
