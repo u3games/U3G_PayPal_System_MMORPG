@@ -20,15 +20,14 @@
  * File security
  */
 
-if (!in_array($_SERVER['REMOTE_ADDR'], array('SADFX#$FCVX','SADFX#$FCVX2',)))
+if (!in_array($_SERVER['REMOTE_ADDR'], array(@$allowed_client1,@$allowed_client2,@$allowed_client3,@$allowed_client4,@$allowed_client5)))
 {
 	header("HTTP/1.0 403 Forbidden");
 	die("You are not allowed to access this file.");
 }
-
 ?>
 
-[04/26/2014 1:34 AM] - SUCCESS!
+<tr><td>[04/26/2014 1:34 AM] - SUCCESS!
 IPN POST Vars from Paypal:
 residence_country=US, invoice=abc1234, address_city=San Jose, first_name=John, payer_id=TESTBUYERID01, shipping=0.00, mc_fee=0.00, txn_id=358697352, receiver_email=seller@paypalsandbox.com, quantity=1, custom=dasoldier, payment_date=16:25:12 25 Apr 2014 PDT, address_country_code=US, address_zip=95131, tax=0.00, item_name=something, address_name=John Smith, last_name=Smith, receiver_id=seller@paypalsandbox.com, item_number=AK-1234, verify_sign=AMsxtyoFVXwl0f5BhkargM0.qMGgA37deNtXgP.e8OLr2hSSldWqQKBs, address_country=United States, payment_status=Completed, address_status=confirmed, business=seller@paypalsandbox.com, payer_email=buyer@paypalsandbox.com, notify_version=2.1, txn_type=web_accept, test_ipn=1, payer_status=verified, mc_currency=USD, mc_gross=10.00, address_state=CA, mc_gross1=0.00, payment_type=instant, address_street=123, any street, 
 IPN Response from Paypal Server:
@@ -53,6 +52,5 @@ Content-Type: text/html; charset=UTF-8
 8
 VERIFIED
 0
-
-
+</td></tr><tr><td>
 

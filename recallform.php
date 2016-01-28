@@ -1,5 +1,5 @@
 <div id="login">
-    <form action="<?php echo $PHP_SELF;?>" method="post">
+    <form action="index.php" method="post">
 		<center>
 		<table>
 			<tr>
@@ -12,9 +12,10 @@
 				<td><center><input type="submit" name="submit" value="<?php echo $lang['character_button']; ?>"></center></td>
 			</tr>
 			<tr>
-				<td><center><a href="?lang=en"><img src="images/flag/en.png"></a> <a href="?lang=es"><img src="images/flag/es.png"></a></center></td>
+				<td><center><a href="?lang=en"><img src="images/flag/en.png"></a> <a href="?lang=es"><img src="images/flag/es.png"></a> <a href="?lang=nl"><img src="images/flag/nl.png"></a></center></td>
 			</tr>
 		</table>
 		</center>
 	</form>
-	<br>
+</div>
+<br>
