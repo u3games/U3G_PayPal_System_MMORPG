@@ -25,12 +25,6 @@ $db_user		= 'root';
 $db_pass		= '';
 $db_database	= '';
 
-// Login Server Database Config
-$login_host		= 'localhost';
-$login_user		= 'root';
-$login_pass		= '';
-$login_database = '';
-
 // Telnet Config
 $telnet_host		= '';
 $telnet_port		= '';
