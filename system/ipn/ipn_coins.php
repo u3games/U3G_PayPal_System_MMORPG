@@ -57,7 +57,7 @@ if ($p->validate_ipn())
 
 	try {
 			// Try to make connection
-			$connection = new PDO("mysql:host=$db_host;dbname=$db_database", $db_user, $db_pass);
+			$connection = new PDO("mysql:host=$db_host;dbname=$db_database;charset=utf8", $db_user, $db_pass);
 			$connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 			
 			// Here we will make a log of all the donations after the payment status is complete
