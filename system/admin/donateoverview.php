@@ -140,6 +140,7 @@ if ($overview_ip_security == true)
 														
 														$result_amount_fee = $connection->query('SELECT sum(amountminfee) FROM log_paypal_donations');
 														$result_amount_fee_fetch = $result_amount_fee->fetchColumn();
+														$result_amount_fee_format = number_format($result_amount_fee_fetch, 2, '.', ',');
 													}
 													catch(PDOException $e) {
 													//logging: file location
@@ -158,7 +159,7 @@ if ($overview_ip_security == true)
 
 													fclose($fp);  // close file
 														}
-													echo 'Times donated: '. $result_amount_count_fetch .'<br>Total donated: ' . $currency_code_html . $result_amount_fetch . '<br> Total donated - paypal fee: ' . $currency_code_html . $result_amount_fee_fetch;
+													echo 'Times donated: '. $result_amount_count_fetch .'<br>Total donated: ' . $currency_code_html . $result_amount_fetch . '<br> Total donated - paypal fee: ' . $currency_code_html . $result_amount_fee_format;
 													?>
 													<center><b>DONATE OVERVIEW</b></center></td></tr>
 													</table>
