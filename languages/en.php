@@ -23,6 +23,7 @@ $lang['message_7'] = 'SANDBOX MODE';
 $lang['recallform_1'] = 'Characters is online! Disconnect the characters to make the donation.';
 $lang['recallform_2'] = 'Please insert a minimal of 3 characters.';
 $lang['recallform_3'] = 'You forgot to type a Character name.';
+$lang['recallform_4'] = 'Maximum of 35 characters is allowed.';
 $lang['recallform_5'] = 'Cannot select game sever database.';
 $lang['recallform_6'] = 'No connection can be made to the server.';
 
