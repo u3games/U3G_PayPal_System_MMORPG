@@ -30,13 +30,13 @@ $lang['recallform_6'] = 'Er kan geen verbinding gemaakt worden naar de server.';
 $lang['done_1'] = 'Dank u voor het doneren, controleer nu de donatie in je karakter.';
 $lang['done_2'] = 'Als de donatie niet verschijnt op je karakter, Neem dan contact op met de administratie.';
 
-$lang['dc_overview_name'] = 'Admin Login Panel';
+$lang['dc_overview_name'] = 'Admin Login Paneel';
 $lang['dc_overview_login'] = 'Login';
 
-$lang['dc_overview_war1'] = 'No connection can be made to the server.';
-$lang['dc_overview_war2'] = 'You forgot to type a username.';
-$lang['dc_overview_war3'] = 'You forgot to type a password.';
-$lang['dc_overview_war4'] = 'Please insert a minimal of 6 characters.';
-$lang['dc_overview_war5'] = 'Incorrect username.';
-$lang['dc_overview_war6'] = 'Incorrect password.';
+$lang['dc_overview_war1'] = 'Er kan geen verbinding gemaakt worden naar de server.';
+$lang['dc_overview_war2'] = 'Gebruikersnaam vergeten in te voeren.';
+$lang['dc_overview_war3'] = 'Wachtwoord vergeten in te voeren.';
+$lang['dc_overview_war4'] = 'Gebruik ten minste 6 characters.';
+$lang['dc_overview_war5'] = 'Incorrecte gebruikersnaam.';
+$lang['dc_overview_war6'] = 'Incorrecte wachtwoord.';
 ?>
