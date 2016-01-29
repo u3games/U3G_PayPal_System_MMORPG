@@ -113,18 +113,21 @@ include_once 'common.php';
 								</center> 
 							</form>
 						</div>
-					<?php
-						}
-						// checks for the first form
-						if (isset($_POST['submit']))
+				<?php
+					}
+					// checks for the first form
+					if (isset($_POST['submit']))
+					{
+						// Wait for x seconds
+						if ($loading_delay == true)
 						{
-							// Wait for x seconds
-							if ($loading_delay == true)
+							sleep($delaytime);
+						}
+							// Checks the connection
+							if ($connection == true)
 							{
-								sleep($delaytime);
-							}
-								// Checks the connection
-								if ($connection == true)
+								// Checks if character name is max 35 characters
+								if (strlen($charname) <= 35)
 								{
 									// Checks if the character name text field is empty
 									if ($charname != "")
@@ -293,20 +296,29 @@ include_once 'common.php';
 									<?php
 								}
 							}
-						// message when the connection fails
+						//message if character name is more than 35 chars.
 						else
 						{
 							include("recallform.php");
 							?>
-							<center><?php echo $lang['recallform_6']; ?> </center><br>
-						<?php
+								<center><?php echo $lang['recallform_4']; ?> </center><br>
+							<?php
 						}
 					}
-				if ($use_sandbox == true)
-					{
-						echo $lang['message_7'];
-					}
-						?>
+				// message when the connection fails
+				else
+				{
+					include("recallform.php");
+					?>
+					<center><?php echo $lang['recallform_6']; ?> </center><br>
+				<?php
+				}
+			}
+			if ($use_sandbox == true)
+				{
+					echo $lang['message_7'];
+				}
+					?>
 				</td>
 			</tr>
 		</table>
