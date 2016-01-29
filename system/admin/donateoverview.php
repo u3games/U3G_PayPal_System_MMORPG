@@ -38,7 +38,7 @@ if ($overview_ip_security == true)
 			
 			//try to make connection or give a error
 			try {
-					$connection = new PDO("mysql:host=$db_host;dbname=$db_database", $db_user, $db_pass);
+					$connection = new PDO("mysql:host=$db_host;dbname=$db_database;charset=utf8", $db_user, $db_pass);
 					$connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 				}
 			// set connection to false when a error occurs
