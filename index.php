@@ -29,7 +29,7 @@ include_once 'common.php';
 
 		try {
 				//try to make connection
-				$connection = new PDO("mysql:host=$db_host;dbname=$db_database", $db_user, $db_pass);
+				$connection = new PDO("mysql:host=$db_host;dbname=$db_database;charset=utf8", $db_user, $db_pass);
 				$connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
 				//query for checking if character exists
