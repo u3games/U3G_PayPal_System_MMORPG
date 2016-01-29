@@ -23,6 +23,7 @@ $lang['message_7'] = 'SANDBOX MODE';
 $lang['recallform_1'] = 'El personaje esta conectado! Por favor, desconéctelo para poder realizar la donación.';
 $lang['recallform_2'] = 'Por favor, introduzque un nombre con más de 3 caracteres.';
 $lang['recallform_3'] = 'No has introducido el nombre del personaje, inténtelo de nuevo.';
+$lang['recallform_4'] = 'Maximum of 35 characters is allowed.';
 $lang['recallform_5'] = 'Ha habido un error al intentar conectar con el Game Server.';
 $lang['recallform_6'] = 'Ha habido un error al intentar conectar con la Base de Datos';
 
