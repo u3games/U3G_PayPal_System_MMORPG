@@ -101,7 +101,7 @@ include_once 'common.php';
 											<td><center><?php echo $lang['character_name']; ?></center></td>
 										</tr>
 										<tr>
-											<td><center><input type="text" name="custom" value="<?php echo $charname?>" style="width: 135px"></center></td>
+											<td><center><input type="text" name="custom" value="<?php echo $charname?>" maxlength="35" style="width: 135px"></center></td>
 										</tr>
 										<tr>
 											<td><center><input type="submit" name="submit" value="<?php echo $lang['character_button']; ?>"></center></td>
