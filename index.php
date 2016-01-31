@@ -172,7 +172,7 @@ include_once 'common.php';
 																	<input type="hidden" name="notify_url" value="<?php echo $urlipn?>/ipn_coins.php" />
 																	
 																	<!-- The return page to which the user is navigated after the donations is complete -->
-																	<input type="hidden" name="return" value="done.php" />
+																	<input type="hidden" name="return" value="<?php echo $ipnthnx?>/done.php" />
 																	
 																	<!-- Signifies that the transaction data will be passed to the return page by POST -->
 																	<input type="hidden" name="rm" value="2" />
@@ -244,7 +244,7 @@ include_once 'common.php';
 																<input type="hidden" name="notify_url" value="<?php echo $urlipn?>/ipn_coins.php" />
 																
 																<!-- The return page to which the user is navigated after the donations is complete -->
-																<input type="hidden" name="return" value="done.php" />
+																<input type="hidden" name="return" value="<?php echo $ipnthnx?>/done.php" />
 																
 																<!-- Signifies that the transaction data will be passed to the return page by POST -->
 																<input type="hidden" name="rm" value="2" />
