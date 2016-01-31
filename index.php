@@ -22,6 +22,8 @@ include_once 'common.php';
 	}
 
 	$charname = false;
+	// set connection to null
+	$connection = null;
 	if (isset($_POST["submit"]))
 	{
 		// Get POST character name
@@ -51,8 +53,8 @@ include_once 'common.php';
 		}
 		
 		catch(PDOException $e) {
-			// set connection to false
-			$connection = false;
+			// set connection to null
+			$connection = null;
 
 			// visible end user reporting
 			if ($use_reporting == true)
@@ -142,6 +144,8 @@ include_once 'common.php';
 												?>
 													<center><?php echo $lang['message_1']; ?> <b><?php echo $charname?></b> <?php echo $lang['message_2']; ?></center>
 												<?php
+												// set connection to null
+												$connection = null;
 											}
 												else
 												{
@@ -206,6 +210,8 @@ include_once 'common.php';
 																	<br>
 																</div>
 															<?php
+															// set connection to null
+															$connection = null;
 														}
 														// message if telnet is disabled in config
 														else
@@ -214,6 +220,8 @@ include_once 'common.php';
 															?>
 																<center><?php echo $lang['recallform_1']; ?> </center><br>
 															<?php
+															// set connection to null
+															$connection = null;
 														}
 													}
 													// character is offline
@@ -275,6 +283,8 @@ include_once 'common.php';
 																<br>
 															</div>
 														<?php
+														// set connection to null
+														$connection = null;
 													}
 												}
 											}
@@ -285,6 +295,8 @@ include_once 'common.php';
 											?>
 												<center><?php echo $lang['recallform_2']; ?> </center><br>
 											<?php
+											// set connection to null
+											$connection = null;
 										}
 									}
 								//message if textfield is empty
@@ -294,6 +306,8 @@ include_once 'common.php';
 									?>
 										<center><?php echo $lang['recallform_3']; ?> </center><br>
 									<?php
+									// set connection to null
+									$connection = null;
 								}
 							}
 						//message if character name is more than 35 chars.
@@ -303,6 +317,8 @@ include_once 'common.php';
 							?>
 								<center><?php echo $lang['recallform_4']; ?> </center><br>
 							<?php
+							// set connection to null
+							$connection = null;
 						}
 					}
 				// message when the connection fails
@@ -311,7 +327,9 @@ include_once 'common.php';
 					include("recallform.php");
 					?>
 					<center><?php echo $lang['recallform_6']; ?> </center><br>
-				<?php
+					<?php
+					// set connection to null
+					$connection = null;
 				}
 			}
 			if ($use_sandbox == true)
