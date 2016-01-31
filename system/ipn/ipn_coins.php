@@ -116,7 +116,7 @@ if ($p->validate_ipn())
 					// If character is online lets send some telnet commands
 					$telnet->init();
 					echo $telnet->write("give ".$custom." ".$item_id." ".$donatecoinreward1."");
-					echo $telnet->write("quit");
+					echo $telnet->disconnect(); //TODO: need to check if this is closing the connection
 				}
 				// Else player is offline we will add the items trough a mysql query
 				else
@@ -255,7 +255,7 @@ if ($p->validate_ipn())
 					// If character is online lets send some telnet commands
 					$telnet->init();
 					echo $telnet->write("give ".$custom." ".$item_id." ".$donatecoinreward2."");
-					echo $telnet->write("quit");
+					echo $telnet->disconnect(); //TODO: need to check if this is closing the connection
 				}
 				// Else player is offline we will add the items trough a mysql query
 				else
@@ -394,7 +394,7 @@ if ($p->validate_ipn())
 					// If character is online lets send some telnet commands
 					$telnet->init();
 					echo $telnet->write("give ".$custom." ".$item_id." ".$donatecoinreward3."");
-					echo $telnet->write("quit");
+					echo $telnet->disconnect(); //TODO: need to check if this is closing the connection
 				}
 				// Else player is offline we will add the items trough a mysql query
 				else
@@ -533,7 +533,7 @@ if ($p->validate_ipn())
 					// If character is online lets send some telnet commands
 					$telnet->init();
 					echo $telnet->write("give ".$custom." ".$item_id." ".$donatecoinreward4."");
-					echo $telnet->write("quit");
+					echo $telnet->disconnect(); //TODO: need to check if this is closing the connection
 				}
 				// Else player is offline we will add the items trough a mysql query
 				else
