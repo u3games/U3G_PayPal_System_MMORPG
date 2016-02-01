@@ -11,14 +11,18 @@ $lang = array();
 
 $lang['character_name'] = 'Name of Character:';
 $lang['character_button'] = 'Confirm Character';
+$lang['select_option'] = 'Select option';
 
 $lang['message_1'] = 'Sorry, character';
-$lang['message_2'] = 'does not exist.';
+$lang['message_2'] = 'Does not exist.';
 $lang['message_3'] = 'Success!';
-$lang['message_4'] = 'exists.';
+$lang['message_4'] = 'Exists.';
 $lang['message_5'] = 'Get Coins:';
-$lang['message_6'] = 'coins';
+$lang['message_6'] = 'Coins';
 $lang['message_7'] = 'SANDBOX MODE';
+$lang['message_8'] = 'Remove';
+$lang['message_9'] = 'karma';
+$lang['message_10'] = 'Remove all karma';
 
 $lang['recallform_1'] = 'Characters is online! Disconnect the characters to make the donation.';
 $lang['recallform_2'] = 'Please insert a minimal of 3 characters.';
@@ -26,6 +30,7 @@ $lang['recallform_3'] = 'You forgot to type a Character name.';
 $lang['recallform_4'] = 'Maximum of 35 characters is allowed.';
 $lang['recallform_5'] = 'Cannot select game sever database.';
 $lang['recallform_6'] = 'No connection can be made to the server.';
+$lang['recallform_7'] = 'Select a donation option.';
 
 $lang['done_1'] = 'Thank you for donating, now check donation in your character.';
 $lang['done_2'] = 'If the item has not been sent to your character, contact the administration.';
