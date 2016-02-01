@@ -36,13 +36,13 @@ include_once 'common.php';
 
 				//query for checking if character exists
 				$character_row = $connection->prepare('SELECT char_name FROM characters WHERE char_name = :charname LIMIT 1');
-				$character_row->execute(array('charname' => $charname));
+				$character_row->execute(array(':charname' => $charname));
 				$character_row_fetch = $character_row->fetchAll();
 				$character_row_count = count($character_row_fetch);
 
 				// Check if character is online
 				$onlinechar_row = $connection->prepare('SELECT online FROM characters WHERE char_name = :charname LIMIT 1');
-				$onlinechar_row->execute(array('charname' => $charname));
+				$onlinechar_row->execute(array(':charname' => $charname));
 				$character_row_fetch = $onlinechar_row->fetchAll();
 						
 			if (!isset($character_row_fetch[0]['online']))
@@ -105,6 +105,31 @@ include_once 'common.php';
 										<tr>
 											<td><center><input type="text" name="custom" value="<?php echo $charname?>" maxlength="35" style="width: 135px"></center></td>
 										</tr>
+										</table>
+											<p>
+											<?php
+												echo $lang['select_option'];
+											?>
+											<br>
+											<select name="donation_select">
+											  <option value=""></option>
+											<?php 
+												if ($coins_enabled == true)
+													{
+														?>
+														<option value="Coins"><?php echo $lang['message_6'];?></option>
+														<?php
+													}
+												if ($karma_enabled == true)
+													{
+														?>
+														<option value="Karma"><?php echo $lang['message_8']; echo ' '; echo $lang['message_9'];?></option>
+														<?php 
+													}
+											?>
+											</select>
+											</p>
+										<table>
 										<tr>
 											<td><center><input type="submit" name="submit" value="<?php echo $lang['character_button']; ?>"></center></td>
 										</tr>
@@ -125,8 +150,16 @@ include_once 'common.php';
 						{
 							sleep($delaytime);
 						}
+						// gets the selected option from form
+						$donation_select = htmlspecialchars($_POST['donation_select']);
+						
+						$donation_option1 = 'Coins';
+						$donation_option2 = 'Karma';
 							// Checks the connection
 							if ($connection == true)
+							{
+							// Checks if something is selected in the select box
+							if ($donation_select != "")
 							{
 								// Checks if character name is max 35 characters
 								if (strlen($charname) <= 35)
@@ -149,13 +182,14 @@ include_once 'common.php';
 											}
 												else
 												{
-													// Checks if the character is online
-													if ($onlinearray == 1)
+													// Checks if the character is online and if the coins option is selected
+													if ($onlinearray == 1 && $donation_select === $donation_option1)
 													{
 														//Checks if telnet is enabled in the config
 														if ($use_telnet == true)
 														{
-														?>
+																// character is online and the coin option is selected.
+												?>
 																<div id="loginsuccess">
 																	<!-- oke now lets show the donation options -->
 																	<!-- The PayPal coins Donation option list -->
@@ -169,7 +203,7 @@ include_once 'common.php';
 																	<!-- Your PayPal email -->
 																	<input type="hidden" name="business" value="<?php echo $myPayPalEmail?>" />
 																	<!-- PayPal will send an IPN notification to this URL -->
-																	<input type="hidden" name="notify_url" value="<?php echo $urlipn?>/ipn_coins.php" />
+																	<input type="hidden" name="notify_url" value="<?php echo $urlipn?>/ipn_donations.php" />
 																	
 																	<!-- The return page to which the user is navigated after the donations is complete -->
 																	<input type="hidden" name="return" value="<?php echo $ipnthnx?>/done.php" />
@@ -191,7 +225,11 @@ include_once 'common.php';
 																	<!-- here the amount of the coins donation can be configured visible html only -->
 																	<center>
 																		<table>
-																			<tr><td><?php echo $lang['message_5']; ?></td><td>
+																			<tr><td>
+																			<?php
+																				echo $lang['message_5'];
+																			?>
+																			</td><td>
 																			<!-- The amount of the transaction: -->
 																			<select name="amount" style="width: 150px">
 																				<option value="<?php echo $donatecoinamount1?>"><?php echo $donatecoinreward1?> <?php echo $lang['message_6']; echo' '; echo $currency_code_html; ?><?php echo $donatecoinamount1?>.00 </option>
@@ -213,7 +251,7 @@ include_once 'common.php';
 															// set connection to null
 															$connection = null;
 														}
-														// message if telnet is disabled in config
+														// message if telnet is disabled in config and the player needs to logout
 														else
 														{
 															include("recallform.php");
@@ -236,12 +274,12 @@ include_once 'common.php';
 																<input type="hidden" name="item_name" value="Donation" />
 																
 																<!-- custom field that will be passed to paypal -->
-																<input type="hidden" name="custom" value="<?php echo $charname?>">
+																<input type="hidden" name="custom" value="<?php echo $charname?>|<?php echo $donation_select?>">
 																
 																<!-- Your PayPal email -->
 																<input type="hidden" name="business" value="<?php echo $myPayPalEmail?>" />
 																<!-- PayPal will send an IPN notification to this URL -->
-																<input type="hidden" name="notify_url" value="<?php echo $urlipn?>/ipn_coins.php" />
+																<input type="hidden" name="notify_url" value="<?php echo $urlipn?>/ipn_donations.php" />
 																
 																<!-- The return page to which the user is navigated after the donations is complete -->
 																<input type="hidden" name="return" value="<?php echo $ipnthnx?>/done.php" />
@@ -263,13 +301,42 @@ include_once 'common.php';
 																<!-- here the amount of the coins donation can be configured visible html only -->
 																<center>
 																	<table>
-																		<tr><td><?php echo $lang['message_5']; ?></td><td>
+																		<tr><td>
+																			<?php
+																				// Coins messagebox text
+																				if ($donation_select == $donation_option1)
+																					{	
+																						echo $lang['message_5'];
+																					}
+																				// karma messagebox text
+																				if ($donation_select == $donation_option2)
+																					{	
+																						echo $lang['message_8'];
+																					}
+																			?>
+																		</td><td>
 																		<!-- The amount of the transaction: -->
 																		<select name="amount" style="width: 150px">
-																			<option value="<?php echo $donatecoinamount1?>"><?php echo $donatecoinreward1?> <?php echo $lang['message_6']; echo' '; echo $currency_code_html;?><?php echo $donatecoinamount1?>.00 </option>
-																			<option value="<?php echo $donatecoinamount2?>"><?php echo $donatecoinreward2?> <?php echo $lang['message_6']; echo' '; echo $currency_code_html;?><?php echo $donatecoinamount2?>.00</option>
-																			<option value="<?php echo $donatecoinamount3?>"><?php echo $donatecoinreward3?> <?php echo $lang['message_6']; echo' '; echo $currency_code_html;?><?php echo $donatecoinamount3?>.00</option>
-																			<option value="<?php echo $donatecoinamount4?>"><?php echo $donatecoinreward4?> <?php echo $lang['message_6']; echo' '; echo $currency_code_html;?><?php echo $donatecoinamount4?>.00</option>
+																			<?php 
+																				if ($donation_select == $donation_option1)
+																				{
+																			?>
+																					<option value="<?php echo $donatecoinamount1?>"><?php echo $donatecoinreward1?> <?php echo $lang['message_6']; echo' '; echo $currency_code_html; ?><?php echo $donatecoinamount1?>.00 </option>
+																					<option value="<?php echo $donatecoinamount2?>"><?php echo $donatecoinreward2?> <?php echo $lang['message_6']; echo' '; echo $currency_code_html;?><?php echo $donatecoinamount2?>.00</option>
+																					<option value="<?php echo $donatecoinamount3?>"><?php echo $donatecoinreward3?> <?php echo $lang['message_6']; echo' '; echo $currency_code_html;?><?php echo $donatecoinamount3?>.00</option>
+																					<option value="<?php echo $donatecoinamount4?>"><?php echo $donatecoinreward4?> <?php echo $lang['message_6']; echo' '; echo $currency_code_html;?><?php echo $donatecoinamount4?>.00</option>
+																			<?php 
+																				}
+																			?>
+																			<?php if ($donation_select == $donation_option2)
+																			{	?>
+																					<option value="<?php echo $donatekarmaamount1?>"><?php echo $lang['message_8']?> <?php echo' '; echo $donateremovekarma1;?><?php echo' '; echo $lang['message_9']; echo' '; echo $currency_code_html; ?><?php echo $donatekarmaamount1?>.00 </option>
+																					<option value="<?php echo $donatekarmaamount2?>"><?php echo $lang['message_8']?> <?php echo' '; echo $donateremovekarma2;?><?php echo' '; echo $lang['message_9']; echo' '; echo $currency_code_html; ?><?php echo $donatekarmaamount2?>.00 </option>
+																					<option value="<?php echo $donatekarmaamount3?>"><?php echo $lang['message_8']?> <?php echo' '; echo $donateremovekarma3;?><?php echo' '; echo $lang['message_9']; echo' '; echo $currency_code_html; ?><?php echo $donatekarmaamount3?>.00 </option>
+																					<option value="<?php echo $donatekarmaallamount?>"><?php echo $lang['message_10']?> <?php echo' '; echo $currency_code_html;?><?php echo $donatekarmaallamount?>.00</option>
+																			<?php 
+																			}
+																			?>
 																		</select>
 																		</td></tr></table>
 																</center>
@@ -310,12 +377,23 @@ include_once 'common.php';
 									$connection = null;
 								}
 							}
-						//message if character name is more than 35 chars.
+						// message if character name is more than 35 chars.
 						else
 						{
 							include("recallform.php");
 							?>
 								<center><?php echo $lang['recallform_4']; ?> </center><br>
+							<?php
+							// set connection to null
+							$connection = null;
+						}
+					}
+						// message if nothing is selected in the select box
+						else
+						{
+							include("recallform.php");
+							?>
+								<center><?php echo $lang['recallform_7']; ?> </center><br>
 							<?php
 							// set connection to null
 							$connection = null;
