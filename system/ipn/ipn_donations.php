@@ -39,8 +39,16 @@ if ($p->validate_ipn())
 		// Gets the donated amount minus paypals fee
 		$amountminfee = $p->ipn_data['mc_gross'] - $p->ipn_data['mc_fee'];
 		
-		// Get character name from paypal ipn data
+		// Get character name + donation option from paypal ipn data
 		$custom = $p->ipn_data['custom'];
+		
+		// here we need to separate the data into two separate values
+		$splitdata = explode('|', $custom);
+		$charname = $splitdata[0];
+		$donation_option = $splitdata[1];
+		
+		$donation_option1 = 'coins';
+		$donation_option2 = 'karma';
 		
 		// get transaction_id from paypal ipn data
 		$transid = $p->ipn_data['txn_id'];
@@ -61,26 +69,35 @@ if ($p->validate_ipn())
 			$connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 			
 			// Here we will make a log of all the donations after the payment status is complete
-			$pay_text = 'Paypal, Coins';
-			$dc_log = $connection->prepare('INSERT INTO log_paypal_donations(transaction_id, donation, amount, amountminfee, character_name) VALUES(:transid, :pay_text, :amount, :amountminfee, :custom )');
+			if ($donation_option === $donation_option1)
+				{
+					$pay_text = 'Paypal, Coins';
+				}
+			if ($donation_option === $donation_option2)
+				{
+					$pay_text = 'Remove karma';
+				}
+			
+			
+			$dc_log = $connection->prepare('INSERT INTO log_paypal_donations(transaction_id, donation, amount, amountminfee, character_name) VALUES(:transid, :pay_text, :amount, :amountminfee, :charname )');
 			$dc_log->execute(array(
 			':transid' => $transid,
 			':pay_text' => $pay_text,
 			':amount' => $amount,
 			':amountminfee' => $amountminfee,
-			':custom' => $custom
+			':charname' => $charname
 			));
 
 			// Get the Charid given according to the char_name
-			$charid_row = $connection->prepare('SELECT charId FROM characters WHERE char_name = :custom LIMIT 1');
-			$charid_row->execute(array('custom' => $custom));
+			$charid_row = $connection->prepare('SELECT charId FROM characters WHERE char_name = :charname LIMIT 1');
+			$charid_row->execute(array(':charname' => $charname));
 			$charid_row_fetch = $charid_row->fetchAll();
 			$total = count($charid_row_fetch);
 			$charId = $charid_row_fetch[0]['charId'];
 
 			// Check if character is online
-			$onlinechar_row = $connection->prepare('SELECT online FROM characters WHERE char_name = :custom LIMIT 1');
-			$onlinechar_row->execute(array('custom' => $custom));
+			$onlinechar_row = $connection->prepare('SELECT online FROM characters WHERE char_name = :charname LIMIT 1');
+			$onlinechar_row->execute(array(':charname' => $charname));
 			$character_row_fetch = $onlinechar_row->fetchAll();
 			$onlinearray = $character_row_fetch[0]['online'];
 		}
@@ -105,17 +122,24 @@ if ($p->validate_ipn())
 			fclose($fp);  
 		}
 
-		// Donate Rewards Coins I
-		if ($amount == $donatecoinamount1)
+// COINS DONATION OPTIONS
+if ($donation_option === $donation_option1)
+{
+	// Checks if coins is enabled in the config or else log this maby a exploit attack.
+	if ($coins_enabled == true)
+	{
+		// Checks if charname exists
+		if ($total>0)
 		{
-			if ($total>0)
+			// Donate Rewards Coins I
+			if ($amount == $donatecoinamount1)
 			{
 				// Checks if the character is online and telnet is enabled
 				if (($onlinearray == 1) && ($use_telnet == true))
 				{
 					// If character is online lets send some telnet commands
 					$telnet->init();
-					echo $telnet->write("give ".$custom." ".$item_id." ".$donatecoinreward1."");
+					echo $telnet->write("give ".$charname." ".$item_id." ".$donatecoinreward1."");
 					echo $telnet->disconnect(); //TODO: need to check if this is closing the connection
 				}
 				// Else player is offline we will add the items trough a mysql query
@@ -125,9 +149,9 @@ if ($p->validate_ipn())
 							// Does the character already have the item ?
 							$sql_have_item = $connection->prepare('SELECT owner_id FROM items WHERE item_id = :item_id AND owner_id = :charId AND loc = :invertory ');
 							$sql_have_item->execute(array(
-							'item_id' => $item_id,
-							'charId' => $charId,
-							'invertory' => $invertory
+							':item_id' => $item_id,
+							':charId' => $charId,
+							':invertory' => $invertory
 							));
 							$sql_have_item_fetch = $sql_have_item->fetchAll();
 							$exist = count($sql_have_item_fetch);
@@ -142,7 +166,7 @@ if ($p->validate_ipn())
 							$local_log = '['.date('m/d/Y g:i A').'] - '; 
 
 							// Logging: response from the server
-							$local_log .= "IPN_COINS.PHP ERROR: ". $e->getMessage();
+							$local_log .= "IPN COINS I ERROR: ". $e->getMessage();
 							$local_log .= '</td></tr><tr><td>';
 
 							// Write to log
@@ -175,7 +199,7 @@ if ($p->validate_ipn())
 								$local_log = '['.date('m/d/Y g:i A').'] - '; 
 
 								// Logging: response from the server
-								$local_log .= "IPN_COINS.PHP ERROR: ". $e->getMessage();
+								$local_log .= "IPN COINS I ERROR: ". $e->getMessage();
 								$local_log .= '</td></tr><tr><td>';
 
 								// Write to log
@@ -186,10 +210,11 @@ if ($p->validate_ipn())
 								fclose($fp);  
 							}
 					}
+					// Else the player does not have the item,
 					else
 					{
 						try {
-								// Else the player does not have the item, now lets first get the latest object_id
+								// now lets first get the latest object_id
 								$sql_no_item = $connection->prepare('SELECT object_id FROM items WHERE item_id = :item_id AND owner_id = :charId AND loc = :invertory ');
 								$sql_no_item->execute(array(
 								':item_id' => $item_id,
@@ -229,7 +254,7 @@ if ($p->validate_ipn())
 								$local_log = '['.date('m/d/Y g:i A').'] - '; 
 
 								// Logging: response from the server
-								$local_log .= "IPN_COINS.PHP ERROR: ". $e->getMessage();
+								$local_log .= "IPN COINS I ERROR: ". $e->getMessage();
 								$local_log .= '</td></tr><tr><td>';
 
 								// Write to log
@@ -242,19 +267,16 @@ if ($p->validate_ipn())
 					}
 				}
 			}
-		}
 
 		// Donate Rewards Coins II
 		if ($amount == $donatecoinamount2)
 		{
-			if ($total>0)
-			{
 				// Checks if the character is online and telnet is enabled
 				if (($onlinearray == 1) && ($use_telnet == true))
 				{
 					// If character is online lets send some telnet commands
 					$telnet->init();
-					echo $telnet->write("give ".$custom." ".$item_id." ".$donatecoinreward2."");
+					echo $telnet->write("give ".$charname." ".$item_id." ".$donatecoinreward2."");
 					echo $telnet->disconnect(); //TODO: need to check if this is closing the connection
 				}
 				// Else player is offline we will add the items trough a mysql query
@@ -264,9 +286,9 @@ if ($p->validate_ipn())
 							// Does the character already have the item ?
 							$sql_have_item = $connection->prepare('SELECT owner_id FROM items WHERE item_id = :item_id AND owner_id = :charId AND loc = :invertory ');
 							$sql_have_item->execute(array(
-							'item_id' => $item_id,
-							'charId' => $charId,
-							'invertory' => $invertory
+							':item_id' => $item_id,
+							':charId' => $charId,
+							':invertory' => $invertory
 							));
 							$sql_have_item_fetch = $sql_have_item->fetchAll();
 							$exist = count($sql_have_item_fetch);
@@ -281,7 +303,7 @@ if ($p->validate_ipn())
 							$local_log = '['.date('m/d/Y g:i A').'] - '; 
 
 							// Logging: response from the server
-							$local_log .= "IPN_COINS.PHP ERROR: ". $e->getMessage();
+							$local_log .= "IPN COINS II ERROR: ". $e->getMessage();
 							$local_log .= '</td></tr><tr><td>';
 
 							// Write to log
@@ -314,7 +336,7 @@ if ($p->validate_ipn())
 								$local_log = '['.date('m/d/Y g:i A').'] - '; 
 
 								// Logging: response from the server
-								$local_log .= "IPN_COINS.PHP ERROR: ". $e->getMessage();
+								$local_log .= "IPN COINS II ERROR: ". $e->getMessage();
 								$local_log .= '</td></tr><tr><td>';
 
 								// Write to log
@@ -325,10 +347,11 @@ if ($p->validate_ipn())
 								fclose($fp);  
 							}
 					}
+					// Else the player does not have the item
 					else
 					{
 						try {
-								// Else the player does not have the item, now lets first get the latest object_id
+								// Now lets first get the latest object_id
 								$sql_no_item = $connection->prepare('SELECT object_id FROM items WHERE item_id = :item_id AND owner_id = :charId AND loc = :invertory ');
 								$sql_no_item->execute(array(
 								':item_id' => $item_id,
@@ -368,7 +391,7 @@ if ($p->validate_ipn())
 								$local_log = '['.date('m/d/Y g:i A').'] - '; 
 
 								// Logging: response from the server
-								$local_log .= "IPN_COINS.PHP ERROR: ". $e->getMessage();
+								$local_log .= "IPN COINS II ERROR: ". $e->getMessage();
 								$local_log .= '</td></tr><tr><td>';
 
 								// Write to log
@@ -380,20 +403,17 @@ if ($p->validate_ipn())
 							}
 					}
 				}
-			}
 		}
 		
 		// Donate Rewards Coins III
 		if ($amount == $donatecoinamount3)
 		{
-			if ($total>0)
-			{
 				// Checks if the character is online and telnet is enabled
 				if (($onlinearray == 1) && ($use_telnet == true))
 				{
 					// If character is online lets send some telnet commands
 					$telnet->init();
-					echo $telnet->write("give ".$custom." ".$item_id." ".$donatecoinreward3."");
+					echo $telnet->write("give ".$charname." ".$item_id." ".$donatecoinreward3."");
 					echo $telnet->disconnect(); //TODO: need to check if this is closing the connection
 				}
 				// Else player is offline we will add the items trough a mysql query
@@ -403,9 +423,9 @@ if ($p->validate_ipn())
 							// Does the character already have the item ?
 							$sql_have_item = $connection->prepare('SELECT owner_id FROM items WHERE item_id = :item_id AND owner_id = :charId AND loc = :invertory ');
 							$sql_have_item->execute(array(
-							'item_id' => $item_id,
-							'charId' => $charId,
-							'invertory' => $invertory
+							':item_id' => $item_id,
+							':charId' => $charId,
+							':invertory' => $invertory
 							));
 							$sql_have_item_fetch = $sql_have_item->fetchAll();
 							$exist = count($sql_have_item_fetch);
@@ -420,7 +440,7 @@ if ($p->validate_ipn())
 							$local_log = '['.date('m/d/Y g:i A').'] - '; 
 
 							// Logging: response from the server
-							$local_log .= "IPN_COINS.PHP ERROR: ". $e->getMessage();
+							$local_log .= "IPN COINS III ERROR: ". $e->getMessage();
 							$local_log .= '</td></tr><tr><td>';
 
 							// Write to log
@@ -453,7 +473,7 @@ if ($p->validate_ipn())
 								$local_log = '['.date('m/d/Y g:i A').'] - '; 
 
 								// Logging: response from the server
-								$local_log .= "IPN_COINS.PHP ERROR: ". $e->getMessage();
+								$local_log .= "IPN COINS III ERROR: ". $e->getMessage();
 								$local_log .= '</td></tr><tr><td>';
 
 								// Write to log
@@ -464,10 +484,11 @@ if ($p->validate_ipn())
 								fclose($fp);  
 							}
 					}
+					// Else the player does not have the item
 					else
 					{
 						try {
-								// Else the player does not have the item, now lets first get the latest object_id
+								// Now lets first get the latest object_id
 								$sql_no_item = $connection->prepare('SELECT object_id FROM items WHERE item_id = :item_id AND owner_id = :charId AND loc = :invertory ');
 								$sql_no_item->execute(array(
 								':item_id' => $item_id,
@@ -507,7 +528,7 @@ if ($p->validate_ipn())
 								$local_log = '['.date('m/d/Y g:i A').'] - '; 
 
 								// Logging: response from the server
-								$local_log .= "IPN_COINS.PHP ERROR: ". $e->getMessage();
+								$local_log .= "IPN COINS III ERROR: ". $e->getMessage();
 								$local_log .= '</td></tr><tr><td>';
 
 								// Write to log
@@ -519,20 +540,17 @@ if ($p->validate_ipn())
 							}
 					}
 				}
-			}
 		}
 		
 		// Donate Rewards Coins IV
 		if ($amount == $donatecoinamount4)
 		{
-			if ($total>0)
-			{
 				// Checks if the character is online and telnet is enabled
 				if (($onlinearray == 1) && ($use_telnet == true))
 				{
 					// If character is online lets send some telnet commands
 					$telnet->init();
-					echo $telnet->write("give ".$custom." ".$item_id." ".$donatecoinreward4."");
+					echo $telnet->write("give ".$charname." ".$item_id." ".$donatecoinreward4."");
 					echo $telnet->disconnect(); //TODO: need to check if this is closing the connection
 				}
 				// Else player is offline we will add the items trough a mysql query
@@ -542,9 +560,9 @@ if ($p->validate_ipn())
 							// Does the character already have the item ?
 							$sql_have_item = $connection->prepare('SELECT owner_id FROM items WHERE item_id = :item_id AND owner_id = :charId AND loc = :invertory ');
 							$sql_have_item->execute(array(
-							'item_id' => $item_id,
-							'charId' => $charId,
-							'invertory' => $invertory
+							':item_id' => $item_id,
+							':charId' => $charId,
+							':invertory' => $invertory
 							));
 							$sql_have_item_fetch = $sql_have_item->fetchAll();
 							$exist = count($sql_have_item_fetch);
@@ -559,7 +577,7 @@ if ($p->validate_ipn())
 							$local_log = '['.date('m/d/Y g:i A').'] - '; 
 
 							// Logging: response from the server
-							$local_log .= "IPN_COINS.PHP ERROR: ". $e->getMessage();
+							$local_log .= "IPN COINS IV ERROR: ". $e->getMessage();
 							$local_log .= '</td></tr><tr><td>';
 
 							// Write to log
@@ -592,7 +610,7 @@ if ($p->validate_ipn())
 								$local_log = '['.date('m/d/Y g:i A').'] - '; 
 
 								// Logging: response from the server
-								$local_log .= "IPN_COINS.PHP ERROR: ". $e->getMessage();
+								$local_log .= "IPN COINS IV ERROR: ". $e->getMessage();
 								$local_log .= '</td></tr><tr><td>';
 
 								// Write to log
@@ -603,10 +621,11 @@ if ($p->validate_ipn())
 								fclose($fp);  
 							}
 					}
+					// Else the player does not have the item
 					else
 					{
 						try {
-								// Else the player does not have the item, now lets first get the latest object_id
+								// Now lets first get the latest object_id
 								$sql_no_item = $connection->prepare('SELECT object_id FROM items WHERE item_id = :item_id AND owner_id = :charId AND loc = :invertory ');
 								$sql_no_item->execute(array(
 								':item_id' => $item_id,
@@ -654,12 +673,325 @@ if ($p->validate_ipn())
 								fwrite($fp, $local_log . "\n");
 
 								// Close file
-								fclose($fp);  
+								fclose($fp);
 							}
+						}
 					}
 				}
 			}
+			// Else charname does not exists
+			else
+				{
+					// Local file reporting
+					// Logging: file location
+					$local_log_file = $log_location_ipn;
+
+					// Logging: Timestamp
+					$local_log = '['.date('m/d/Y g:i A').'] - '; 
+
+					// Logging: response from the server
+					$local_log .= "IPN COINS ERROR: Charname does not exists ? Charname: ". $charname ." amount:". $amount ." donation option:". $donation_option ."Transaction ID:". $transid;
+					$local_log .= '</td></tr><tr><td>';
+
+					// Write to log
+					$fp=fopen($local_log_file,'a');
+					fwrite($fp, $local_log . "\n");
+
+					// Close file
+					fclose($fp);
+				}
+	}
+	// Else Someone tried to enter coins while disabled
+	else
+	{
+		// Local file reporting
+		// Logging: file location
+		$local_log_file = $log_location_ipn;
+
+		// Logging: Timestamp
+		$local_log = '['.date('m/d/Y g:i A').'] - '; 
+
+		// Logging: response from the server
+		$local_log .= "IPN_COINS.PHP ERROR: Someone tried to enter coins while disabled in config. Exploit attack ? Charname: ". $charname ." amount:". $amount ." donation option:". $donation_option ."Transaction ID:". $transid;
+		$local_log .= '</td></tr><tr><td>';
+
+		// Write to log
+		$fp=fopen($local_log_file,'a');
+		fwrite($fp, $local_log . "\n");
+
+		// Close file
+		fclose($fp);
+	}
+}
+// REMOVE KARMA DONATION OPTIONS
+if ($donation_option === $donation_option2)
+	{
+	// Checks if karma is enabled in the config or else log this maby a exploit attack.
+	if ($karma_enabled == true)
+	{
+		// Checks if charname exists
+		if ($total>0)
+			{
+				// Donate karma reward I
+				if ($amount == $donatekarmaamount1)
+				{
+					try {
+							// How mutch karma on character
+							$karma_amount = $connection->prepare('SELECT karma FROM characters WHERE char_name = :charname');
+							$karma_amount->execute(array(
+							':charname' => $charname
+							));
+							$karma_amount_fetch = $karma_amount->fetchAll();
+							
+							// Karma minus $donateremovekarma1
+							$calc_karma = $karma_amount_fetch[0]['karma'] - $donateremovekarma1;
+							
+						// check if karma is greater  or equal to $donateremovekarma1
+						if ($karma_amount_fetch[0]['karma'] >= $donateremovekarma1)
+							{
+								// We will update the new karma amount
+								$sql_inv_update = $connection->prepare('UPDATE characters SET karma = :calc_karma WHERE char_name = :charname');
+								$sql_inv_update->execute(array(
+								':calc_karma' => $calc_karma,
+								':charname' => $charname
+								));
+							}
+						// Player got less karma then hes trying to remove we set karma to 0
+						else
+							{
+								// We will set karma to 0
+								$karma_zero = 0;
+								$sql_inv_update = $connection->prepare('UPDATE characters SET karma = :karma_zero WHERE char_name = :charname');
+								$sql_inv_update->execute(array(
+								':karma_zero' => $karma_zero,
+								':charname' => $charname
+								));
+							
+							}
+						} 
+					catch(PDOException $e) 
+						{
+							// Local file reporting
+							// Logging: file location
+							$local_log_file = $log_location_ipn;
+
+							// Logging: Timestamp
+							$local_log = '['.date('m/d/Y g:i A').'] - '; 
+
+							// Logging: response from the server
+							$local_log .= "IPN KARMA I ERROR: ". $e->getMessage();
+							$local_log .= '</td></tr><tr><td>';
+
+							// Write to log
+							$fp=fopen($local_log_file,'a');
+							fwrite($fp, $local_log . "\n");
+
+							// Close file
+							fclose($fp);
+						}
+
+					}
+				// Donate karma reward II
+				if ($amount == $donatekarmaamount2)
+				{
+					try {
+							// How mutch karma on character
+							$karma_amount = $connection->prepare('SELECT karma FROM characters WHERE char_name = :charname');
+							$karma_amount->execute(array(
+							':charname' => $charname
+							));
+							$karma_amount_fetch = $karma_amount->fetchAll();
+							
+							// Karma minus $donateremovekarma2
+							$calc_karma = $karma_amount_fetch[0]['karma'] - $donateremovekarma2;
+							
+						// check if karma is greater  or equal to $donateremovekarma2
+						if ($karma_amount_fetch[0]['karma'] >= $donateremovekarma2)
+							{
+								// We will update the new karma amount
+								$sql_inv_update = $connection->prepare('UPDATE characters SET karma = :calc_karma WHERE char_name = :charname');
+								$sql_inv_update->execute(array(
+								':calc_karma' => $calc_karma,
+								':charname' => $charname
+								));
+							}
+						// Player got less karma then hes trying to remove we set karma to 0
+						else
+							{
+								// We will set karma to 0
+								$karma_zero = 0;
+								$sql_inv_update = $connection->prepare('UPDATE characters SET karma = :karma_zero WHERE char_name = :charname');
+								$sql_inv_update->execute(array(
+								':karma_zero' => $karma_zero,
+								':charname' => $charname
+								));
+							
+							}
+						} 
+					catch(PDOException $e) 
+						{
+							// Local file reporting
+							// Logging: file location
+							$local_log_file = $log_location_ipn;
+
+							// Logging: Timestamp
+							$local_log = '['.date('m/d/Y g:i A').'] - '; 
+
+							// Logging: response from the server
+							$local_log .= "IPN KARMA II ERROR: ". $e->getMessage();
+							$local_log .= '</td></tr><tr><td>';
+
+							// Write to log
+							$fp=fopen($local_log_file,'a');
+							fwrite($fp, $local_log . "\n");
+
+							// Close file
+							fclose($fp);
+						}
+
+					}
+				// Donate karma reward III
+				if ($amount == $donatekarmaamount3)
+				{
+					try {
+							// How mutch karma on character
+							$karma_amount = $connection->prepare('SELECT karma FROM characters WHERE char_name = :charname');
+							$karma_amount->execute(array(
+							':charname' => $charname
+							));
+							$karma_amount_fetch = $karma_amount->fetchAll();
+							
+							// Karma minus $donateremovekarma3
+							$calc_karma = $karma_amount_fetch[0]['karma'] - $donateremovekarma3;
+							
+						// check if karma is greater  or equal to $donateremovekarma3
+						if ($karma_amount_fetch[0]['karma'] >= $donateremovekarma3)
+							{
+								// We will update the new karma amount
+								$sql_inv_update = $connection->prepare('UPDATE characters SET karma = :calc_karma WHERE char_name = :charname');
+								$sql_inv_update->execute(array(
+								':calc_karma' => $calc_karma,
+								':charname' => $charname
+								));
+							}
+						// Player got less karma then hes trying to remove we set karma to 0
+						else
+							{
+								// We will set karma to 0
+								$karma_zero = 0;
+								$sql_inv_update = $connection->prepare('UPDATE characters SET karma = :karma_zero WHERE char_name = :charname');
+								$sql_inv_update->execute(array(
+								':karma_zero' => $karma_zero,
+								':charname' => $charname
+								));
+							
+							}
+						} 
+					catch(PDOException $e) 
+						{
+							// Local file reporting
+							// Logging: file location
+							$local_log_file = $log_location_ipn;
+
+							// Logging: Timestamp
+							$local_log = '['.date('m/d/Y g:i A').'] - '; 
+
+							// Logging: response from the server
+							$local_log .= "IPN KARMA III ERROR: ". $e->getMessage();
+							$local_log .= '</td></tr><tr><td>';
+
+							// Write to log
+							$fp=fopen($local_log_file,'a');
+							fwrite($fp, $local_log . "\n");
+
+							// Close file
+							fclose($fp);
+						}
+
+					}
+				// Donate karma reward IV
+				if ($amount == $donatekarmaallamount)
+				{
+					try {
+							// We will set karma to 0
+							$karma_zero = 0;
+							$sql_inv_update = $connection->prepare('UPDATE characters SET karma = :karma_zero WHERE char_name = :charname');
+							$sql_inv_update->execute(array(
+							':karma_zero' => $karma_zero,
+							':charname' => $charname
+							));
+						}
+					catch(PDOException $e) 
+						{
+							// Local file reporting
+							// Logging: file location
+							$local_log_file = $log_location_ipn;
+
+							// Logging: Timestamp
+							$local_log = '['.date('m/d/Y g:i A').'] - '; 
+
+							// Logging: response from the server
+							$local_log .= "IPN KARMA IV ERROR: ". $e->getMessage();
+							$local_log .= '</td></tr><tr><td>';
+
+							// Write to log
+							$fp=fopen($local_log_file,'a');
+							fwrite($fp, $local_log . "\n");
+
+							// Close file
+							fclose($fp);
+						}
+
+					}
+					
+				}
+				// Else charname does not exists
+				else
+				{
+					// Local file reporting
+					// Logging: file location
+					$local_log_file = $log_location_ipn;
+					
+					// Logging: Timestamp
+					$local_log = '['.date('m/d/Y g:i A').'] - '; 
+
+					// Logging: response from the server
+					$local_log .= "IPN KARMA ERROR: Charname does not exists ? Charname: ". $charname ." amount:". $amount ." donation option:". $donation_option ."Transaction ID:". $transid;
+					$local_log .= '</td></tr><tr><td>';
+
+					// Write to log
+					$fp=fopen($local_log_file,'a');
+					fwrite($fp, $local_log . "\n");
+
+					// Close file
+					fclose($fp);
+				}
 		}
+		// Else Someone tried to enter karma while disabled
+		else
+		{
+			// Local file reporting
+			// Logging: file location
+			$local_log_file = $log_location_ipn;
+
+			// Logging: Timestamp
+			$local_log = '['.date('m/d/Y g:i A').'] - '; 
+
+			// Logging: response from the server
+			$local_log .= "IPN KARMA ERROR: Someone tried to enter karma while disabled in config. Exploit attack ? Charname: ". $charname ." amount:". $amount ." donation option:". $donation_option ."Transaction ID:". $transid;
+			$local_log .= '</td></tr><tr><td>';
+
+			// Write to log
+			$fp=fopen($local_log_file,'a');
+			fwrite($fp, $local_log . "\n");
+
+			// Close file
+			fclose($fp);
+		}
+	
+	}
+		
+
 	}
 }
 ?>
