@@ -129,11 +129,15 @@ if ($overview_ip_security == true)
 													?>
 													<table cellpadding="0" cellspacing="0" border="2" width="75%" align="center">
 													<tr><td>
-													<?php 
+													<center><b>DONATE OVERVIEW</b></center></td></tr>
+													<?php
 													try {
 													
 														$result_amount_count = $connection->query('SELECT count(amount) FROM log_paypal_donations');
 														$result_amount_count_fetch = $result_amount_count->fetchColumn();
+
+														$result_online_count = $connection->query('SELECT online FROM characters WHERE online = 1');
+														$result_online_count_fetch = $result_online_count->rowCount();
 													
 														$result_amount = $connection->query('SELECT sum(amount) FROM log_paypal_donations');
 														$result_amount_fetch = $result_amount->fetchColumn();
@@ -159,67 +163,85 @@ if ($overview_ip_security == true)
 
 													fclose($fp);  // close file
 														}
-													echo 'Times donated: '. $result_amount_count_fetch .'<br>Total donated: ' . $currency_code_html . $result_amount_fetch . '<br> Total donated - paypal fee: ' . $currency_code_html . $result_amount_fee_format;
 													?>
-													<center><b>DONATE OVERVIEW</b></center></td></tr>
 													</table>
+														<br>
+															<table cellpadding="0" cellspacing="0" border="2" width="20%" align="center">
+																<tr><td>
+																Players online:
+																	<?php
+																		echo $result_online_count_fetch;
+																	?>
+															<br>Times donated:
+																	<?php
+																		echo $result_amount_count_fetch;
+																	?>
+															<br>Total donated:
+																	<?php
+																		echo $currency_code_html; echo' '; echo $result_amount_fetch;
+																	?>
+															<br>Total donated - paypal fee:
+																	<?php
+																		echo $currency_code_html; echo' '; echo $result_amount_fee_format;
+																	?>
+																</td></tr>
+															</table>
+														<br>
 													<table cellpadding="0" cellspacing="0" border="1" width="75%" align="center">
-													<tr><td><center><b>Website/ipn error log</b></center></td></tr>
-													<?php include 'log/website_error_log.php';?>
-													<tr><td><center><b>log_paypal_donations database log</b></center></td></tr>
-													<?php 
-													class log_paypal_donations {
-														public $transaction_id;
-														public $donation;
-														public $amount;
-														public $amountminfee;
-														public $character_name;
-														public $dt;
-														public function donation_info()
-														{
-														return $this->transaction_id . ' ' . $this->donation . ' ' . $this->amount . ' ' . $this->amountminfee . ' ' . $this->character_name . ' ' . $this->dt;
+														<tr><td><center><b>Website/ipn error log</b></center></td></tr>
+														<?php include 'log/website_error_log.php';?>
+														<tr><td><center><b>log_paypal_donations database log</b></center></td></tr>
+														<?php 
+														class log_paypal_donations {
+															public $transaction_id;
+															public $donation;
+															public $amount;
+															public $amountminfee;
+															public $character_name;
+															public $dt;
+															public function donation_info()
+															{
+															return $this->transaction_id . ' ' . $this->donation . ' ' . $this->amount . ' ' . $this->amountminfee . ' ' . $this->character_name . ' ' . $this->dt;
+															}
+															
 														}
-														
-													}
-													 
-													try {
-
-														$result = $connection->query('SELECT * FROM log_paypal_donations');
-														# Map results to object
-														$result->setFetchMode(PDO::FETCH_CLASS, 'log_paypal_donations');
-										
-														
-														while($donation_info = $result->fetch()) {
-															# Call our custom donation_info method
-															echo '<tr><td>' . $donation_info->donation_info() . '</td></tr>';
-
-														}
-													} catch(PDOException $e) {
-													//logging: file location
-													$local_log_file = 'log/website_error_log.php';
-										
-													//logging: Timestamp
-													$local_log = '['.date('m/d/Y g:i A').'] - '; 
 														 
-													//logging: response from the server
-													$local_log .= "DONATEOVERVIEW.PHP ERROR: ". $e->getMessage();	
-													$local_log .= '</td></tr><tr><td>';
-													
-													// Write to log
-													$fp=fopen($local_log_file,'a');
-													fwrite($fp, $local_log . ""); 
+														try {
 
-													fclose($fp);  // close file
-														}
+															$result = $connection->query('SELECT * FROM log_paypal_donations');
+															# Map results to object
+															$result->setFetchMode(PDO::FETCH_CLASS, 'log_paypal_donations');
+											
+															
+															while($donation_info = $result->fetch()) {
+																# Call our custom donation_info method
+																echo '<tr><td>' . $donation_info->donation_info() . '</td></tr>';
+
+															}
+														} catch(PDOException $e) {
+														//logging: file location
+														$local_log_file = 'log/website_error_log.php';
+											
+														//logging: Timestamp
+														$local_log = '['.date('m/d/Y g:i A').'] - '; 
+															 
+														//logging: response from the server
+														$local_log .= "DONATEOVERVIEW.PHP ERROR: ". $e->getMessage();	
+														$local_log .= '</td></tr><tr><td>';
 														
-														
-														?>
-													
-													
+														// Write to log
+														$fp=fopen($local_log_file,'a');
+														fwrite($fp, $local_log . ""); 
+
+														fclose($fp);  // close file
+															}
+															
+															
+															?>
 													</table>
-													<table cellpadding="0" cellspacing="0" border="1" width="75%" align="center">
-													<tr><td><center><b>IPN response log</b></center></td></tr>
-													<?php include '../ipn/log/ipn_log.php';?>
+														<table cellpadding="0" cellspacing="0" border="1" width="75%" align="left">
+															<tr><td><center><b>IPN response log</b></center></td></tr>
+															<?php include '../ipn/log/ipn_log.php';?>
 													</table>
 													
 													<?php
