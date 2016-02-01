@@ -102,7 +102,7 @@ $donatekarmaallamount = 10;
 
 // Enable or Disable Telnet, require config (true=on | false=off )
 // Default: false
-$use_telnet = true;
+$use_telnet = false;
 
 // Turn error reporting on or off (true=on | false=off)
 // NOTE: this option only applies to errors to end users
