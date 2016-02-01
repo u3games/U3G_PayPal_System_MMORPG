@@ -17,9 +17,11 @@
 	?>
 </head>
 <body>
+	<center>
 	<table cellpadding="0" cellspacing="0" width="100%">
 		<?php echo $lang['done_1']; ?><br>
 		<?php echo $lang['done_2']; ?>
 	</table>
+	</center>
 </body>
 </html>
