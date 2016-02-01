@@ -30,7 +30,7 @@ $use_sandbox = true;
 if ($use_sandbox == true)	// <-- there is no need to touch this line.
 {
 	// Test seller account
-	$myPayPalEmail = 'test.seller@account.com';
+	$myPayPalEmail = 'test.seller@Account.com';
 	$payPalURL = "https://www.sandbox.paypal.com/cgi-bin/webscr";
 }
 else
@@ -59,27 +59,50 @@ $currency_code = 'EUR';
 $currency_code_html = '€';
 
 // Define the donation item_id
-$item_id = '3470'; // Gold Bar 
+$item_id = '3470'; // Gold Bar
 
-// Define coin option 1, coin amount and donate amount.
+// Turn donation options on or off (true=on | false=off)
+// Reward coins
+$coins_enabled = true;
+// Remove karma
+$karma_enabled = true;
+
+// COINS
+// Define coin option 1, price of the donation and the reward coins amount.
 $donatecoinamount1 = 1;
 $donatecoinreward1 = 1;
 
-// Define coin option 2, coin amount and donate amount.
+// Define coin option 2, price of the donation and the reward coins amount.
 $donatecoinamount2 = 5;
 $donatecoinreward2 = 6;
 
-// Define coin option 3, coin amount and donate amount.
+// Define coin option 3, price of the donation and the reward coins amount.
 $donatecoinamount3 = 10;
 $donatecoinreward3 = 15;
 
-// Define coin option 4, coin amount and donate amount.
+// Define coin option 4, price of the donation and the reward coins amount.
 $donatecoinamount4 = 20;
 $donatecoinreward4 = 40;
 
+// KARMA
+// Define karma option 1, price of the donation and the amount of karma that needs to be removed.
+$donatekarmaamount1 = 2;
+$donateremovekarma1 = 2000;
+
+// Define karma option 2, price of the donation and the amount of karma that needs to be removed.
+$donatekarmaamount2 = 3;
+$donateremovekarma2 = 4000;
+
+// Define karma option 3, price of the donation and the amount of karma that needs to be removed.
+$donatekarmaamount3 = 5;
+$donateremovekarma3 = 6000;
+
+// Define karma option 4, price of the donation. (All karma gets removed)
+$donatekarmaallamount = 10;
+
 // Enable or Disable Telnet, require config (true=on | false=off )
 // Default: false
-$use_telnet = false;
+$use_telnet = true;
 
 // Turn error reporting on or off (true=on | false=off)
 // NOTE: this option only applies to errors to end users
