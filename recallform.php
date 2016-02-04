@@ -29,6 +29,12 @@
 								<option value="Karma"><?php echo $lang['message_8']; echo ' '; echo $lang['message_9'];?></option>
 								<?php 
 							}
+						if ($pkpoints_enabled == true)
+							{
+								?>
+								<option value="Pkpoints"><?php echo $lang['message_8']; echo ' '; echo $lang['message_11'];?></option>
+								<?php 
+							}
 					?>
 				</select>
 				</p>
