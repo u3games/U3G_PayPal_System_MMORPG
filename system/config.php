@@ -48,8 +48,8 @@ $urlipn = 'https://yourwebsite.com/system/ipn';
 
 // File location for your /done.php thank you page
 // Notice this value is used to post back from paypal to your website always use full adress
-// Default: https://yourwebsite.com/done.php
-$ipnthnx = 'https://yourwebsite.com/done.php';
+// Default: https://yourwebsite.com
+$ipnthnx = 'https://yourwebsite.com';
 
 // Define the currency you want to use for paypal
 // You can find them here https://developer.paypal.com/docs/classic/api/currency_codes/
