@@ -23,8 +23,10 @@ $lang['message_7'] = 'SANDBOX MODE';
 $lang['message_8'] = 'Remove';
 $lang['message_9'] = 'karma';
 $lang['message_10'] = 'Remove all karma';
+$lang['message_11'] = 'PK points';
+$lang['message_12'] = 'Remove all PK points';
 
-$lang['recallform_1'] = 'Characters is online! Disconnect the characters to make the donation.';
+$lang['recallform_1'] = 'Character is online! Disconnect the character to make the donation.';
 $lang['recallform_2'] = 'Please insert a minimal of 3 characters.';
 $lang['recallform_3'] = 'You forgot to type a Character name.';
 $lang['recallform_4'] = 'Maximum of 35 characters is allowed.';
