@@ -191,10 +191,10 @@ include_once 'common.php';
 											}
 												else
 												{
-													// Checks if the character is online and if the coins option is selected
+													// Checks if the character is online
 													if ($onlinearray == 1)
 													{
-														//Checks if telnet is enabled in the config
+														// Checks if telnet is enabled in the config and if the coins option is selected
 														if (($use_telnet == true) && ($donation_select == $donation_option1))
 														{
 																// character is online and the coin option is selected.
