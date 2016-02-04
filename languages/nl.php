@@ -23,6 +23,8 @@ $lang['message_7'] = 'SANDBOX MODE';
 $lang['message_8'] = 'Verwijder';
 $lang['message_9'] = 'karma';
 $lang['message_10'] = 'Vewijder alle karma';
+$lang['message_11'] = 'PK punten';
+$lang['message_12'] = 'Vewijder alle PK punten';
 
 $lang['recallform_1'] = 'karakter is online! Verbreek de verbinding om verder te gaan met de donatie.';
 $lang['recallform_2'] = 'Uw karakter naam moet minimaal 3 karakters bevatten.';
