@@ -35,14 +35,16 @@ include_once 'common.php';
 				$connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
 				//query for checking if character exists
-				$character_row = $connection->prepare('SELECT char_name FROM characters WHERE char_name = :charname LIMIT 1');
-				$character_row->execute(array(':charname' => $charname));
+				$character_row = $connection->prepare('SELECT char_name FROM characters WHERE char_name = ? LIMIT 1');
+				$character_row->bindValue(1, $charname, PDO::PARAM_STR);
+				$character_row->execute();
 				$character_row_fetch = $character_row->fetchAll();
 				$character_row_count = count($character_row_fetch);
 
 				// Check if character is online
-				$onlinechar_row = $connection->prepare('SELECT online FROM characters WHERE char_name = :charname LIMIT 1');
-				$onlinechar_row->execute(array(':charname' => $charname));
+				$onlinechar_row = $connection->prepare('SELECT online FROM characters WHERE char_name = ? LIMIT 1');
+				$onlinechar_row->bindValue(1, $charname, PDO::PARAM_STR);
+				$onlinechar_row->execute();
 				$character_row_fetch = $onlinechar_row->fetchAll();
 						
 			if (!isset($character_row_fetch[0]['online']))
@@ -69,7 +71,7 @@ include_once 'common.php';
 				$local_log_file = $log_location;
 
 				//logging: Timestamp
-				$local_log = '['.date('m/d/Y g:i A').'] - '; 
+				$local_log = '['.date('m/d/Y g:i A').'] - ';
 
 				//logging: response from the server
 				$local_log .= "INDEX.PHP ERROR: ". $e->getMessage();	
@@ -80,7 +82,7 @@ include_once 'common.php';
 				fwrite($fp, $local_log . ""); 
 
 				// close file
-				fclose($fp);  
+				fclose($fp);
 			}
 		}
 	}
@@ -126,6 +128,12 @@ include_once 'common.php';
 														<option value="Karma"><?php echo $lang['message_8']; echo ' '; echo $lang['message_9'];?></option>
 														<?php 
 													}
+												if ($pkpoints_enabled == true)
+													{
+														?>
+														<option value="Pkpoints"><?php echo $lang['message_8']; echo ' '; echo $lang['message_11'];?></option>
+														<?php
+													}
 											?>
 											</select>
 											</p>
@@ -155,6 +163,7 @@ include_once 'common.php';
 						
 						$donation_option1 = 'Coins';
 						$donation_option2 = 'Karma';
+						$donation_option3 = 'Pkpoints';
 							// Checks the connection
 							if ($connection == true)
 							{
@@ -183,10 +192,10 @@ include_once 'common.php';
 												else
 												{
 													// Checks if the character is online and if the coins option is selected
-													if ($onlinearray == 1 && $donation_select === $donation_option1)
+													if ($onlinearray == 1)
 													{
 														//Checks if telnet is enabled in the config
-														if ($use_telnet == true)
+														if (($use_telnet == true) && ($donation_select == $donation_option1))
 														{
 																// character is online and the coin option is selected.
 												?>
@@ -232,10 +241,32 @@ include_once 'common.php';
 																			</td><td>
 																			<!-- The amount of the transaction: -->
 																			<select name="amount" style="width: 150px">
-																				<option value="<?php echo $donatecoinamount1?>"><?php echo $donatecoinreward1?> <?php echo $lang['message_6']; echo' '; echo $currency_code_html; ?><?php echo $donatecoinamount1?>.00 </option>
-																				<option value="<?php echo $donatecoinamount2?>"><?php echo $donatecoinreward2?> <?php echo $lang['message_6']; echo' '; echo $currency_code_html;?><?php echo $donatecoinamount2?>.00</option>
-																				<option value="<?php echo $donatecoinamount3?>"><?php echo $donatecoinreward3?> <?php echo $lang['message_6']; echo' '; echo $currency_code_html;?><?php echo $donatecoinamount3?>.00</option>
-																				<option value="<?php echo $donatecoinamount4?>"><?php echo $donatecoinreward4?> <?php echo $lang['message_6']; echo' '; echo $currency_code_html;?><?php echo $donatecoinamount4?>.00</option>
+																				<?php 
+																					if ($coins1_enabled == true)
+																						{
+																							?>
+																							<option value="<?php echo $donatecoinamount1?>"><?php echo $donatecoinreward1?> <?php echo $lang['message_6']; echo' '; echo $currency_code_html; ?><?php echo $donatecoinamount1?>.00 </option>
+																				<?php		
+																						}
+																					if ($coins2_enabled == true)
+																						{
+																							?>
+																							<option value="<?php echo $donatecoinamount2?>"><?php echo $donatecoinreward2?> <?php echo $lang['message_6']; echo' '; echo $currency_code_html;?><?php echo $donatecoinamount2?>.00</option>
+																							<?php		
+																						}
+																					if ($coins3_enabled == true)
+																						{
+																							?>
+																							<option value="<?php echo $donatecoinamount3?>"><?php echo $donatecoinreward3?> <?php echo $lang['message_6']; echo' '; echo $currency_code_html;?><?php echo $donatecoinamount3?>.00</option>
+																							<?php		
+																						}
+																					if ($coins4_enabled == true)
+																						{
+																							?>
+																							<option value="<?php echo $donatecoinamount4?>"><?php echo $donatecoinreward4?> <?php echo $lang['message_6']; echo' '; echo $currency_code_html;?><?php echo $donatecoinamount4?>.00</option>
+																							<?php
+																						}
+																							?>
 																			</select>
 																			</td></tr></table>
 																	</center>
@@ -313,29 +344,104 @@ include_once 'common.php';
 																					{	
 																						echo $lang['message_8'];
 																					}
+																				// PK points messagebox text
+																				if ($donation_select == $donation_option3)
+																					{	
+																						echo $lang['message_8'];
+																					}
 																			?>
 																		</td><td>
 																		<!-- The amount of the transaction: -->
 																		<select name="amount" style="width: 150px">
-																			<?php 
+																			<?php
+																				// COINS
 																				if ($donation_select == $donation_option1)
 																				{
-																			?>
-																					<option value="<?php echo $donatecoinamount1?>"><?php echo $donatecoinreward1?> <?php echo $lang['message_6']; echo' '; echo $currency_code_html; ?><?php echo $donatecoinamount1?>.00 </option>
-																					<option value="<?php echo $donatecoinamount2?>"><?php echo $donatecoinreward2?> <?php echo $lang['message_6']; echo' '; echo $currency_code_html;?><?php echo $donatecoinamount2?>.00</option>
-																					<option value="<?php echo $donatecoinamount3?>"><?php echo $donatecoinreward3?> <?php echo $lang['message_6']; echo' '; echo $currency_code_html;?><?php echo $donatecoinamount3?>.00</option>
-																					<option value="<?php echo $donatecoinamount4?>"><?php echo $donatecoinreward4?> <?php echo $lang['message_6']; echo' '; echo $currency_code_html;?><?php echo $donatecoinamount4?>.00</option>
-																			<?php 
+																					if ($coins1_enabled == true)
+																						{
+																							?>
+																							<option value="<?php echo $donatecoinamount1?>"><?php echo $donatecoinreward1?> <?php echo $lang['message_6']; echo' '; echo $currency_code_html; ?><?php echo $donatecoinamount1?>.00 </option>
+																				<?php		
+																						}
+																					if ($coins2_enabled == true)
+																						{
+																							?>
+																							<option value="<?php echo $donatecoinamount2?>"><?php echo $donatecoinreward2?> <?php echo $lang['message_6']; echo' '; echo $currency_code_html;?><?php echo $donatecoinamount2?>.00</option>
+																							<?php		
+																						}
+																					if ($coins3_enabled == true)
+																						{
+																							?>
+																				<option value="<?php echo $donatecoinamount3?>"><?php echo $donatecoinreward3?> <?php echo $lang['message_6']; echo' '; echo $currency_code_html;?><?php echo $donatecoinamount3?>.00</option>
+																				<?php		
+																						}
+																					if ($coins4_enabled == true)
+																						{
+																							?>
+																							<option value="<?php echo $donatecoinamount4?>"><?php echo $donatecoinreward4?> <?php echo $lang['message_6']; echo' '; echo $currency_code_html;?><?php echo $donatecoinamount4?>.00</option>
+																							<?php
+																						} 
 																				}
+																							?>
+																			<?php
+																				// KARMA
+																				if ($donation_select == $donation_option2)
+																				{
+																					if ($karma1_enabled == true)
+																						{
+																							?>
+																							<option value="<?php echo $donatekarmaamount1?>"><?php echo $lang['message_8']?> <?php echo' '; echo $donateremovekarma1;?><?php echo' '; echo $lang['message_9']; echo' '; echo $currency_code_html; ?><?php echo $donatekarmaamount1?>.00 </option>
+																							<?php		
+																						}
+																					if ($karma2_enabled == true)
+																						{
+																							?>
+																							<option value="<?php echo $donatekarmaamount2?>"><?php echo $lang['message_8']?> <?php echo' '; echo $donateremovekarma2;?><?php echo' '; echo $lang['message_9']; echo' '; echo $currency_code_html; ?><?php echo $donatekarmaamount2?>.00 </option>
+																							<?php		
+																						}
+																					if ($karma3_enabled == true)
+																						{
+																							?>
+																							<option value="<?php echo $donatekarmaamount3?>"><?php echo $lang['message_8']?> <?php echo' '; echo $donateremovekarma3;?><?php echo' '; echo $lang['message_9']; echo' '; echo $currency_code_html; ?><?php echo $donatekarmaamount3?>.00 </option>
+																							<?php		
+																						}
+																					if ($karma4_enabled == true)
+																						{
+																							?>
+																							<option value="<?php echo $donatekarmaallamount?>"><?php echo $lang['message_10']?> <?php echo' '; echo $currency_code_html;?><?php echo $donatekarmaallamount?>.00</option>
+																							<?php
+																						}																			
+																					}
 																			?>
-																			<?php if ($donation_select == $donation_option2)
-																			{	?>
-																					<option value="<?php echo $donatekarmaamount1?>"><?php echo $lang['message_8']?> <?php echo' '; echo $donateremovekarma1;?><?php echo' '; echo $lang['message_9']; echo' '; echo $currency_code_html; ?><?php echo $donatekarmaamount1?>.00 </option>
-																					<option value="<?php echo $donatekarmaamount2?>"><?php echo $lang['message_8']?> <?php echo' '; echo $donateremovekarma2;?><?php echo' '; echo $lang['message_9']; echo' '; echo $currency_code_html; ?><?php echo $donatekarmaamount2?>.00 </option>
-																					<option value="<?php echo $donatekarmaamount3?>"><?php echo $lang['message_8']?> <?php echo' '; echo $donateremovekarma3;?><?php echo' '; echo $lang['message_9']; echo' '; echo $currency_code_html; ?><?php echo $donatekarmaamount3?>.00 </option>
-																					<option value="<?php echo $donatekarmaallamount?>"><?php echo $lang['message_10']?> <?php echo' '; echo $currency_code_html;?><?php echo $donatekarmaallamount?>.00</option>
-																			<?php 
-																			}
+																			<?php
+																				// PK POINTS
+																				if ($donation_select == $donation_option3)
+																				{	
+																					if ($pkpoints1_enabled == true)
+																						{
+																							?>
+																							<option value="<?php echo $donatepkamount1?>"><?php echo $lang['message_8']?> <?php echo' '; echo $donateremovepk1;?><?php echo' '; echo $lang['message_11']; echo' '; echo $currency_code_html; ?><?php echo $donatepkamount1?>.00 </option>
+																							<?php		
+																						}
+																					if ($pkpoints2_enabled == true)
+																						{
+																							?>
+																							<option value="<?php echo $donatepkamount2?>"><?php echo $lang['message_8']?> <?php echo' '; echo $donateremovepk2;?><?php echo' '; echo $lang['message_11']; echo' '; echo $currency_code_html; ?><?php echo $donatepkamount2?>.00 </option>
+																							<?php		
+																						}
+																					if ($pkpoints3_enabled == true)
+																						{
+																							?>
+																							<option value="<?php echo $donatepkamount3?>"><?php echo $lang['message_8']?> <?php echo' '; echo $donateremovepk3;?><?php echo' '; echo $lang['message_11']; echo' '; echo $currency_code_html; ?><?php echo $donatepkamount3?>.00 </option>
+																							<?php		
+																						}
+																					if ($pkpoints4_enabled == true)
+																						{
+																							?>
+																							<option value="<?php echo $donatepkallamount?>"><?php echo $lang['message_12']?> <?php echo' '; echo $currency_code_html;?><?php echo $donatepkallamount?>.00</option>
+																							<?php 
+																						}
+																					}
 																			?>
 																		</select>
 																		</td></tr></table>
