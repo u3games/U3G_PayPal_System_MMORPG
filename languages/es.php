@@ -23,11 +23,13 @@ $lang['message_7'] = 'SANDBOX MODE';
 $lang['message_8'] = 'Remove';
 $lang['message_9'] = 'karma';
 $lang['message_10'] = 'Remove all karma';
+$lang['message_11'] = 'PK points';
+$lang['message_12'] = 'Remove all PK points';
 
 $lang['recallform_1'] = 'El personaje esta conectado! Por favor, desconéctelo para poder realizar la donación.';
 $lang['recallform_2'] = 'Por favor, introduzque un nombre con más de 3 caracteres.';
 $lang['recallform_3'] = 'No has introducido el nombre del personaje, inténtelo de nuevo.';
-$lang['recallform_4'] = 'Has superado el máximo de 35 caracteres.';
+$lang['recallform_4'] = 'Maximum of 35 characters is allowed.';
 $lang['recallform_5'] = 'Ha habido un error al intentar conectar con el Game Server.';
 $lang['recallform_6'] = 'Ha habido un error al intentar conectar con la Base de Datos';
 $lang['recallform_7'] = 'Select a donation option.';
