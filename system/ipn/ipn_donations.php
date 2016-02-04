@@ -47,8 +47,9 @@ if ($p->validate_ipn())
 		$charname = $splitdata[0];
 		$donation_option = $splitdata[1];
 		
-		$donation_option1 = 'coins';
-		$donation_option2 = 'karma';
+		$donation_option1 = 'Coins';
+		$donation_option2 = 'Karma';
+		$donation_option3 = 'Pkpoints';
 		
 		// get transaction_id from paypal ipn data
 		$transid = $p->ipn_data['txn_id'];
@@ -76,6 +77,10 @@ if ($p->validate_ipn())
 			if ($donation_option === $donation_option2)
 				{
 					$pay_text = 'Remove karma';
+				}
+			if ($donation_option === $donation_option3)
+				{
+					$pay_text = 'Remove PK points';
 				}
 			
 			
@@ -108,10 +113,10 @@ if ($p->validate_ipn())
 			$local_log_file = $log_location_ipn;
 
 			// Logging: Timestamp
-			$local_log = '['.date('m/d/Y g:i A').'] - '; 
+			$local_log = '['.date('m/d/Y g:i A').'] - ';
 
 			// Logging: response from the server
-			$local_log .= "IPN_COINS.PHP ERROR: ". $e->getMessage();
+			$local_log .= "IPN DONATIONS ERROR: ". $e->getMessage();
 			$local_log .= '</td></tr><tr><td>';
 
 			// Write to log
@@ -119,13 +124,13 @@ if ($p->validate_ipn())
 			fwrite($fp, $local_log . "");
 
 			// close file
-			fclose($fp);  
+			fclose($fp);
 		}
 
 // COINS DONATION OPTIONS
 if ($donation_option === $donation_option1)
 {
-	// Checks if coins is enabled in the config or else log this maby a exploit attack.
+	// Checks if coins is enabled in the config or else log this.
 	if ($coins_enabled == true)
 	{
 		// Checks if charname exists
@@ -134,60 +139,30 @@ if ($donation_option === $donation_option1)
 			// Donate Rewards Coins I
 			if ($amount == $donatecoinamount1)
 			{
-				// Checks if the character is online and telnet is enabled
-				if (($onlinearray == 1) && ($use_telnet == true))
+				// Checks if coins option 1 is enabled in the config or else make a log.
+				 if ($coins1_enabled == true)
 				{
-					// If character is online lets send some telnet commands
-					$telnet->init();
-					echo $telnet->write("give ".$charname." ".$item_id." ".$donatecoinreward1."");
-					echo $telnet->disconnect(); //TODO: need to check if this is closing the connection
-				}
-				// Else player is offline we will add the items trough a mysql query
-				else
-				{
-					try {
-							// Does the character already have the item ?
-							$sql_have_item = $connection->prepare('SELECT owner_id FROM items WHERE item_id = :item_id AND owner_id = :charId AND loc = :invertory ');
-							$sql_have_item->execute(array(
-							':item_id' => $item_id,
-							':charId' => $charId,
-							':invertory' => $invertory
-							));
-							$sql_have_item_fetch = $sql_have_item->fetchAll();
-							$exist = count($sql_have_item_fetch);
-						} 
-					catch(PDOException $e) 
-						{
-							// Local file reporting
-							// Logging: file location
-							$local_log_file = $log_location_ipn;
-
-							// Logging: Timestamp
-							$local_log = '['.date('m/d/Y g:i A').'] - '; 
-
-							// Logging: response from the server
-							$local_log .= "IPN COINS I ERROR: ". $e->getMessage();
-							$local_log .= '</td></tr><tr><td>';
-
-							// Write to log
-							$fp=fopen($local_log_file,'a');
-							fwrite($fp, $local_log . "\n");
-
-							// Close file
-							fclose($fp);
-						}
-					// If the player already has the item
-					if ($exist>0)
+					// Checks if the character is online and telnet is enabled
+					if (($onlinearray == 1) && ($use_telnet == true))
+					{
+						// If character is online lets send some telnet commands
+						$telnet->init();
+						echo $telnet->write("give ".$charname." ".$item_id." ".$donatecoinreward1."");
+						echo $telnet->disconnect(); //TODO: need to check if this is closing the connection
+					}
+					// Else player is offline we will add the items trough a mysql query
+					else
 					{
 						try {
-								// We will update the invertory
-								$sql_inv_update = $connection->prepare('UPDATE items SET count = count+:donatecoinreward1 WHERE item_id = :item_id AND owner_id = :charId AND loc = :invertory');
-								$sql_inv_update->execute(array(
-								':donatecoinreward1' => $donatecoinreward1,
+								// Does the character already have the item ?
+								$sql_have_item = $connection->prepare('SELECT owner_id FROM items WHERE item_id = :item_id AND owner_id = :charId AND loc = :invertory ');
+								$sql_have_item->execute(array(
 								':item_id' => $item_id,
 								':charId' => $charId,
 								':invertory' => $invertory
 								));
+								$sql_have_item_fetch = $sql_have_item->fetchAll();
+								$exist = count($sql_have_item_fetch);
 							} 
 						catch(PDOException $e) 
 							{
@@ -196,7 +171,7 @@ if ($donation_option === $donation_option1)
 								$local_log_file = $log_location_ipn;
 
 								// Logging: Timestamp
-								$local_log = '['.date('m/d/Y g:i A').'] - '; 
+								$local_log = '['.date('m/d/Y g:i A').'] - ';
 
 								// Logging: response from the server
 								$local_log .= "IPN COINS I ERROR: ". $e->getMessage();
@@ -207,70 +182,127 @@ if ($donation_option === $donation_option1)
 								fwrite($fp, $local_log . "\n");
 
 								// Close file
-								fclose($fp);  
+								fclose($fp);
 							}
+						// If the player already has the item
+						if ($exist>0)
+						{
+							try {
+									// We will update the invertory
+									$sql_inv_update = $connection->prepare('UPDATE items SET count = count+:donatecoinreward1 WHERE item_id = :item_id AND owner_id = :charId AND loc = :invertory');
+									$sql_inv_update->execute(array(
+									':donatecoinreward1' => $donatecoinreward1,
+									':item_id' => $item_id,
+									':charId' => $charId,
+									':invertory' => $invertory
+									));
+								} 
+							catch(PDOException $e)
+								{
+									// Local file reporting
+									// Logging: file location
+									$local_log_file = $log_location_ipn;
+
+									// Logging: Timestamp
+									$local_log = '['.date('m/d/Y g:i A').'] - ';
+
+									// Logging: response from the server
+									$local_log .= "IPN COINS I ERROR: ". $e->getMessage();
+									$local_log .= '</td></tr><tr><td>';
+
+									// Write to log
+									$fp=fopen($local_log_file,'a');
+									fwrite($fp, $local_log . "\n");
+
+									// Close file
+									fclose($fp);
+								}
+						}
+						// Else the player does not have the item,
+						else
+						{
+							try {
+									// now lets first get the latest object_id
+									$sql_no_item = $connection->prepare('SELECT object_id FROM items WHERE item_id = :item_id AND owner_id = :charId AND loc = :invertory ');
+									$sql_no_item->execute(array(
+									':item_id' => $item_id,
+									':charId' => $charId,
+									':invertory' => $invertory
+									));
+
+									// Lets fetch the query
+									$sql_no_item_fetch = $sql_no_item->fetchAll();
+
+									// Object id +1
+									$lastObjId = $sql_no_item_fetch[0]['object_id'] + 1;
+
+									// Finally.. lets put the item in the invertory with the latest object_id
+									$dc_insert_item = $connection->prepare('INSERT INTO items(owner_id, object_id, item_id, count, enchant_level, loc, loc_data, time_of_use, custom_type1, custom_type2, mana_left) VALUES(:charId, :lastObjId, :item_id, :donatecoinreward1, :enchlvl, :invertory, :loc_data, :time_of_use, :custom_type1, :custom_type2, :mana_left )');
+									$dc_insert_item->execute(array(
+									':charId' => $charId,
+									':lastObjId' => $lastObjId,
+									':item_id' => $item_id,
+									':donatecoinreward1' => $donatecoinreward1,
+									':enchlvl' => $enchlvl,
+									':invertory' => $invertory,
+									':loc_data' => $loc_data,
+									':time_of_use' => $time_of_use,
+									':custom_type1' => $custom_type1,
+									':custom_type2' => $custom_type2,
+									':mana_left' => $mana_left
+									));
+								}
+							catch(PDOException $e)
+								{
+									// Local file reporting
+									// Logging: file location
+									$local_log_file = $log_location_ipn;
+
+									// Logging: Timestamp
+									$local_log = '['.date('m/d/Y g:i A').'] - ';
+
+									// Logging: response from the server
+									$local_log .= "IPN COINS I ERROR: ". $e->getMessage();
+									$local_log .= '</td></tr><tr><td>';
+
+									// Write to log
+									$fp=fopen($local_log_file,'a');
+									fwrite($fp, $local_log . "\n");
+
+									// Close file
+									fclose($fp);
+								}
+						}
 					}
-					// Else the player does not have the item,
-					else
-					{
-						try {
-								// now lets first get the latest object_id
-								$sql_no_item = $connection->prepare('SELECT object_id FROM items WHERE item_id = :item_id AND owner_id = :charId AND loc = :invertory ');
-								$sql_no_item->execute(array(
-								':item_id' => $item_id,
-								':charId' => $charId,
-								':invertory' => $invertory
-								));
+				}
+				else
+				{
+					// Local file reporting
+					// Logging: file location
+					$local_log_file = $log_location_ipn;
 
-								// Lets fetch the query
-								$sql_no_item_fetch = $sql_no_item->fetchAll();
+					// Logging: Timestamp
+					$local_log = '['.date('m/d/Y g:i A').'] - ';
 
-								// Object id +1
-								$lastObjId = $sql_no_item_fetch[0]['object_id'] + 1;
+					// Logging: response from the server
+					$local_log .= "IPN COINS I ERROR: Someone tried to enter coins option 1 while disabled in config. Exploit attack ? Charname: ". $charname ." amount:". $amount ." donation option:". $donation_option ."Transaction ID:". $transid;
+					$local_log .= '</td></tr><tr><td>';
 
-								// Finally.. lets put the item in the invertory with the latest object_id
-								$dc_insert_item = $connection->prepare('INSERT INTO items(owner_id, object_id, item_id, count, enchant_level, loc, loc_data, time_of_use, custom_type1, custom_type2, mana_left) VALUES(:charId, :lastObjId, :item_id, :donatecoinreward1, :enchlvl, :invertory, :loc_data, :time_of_use, :custom_type1, :custom_type2, :mana_left )');
-								$dc_insert_item->execute(array(
-								':charId' => $charId,
-								':lastObjId' => $lastObjId,
-								':item_id' => $item_id,
-								':donatecoinreward1' => $donatecoinreward1,
-								':enchlvl' => $enchlvl,
-								':invertory' => $invertory,
-								':loc_data' => $loc_data,
-								':time_of_use' => $time_of_use,
-								':custom_type1' => $custom_type1,
-								':custom_type2' => $custom_type2,
-								':mana_left' => $mana_left
-								));
-							}
-						catch(PDOException $e) 
-							{
-								// Local file reporting
-								// Logging: file location
-								$local_log_file = $log_location_ipn;
+					// Write to log
+					$fp=fopen($local_log_file,'a');
+					fwrite($fp, $local_log . "\n");
 
-								// Logging: Timestamp
-								$local_log = '['.date('m/d/Y g:i A').'] - '; 
-
-								// Logging: response from the server
-								$local_log .= "IPN COINS I ERROR: ". $e->getMessage();
-								$local_log .= '</td></tr><tr><td>';
-
-								// Write to log
-								$fp=fopen($local_log_file,'a');
-								fwrite($fp, $local_log . "\n");
-
-								// Close file
-								fclose($fp);  
-							}
-					}
+					// Close file
+					fclose($fp);				
 				}
 			}
 
 		// Donate Rewards Coins II
 		if ($amount == $donatecoinamount2)
 		{
+			// Checks if coins option 2 is enabled in the config or else make a log.
+			if ($coins2_enabled == true)
+			{
 				// Checks if the character is online and telnet is enabled
 				if (($onlinearray == 1) && ($use_telnet == true))
 				{
@@ -293,14 +325,14 @@ if ($donation_option === $donation_option1)
 							$sql_have_item_fetch = $sql_have_item->fetchAll();
 							$exist = count($sql_have_item_fetch);
 						} 
-					catch(PDOException $e) 
+					catch(PDOException $e)
 						{
 							// Local file reporting
 							// Logging: file location
 							$local_log_file = $log_location_ipn;
 
 							// Logging: Timestamp
-							$local_log = '['.date('m/d/Y g:i A').'] - '; 
+							$local_log = '['.date('m/d/Y g:i A').'] - ';
 
 							// Logging: response from the server
 							$local_log .= "IPN COINS II ERROR: ". $e->getMessage();
@@ -326,14 +358,14 @@ if ($donation_option === $donation_option1)
 								':invertory' => $invertory
 								));
 							} 
-						catch(PDOException $e) 
+						catch(PDOException $e)
 							{
 								// Local file reporting
 								// Logging: file location
 								$local_log_file = $log_location_ipn;
 
 								// Logging: Timestamp
-								$local_log = '['.date('m/d/Y g:i A').'] - '; 
+								$local_log = '['.date('m/d/Y g:i A').'] - ';
 
 								// Logging: response from the server
 								$local_log .= "IPN COINS II ERROR: ". $e->getMessage();
@@ -381,14 +413,14 @@ if ($donation_option === $donation_option1)
 								':mana_left' => $mana_left
 								));
 							}
-						catch(PDOException $e) 
+						catch(PDOException $e)
 							{
 								// Local file reporting
 								// Logging: file location
 								$local_log_file = $log_location_ipn;
 
 								// Logging: Timestamp
-								$local_log = '['.date('m/d/Y g:i A').'] - '; 
+								$local_log = '['.date('m/d/Y g:i A').'] - ';
 
 								// Logging: response from the server
 								$local_log .= "IPN COINS II ERROR: ". $e->getMessage();
@@ -399,15 +431,40 @@ if ($donation_option === $donation_option1)
 								fwrite($fp, $local_log . "\n");
 
 								// Close file
-								fclose($fp);  
+								fclose($fp);
 							}
 					}
 				}
+			}
+			else
+			{
+				// Local file reporting
+				// Logging: file location
+				$local_log_file = $log_location_ipn;
+
+				// Logging: Timestamp
+				$local_log = '['.date('m/d/Y g:i A').'] - ';
+
+				// Logging: response from the server
+				$local_log .= "IPN COINS II ERROR: Someone tried to enter coins option 2 while disabled in config. Exploit attack ? Charname: ". $charname ." amount:". $amount ." donation option:". $donation_option ."Transaction ID:". $transid;
+				$local_log .= '</td></tr><tr><td>';
+
+				// Write to log
+				$fp=fopen($local_log_file,'a');
+				fwrite($fp, $local_log . "\n");
+
+				// Close file
+				fclose($fp);
+			
+			}
 		}
 		
 		// Donate Rewards Coins III
 		if ($amount == $donatecoinamount3)
 		{
+			// Checks if coins option 3 is enabled in the config or else make a log.
+			if ($coins3_enabled == true)
+			{
 				// Checks if the character is online and telnet is enabled
 				if (($onlinearray == 1) && ($use_telnet == true))
 				{
@@ -430,14 +487,14 @@ if ($donation_option === $donation_option1)
 							$sql_have_item_fetch = $sql_have_item->fetchAll();
 							$exist = count($sql_have_item_fetch);
 						} 
-					catch(PDOException $e) 
+					catch(PDOException $e)
 						{
 							// Local file reporting
 							// Logging: file location
 							$local_log_file = $log_location_ipn;
 
 							// Logging: Timestamp
-							$local_log = '['.date('m/d/Y g:i A').'] - '; 
+							$local_log = '['.date('m/d/Y g:i A').'] - ';
 
 							// Logging: response from the server
 							$local_log .= "IPN COINS III ERROR: ". $e->getMessage();
@@ -470,7 +527,7 @@ if ($donation_option === $donation_option1)
 								$local_log_file = $log_location_ipn;
 
 								// Logging: Timestamp
-								$local_log = '['.date('m/d/Y g:i A').'] - '; 
+								$local_log = '['.date('m/d/Y g:i A').'] - ';
 
 								// Logging: response from the server
 								$local_log .= "IPN COINS III ERROR: ". $e->getMessage();
@@ -518,14 +575,14 @@ if ($donation_option === $donation_option1)
 								':mana_left' => $mana_left
 								));
 							}
-						catch(PDOException $e) 
+						catch(PDOException $e)
 							{
 								// Local file reporting
 								// Logging: file location
 								$local_log_file = $log_location_ipn;
 
 								// Logging: Timestamp
-								$local_log = '['.date('m/d/Y g:i A').'] - '; 
+								$local_log = '['.date('m/d/Y g:i A').'] - ';
 
 								// Logging: response from the server
 								$local_log .= "IPN COINS III ERROR: ". $e->getMessage();
@@ -536,15 +593,39 @@ if ($donation_option === $donation_option1)
 								fwrite($fp, $local_log . "\n");
 
 								// Close file
-								fclose($fp);  
+								fclose($fp);
 							}
 					}
 				}
+			}
+			else
+			{
+				// Local file reporting
+				// Logging: file location
+				$local_log_file = $log_location_ipn;
+
+				// Logging: Timestamp
+				$local_log = '['.date('m/d/Y g:i A').'] - ';
+
+				// Logging: response from the server
+				$local_log .= "IPN COINS III ERROR: Someone tried to enter coins option 3 while disabled in config. Exploit attack ? Charname: ". $charname ." amount:". $amount ." donation option:". $donation_option ."Transaction ID:". $transid;
+				$local_log .= '</td></tr><tr><td>';
+
+				// Write to log
+				$fp=fopen($local_log_file,'a');
+				fwrite($fp, $local_log . "\n");
+
+				// Close file
+				fclose($fp);			
+			}
 		}
 		
 		// Donate Rewards Coins IV
 		if ($amount == $donatecoinamount4)
 		{
+			// Checks if coins option 4 is enabled in the config or else make a log.
+			if ($coins4_enabled == true)
+			{
 				// Checks if the character is online and telnet is enabled
 				if (($onlinearray == 1) && ($use_telnet == true))
 				{
@@ -567,14 +648,14 @@ if ($donation_option === $donation_option1)
 							$sql_have_item_fetch = $sql_have_item->fetchAll();
 							$exist = count($sql_have_item_fetch);
 						} 
-					catch(PDOException $e) 
+					catch(PDOException $e)
 						{
 							// Local file reporting
 							// Logging: file location
 							$local_log_file = $log_location_ipn;
 
 							// Logging: Timestamp
-							$local_log = '['.date('m/d/Y g:i A').'] - '; 
+							$local_log = '['.date('m/d/Y g:i A').'] - ';
 
 							// Logging: response from the server
 							$local_log .= "IPN COINS IV ERROR: ". $e->getMessage();
@@ -600,14 +681,14 @@ if ($donation_option === $donation_option1)
 								':invertory' => $invertory
 								));
 							} 
-						catch(PDOException $e) 
+						catch(PDOException $e)
 							{
 								// Local file reporting
 								// Logging: file location
 								$local_log_file = $log_location_ipn;
 
 								// Logging: Timestamp
-								$local_log = '['.date('m/d/Y g:i A').'] - '; 
+								$local_log = '['.date('m/d/Y g:i A').'] - ';
 
 								// Logging: response from the server
 								$local_log .= "IPN COINS IV ERROR: ". $e->getMessage();
@@ -655,17 +736,17 @@ if ($donation_option === $donation_option1)
 								':mana_left' => $mana_left
 								));
 							}
-						catch(PDOException $e) 
+						catch(PDOException $e)
 							{
 								// Local file reporting
 								// Logging: file location
 								$local_log_file = $log_location_ipn;
 
 								// Logging: Timestamp
-								$local_log = '['.date('m/d/Y g:i A').'] - '; 
+								$local_log = '['.date('m/d/Y g:i A').'] - ';
 
 								// Logging: response from the server
-								$local_log .= "IPN_COINS.PHP ERROR: ". $e->getMessage();
+								$local_log .= "IPN COINS IV ERROR: ". $e->getMessage();
 								$local_log .= '</td></tr><tr><td>';
 
 								// Write to log
@@ -678,19 +759,17 @@ if ($donation_option === $donation_option1)
 						}
 					}
 				}
-			}
-			// Else charname does not exists
-			else
+				else
 				{
 					// Local file reporting
 					// Logging: file location
 					$local_log_file = $log_location_ipn;
 
 					// Logging: Timestamp
-					$local_log = '['.date('m/d/Y g:i A').'] - '; 
+					$local_log = '['.date('m/d/Y g:i A').'] - ';
 
 					// Logging: response from the server
-					$local_log .= "IPN COINS ERROR: Charname does not exists ? Charname: ". $charname ." amount:". $amount ." donation option:". $donation_option ."Transaction ID:". $transid;
+					$local_log .= "IPN COINS IV ERROR: Someone tried to enter coins option 4 while disabled in config. Exploit attack ? Charname: ". $charname ." amount:". $amount ." donation option:". $donation_option ."Transaction ID:". $transid;
 					$local_log .= '</td></tr><tr><td>';
 
 					// Write to log
@@ -698,8 +777,31 @@ if ($donation_option === $donation_option1)
 					fwrite($fp, $local_log . "\n");
 
 					// Close file
-					fclose($fp);
+					fclose($fp);			
 				}
+			}
+		}
+		// Else charname does not exists
+		else
+			{
+				// Local file reporting
+				// Logging: file location
+				$local_log_file = $log_location_ipn;
+
+				// Logging: Timestamp
+				$local_log = '['.date('m/d/Y g:i A').'] - ';
+
+				// Logging: response from the server
+				$local_log .= "IPN COINS ERROR: Charname does not exists ? Charname: ". $charname ." amount:". $amount ." donation option:". $donation_option ."Transaction ID:". $transid;
+				$local_log .= '</td></tr><tr><td>';
+
+				// Write to log
+				$fp=fopen($local_log_file,'a');
+				fwrite($fp, $local_log . "\n");
+
+				// Close file
+				fclose($fp);
+			}
 	}
 	// Else Someone tried to enter coins while disabled
 	else
@@ -709,10 +811,10 @@ if ($donation_option === $donation_option1)
 		$local_log_file = $log_location_ipn;
 
 		// Logging: Timestamp
-		$local_log = '['.date('m/d/Y g:i A').'] - '; 
+		$local_log = '['.date('m/d/Y g:i A').'] - ';
 
 		// Logging: response from the server
-		$local_log .= "IPN_COINS.PHP ERROR: Someone tried to enter coins while disabled in config. Exploit attack ? Charname: ". $charname ." amount:". $amount ." donation option:". $donation_option ."Transaction ID:". $transid;
+		$local_log .= "IPN COINS ERROR: Someone tried to enter coins while disabled in config. Exploit attack ? Charname: ". $charname ." amount:". $amount ." donation option:". $donation_option ."Transaction ID:". $transid;
 		$local_log .= '</td></tr><tr><td>';
 
 		// Write to log
@@ -735,6 +837,9 @@ if ($donation_option === $donation_option2)
 				// Donate karma reward I
 				if ($amount == $donatekarmaamount1)
 				{
+					// Checks if karma option 1 is enabled in the config or else make a log.
+					if ($karma1_enabled == true)
+					{
 					try {
 							// How mutch karma on character
 							$karma_amount = $connection->prepare('SELECT karma FROM characters WHERE char_name = :charname');
@@ -750,8 +855,8 @@ if ($donation_option === $donation_option2)
 						if ($karma_amount_fetch[0]['karma'] >= $donateremovekarma1)
 							{
 								// We will update the new karma amount
-								$sql_inv_update = $connection->prepare('UPDATE characters SET karma = :calc_karma WHERE char_name = :charname');
-								$sql_inv_update->execute(array(
+								$sql_stat_update = $connection->prepare('UPDATE characters SET karma = :calc_karma WHERE char_name = :charname');
+								$sql_stat_update->execute(array(
 								':calc_karma' => $calc_karma,
 								':charname' => $charname
 								));
@@ -761,12 +866,11 @@ if ($donation_option === $donation_option2)
 							{
 								// We will set karma to 0
 								$karma_zero = 0;
-								$sql_inv_update = $connection->prepare('UPDATE characters SET karma = :karma_zero WHERE char_name = :charname');
-								$sql_inv_update->execute(array(
+								$sql_stat_update = $connection->prepare('UPDATE characters SET karma = :karma_zero WHERE char_name = :charname');
+								$sql_stat_update->execute(array(
 								':karma_zero' => $karma_zero,
 								':charname' => $charname
 								));
-							
 							}
 						} 
 					catch(PDOException $e) 
@@ -776,7 +880,7 @@ if ($donation_option === $donation_option2)
 							$local_log_file = $log_location_ipn;
 
 							// Logging: Timestamp
-							$local_log = '['.date('m/d/Y g:i A').'] - '; 
+							$local_log = '['.date('m/d/Y g:i A').'] - ';
 
 							// Logging: response from the server
 							$local_log .= "IPN KARMA I ERROR: ". $e->getMessage();
@@ -789,11 +893,35 @@ if ($donation_option === $donation_option2)
 							// Close file
 							fclose($fp);
 						}
-
 					}
+					// Else Someone tried to enter karma 1 while disabled
+					else
+					{
+						// Local file reporting
+						// Logging: file location
+						$local_log_file = $log_location_ipn;
+
+						// Logging: Timestamp
+						$local_log = '['.date('m/d/Y g:i A').'] - ';
+
+						// Logging: response from the server
+						$local_log .= "IPN KARMA I ERROR: Someone tried to enter karma option 1 while disabled in config. Exploit attack ? Charname: ". $charname ." amount:". $amount ." donation option:". $donation_option ."Transaction ID:". $transid;
+						$local_log .= '</td></tr><tr><td>';
+
+						// Write to log
+						$fp=fopen($local_log_file,'a');
+						fwrite($fp, $local_log . "\n");
+
+						// Close file
+						fclose($fp);
+					}
+				}
 				// Donate karma reward II
 				if ($amount == $donatekarmaamount2)
 				{
+					// Checks if karma option 2 is enabled in the config or else make a log.
+					if ($karma2_enabled == true)
+					{
 					try {
 							// How mutch karma on character
 							$karma_amount = $connection->prepare('SELECT karma FROM characters WHERE char_name = :charname');
@@ -801,16 +929,16 @@ if ($donation_option === $donation_option2)
 							':charname' => $charname
 							));
 							$karma_amount_fetch = $karma_amount->fetchAll();
-							
+
 							// Karma minus $donateremovekarma2
 							$calc_karma = $karma_amount_fetch[0]['karma'] - $donateremovekarma2;
-							
+
 						// check if karma is greater  or equal to $donateremovekarma2
 						if ($karma_amount_fetch[0]['karma'] >= $donateremovekarma2)
 							{
 								// We will update the new karma amount
-								$sql_inv_update = $connection->prepare('UPDATE characters SET karma = :calc_karma WHERE char_name = :charname');
-								$sql_inv_update->execute(array(
+								$sql_stat_update = $connection->prepare('UPDATE characters SET karma = :calc_karma WHERE char_name = :charname');
+								$sql_stat_update->execute(array(
 								':calc_karma' => $calc_karma,
 								':charname' => $charname
 								));
@@ -820,8 +948,8 @@ if ($donation_option === $donation_option2)
 							{
 								// We will set karma to 0
 								$karma_zero = 0;
-								$sql_inv_update = $connection->prepare('UPDATE characters SET karma = :karma_zero WHERE char_name = :charname');
-								$sql_inv_update->execute(array(
+								$sql_stat_update = $connection->prepare('UPDATE characters SET karma = :karma_zero WHERE char_name = :charname');
+								$sql_stat_update->execute(array(
 								':karma_zero' => $karma_zero,
 								':charname' => $charname
 								));
@@ -835,7 +963,7 @@ if ($donation_option === $donation_option2)
 							$local_log_file = $log_location_ipn;
 
 							// Logging: Timestamp
-							$local_log = '['.date('m/d/Y g:i A').'] - '; 
+							$local_log = '['.date('m/d/Y g:i A').'] - ';
 
 							// Logging: response from the server
 							$local_log .= "IPN KARMA II ERROR: ". $e->getMessage();
@@ -848,11 +976,35 @@ if ($donation_option === $donation_option2)
 							// Close file
 							fclose($fp);
 						}
-
 					}
+					// Else Someone tried to enter karma 2 while disabled
+					else
+					{
+						// Local file reporting
+						// Logging: file location
+						$local_log_file = $log_location_ipn;
+
+						// Logging: Timestamp
+						$local_log = '['.date('m/d/Y g:i A').'] - ';
+
+						// Logging: response from the server
+						$local_log .= "IPN KARMA II ERROR: Someone tried to enter karma option 2 while disabled in config. Exploit attack ? Charname: ". $charname ." amount:". $amount ." donation option:". $donation_option ."Transaction ID:". $transid;
+						$local_log .= '</td></tr><tr><td>';
+
+						// Write to log
+						$fp=fopen($local_log_file,'a');
+						fwrite($fp, $local_log . "\n");
+
+						// Close file
+						fclose($fp);
+					}
+				}
 				// Donate karma reward III
 				if ($amount == $donatekarmaamount3)
 				{
+					// Checks if karma option 3 is enabled in the config or else make a log.
+					if ($karma3_enabled == true)
+					{
 					try {
 							// How mutch karma on character
 							$karma_amount = $connection->prepare('SELECT karma FROM characters WHERE char_name = :charname');
@@ -860,16 +1012,16 @@ if ($donation_option === $donation_option2)
 							':charname' => $charname
 							));
 							$karma_amount_fetch = $karma_amount->fetchAll();
-							
+
 							// Karma minus $donateremovekarma3
 							$calc_karma = $karma_amount_fetch[0]['karma'] - $donateremovekarma3;
-							
+
 						// check if karma is greater  or equal to $donateremovekarma3
 						if ($karma_amount_fetch[0]['karma'] >= $donateremovekarma3)
 							{
 								// We will update the new karma amount
-								$sql_inv_update = $connection->prepare('UPDATE characters SET karma = :calc_karma WHERE char_name = :charname');
-								$sql_inv_update->execute(array(
+								$sql_stat_update = $connection->prepare('UPDATE characters SET karma = :calc_karma WHERE char_name = :charname');
+								$sql_stat_update->execute(array(
 								':calc_karma' => $calc_karma,
 								':charname' => $charname
 								));
@@ -879,8 +1031,8 @@ if ($donation_option === $donation_option2)
 							{
 								// We will set karma to 0
 								$karma_zero = 0;
-								$sql_inv_update = $connection->prepare('UPDATE characters SET karma = :karma_zero WHERE char_name = :charname');
-								$sql_inv_update->execute(array(
+								$sql_stat_update = $connection->prepare('UPDATE characters SET karma = :karma_zero WHERE char_name = :charname');
+								$sql_stat_update->execute(array(
 								':karma_zero' => $karma_zero,
 								':charname' => $charname
 								));
@@ -894,7 +1046,7 @@ if ($donation_option === $donation_option2)
 							$local_log_file = $log_location_ipn;
 
 							// Logging: Timestamp
-							$local_log = '['.date('m/d/Y g:i A').'] - '; 
+							$local_log = '['.date('m/d/Y g:i A').'] - ';
 
 							// Logging: response from the server
 							$local_log .= "IPN KARMA III ERROR: ". $e->getMessage();
@@ -907,16 +1059,40 @@ if ($donation_option === $donation_option2)
 							// Close file
 							fclose($fp);
 						}
-
 					}
+					// Else Someone tried to enter karma 3 while disabled
+					else
+					{
+						// Local file reporting
+						// Logging: file location
+						$local_log_file = $log_location_ipn;
+
+						// Logging: Timestamp
+						$local_log = '['.date('m/d/Y g:i A').'] - ';
+
+						// Logging: response from the server
+						$local_log .= "IPN KARMA III ERROR: Someone tried to enter karma option 3 while disabled in config. Exploit attack ? Charname: ". $charname ." amount:". $amount ." donation option:". $donation_option ."Transaction ID:". $transid;
+						$local_log .= '</td></tr><tr><td>';
+
+						// Write to log
+						$fp=fopen($local_log_file,'a');
+						fwrite($fp, $local_log . "\n");
+
+						// Close file
+						fclose($fp);
+					}
+				}
 				// Donate karma reward IV
 				if ($amount == $donatekarmaallamount)
 				{
+					// Checks if karma option 4 is enabled in the config or else make a log.
+					if ($karma4_enabled == true)
+					{
 					try {
 							// We will set karma to 0
 							$karma_zero = 0;
-							$sql_inv_update = $connection->prepare('UPDATE characters SET karma = :karma_zero WHERE char_name = :charname');
-							$sql_inv_update->execute(array(
+							$sql_stat_update = $connection->prepare('UPDATE characters SET karma = :karma_zero WHERE char_name = :charname');
+							$sql_stat_update->execute(array(
 							':karma_zero' => $karma_zero,
 							':charname' => $charname
 							));
@@ -928,7 +1104,7 @@ if ($donation_option === $donation_option2)
 							$local_log_file = $log_location_ipn;
 
 							// Logging: Timestamp
-							$local_log = '['.date('m/d/Y g:i A').'] - '; 
+							$local_log = '['.date('m/d/Y g:i A').'] - ';
 
 							// Logging: response from the server
 							$local_log .= "IPN KARMA IV ERROR: ". $e->getMessage();
@@ -941,19 +1117,39 @@ if ($donation_option === $donation_option2)
 							// Close file
 							fclose($fp);
 						}
-
 					}
-					
-				}
+					// Else Someone tried to enter karma 4 while disabled
+					else
+					{
+						// Local file reporting
+						// Logging: file location
+						$local_log_file = $log_location_ipn;
+
+						// Logging: Timestamp
+						$local_log = '['.date('m/d/Y g:i A').'] - ';
+
+						// Logging: response from the server
+						$local_log .= "IPN KARMA IV ERROR: Someone tried to enter karma option 4 while disabled in config. Exploit attack ? Charname: ". $charname ." amount:". $amount ." donation option:". $donation_option ."Transaction ID:". $transid;
+						$local_log .= '</td></tr><tr><td>';
+
+						// Write to log
+						$fp=fopen($local_log_file,'a');
+						fwrite($fp, $local_log . "\n");
+
+						// Close file
+						fclose($fp);
+					}
+				}	
+			}
 				// Else charname does not exists
 				else
 				{
 					// Local file reporting
 					// Logging: file location
 					$local_log_file = $log_location_ipn;
-					
+
 					// Logging: Timestamp
-					$local_log = '['.date('m/d/Y g:i A').'] - '; 
+					$local_log = '['.date('m/d/Y g:i A').'] - ';
 
 					// Logging: response from the server
 					$local_log .= "IPN KARMA ERROR: Charname does not exists ? Charname: ". $charname ." amount:". $amount ." donation option:". $donation_option ."Transaction ID:". $transid;
@@ -975,7 +1171,7 @@ if ($donation_option === $donation_option2)
 			$local_log_file = $log_location_ipn;
 
 			// Logging: Timestamp
-			$local_log = '['.date('m/d/Y g:i A').'] - '; 
+			$local_log = '['.date('m/d/Y g:i A').'] - ';
 
 			// Logging: response from the server
 			$local_log .= "IPN KARMA ERROR: Someone tried to enter karma while disabled in config. Exploit attack ? Charname: ". $charname ." amount:". $amount ." donation option:". $donation_option ."Transaction ID:". $transid;
@@ -990,8 +1186,366 @@ if ($donation_option === $donation_option2)
 		}
 	
 	}
-		
 
+// REMOVE PK POINTS DONATION OPTIONS
+if ($donation_option === $donation_option3)
+	{
+	// Checks if PK Points is enabled in the config or else log this maby a exploit attack.
+	if ($pkpoints_enabled == true)
+	{
+		// Checks if charname exists
+		if ($total>0)
+			{
+				// Donate PK Points reward I
+				if ($amount == $donatepkamount1)
+				{
+					// Checks if option pk points 1 is enabled in the config or else make a log.
+					if ($pkpoints1_enabled == true)
+					{
+					try {
+							// How mutch PK Points on character
+							$pk_points_amount = $connection->prepare('SELECT pkkills FROM characters WHERE char_name = :charname');
+							$pk_points_amount->execute(array(
+							':charname' => $charname
+							));
+							$pk_amount_fetch = $pk_points_amount->fetchAll();
+
+							// PK Points minus $donateremovepk1
+							$calc_pkkills = $pk_amount_fetch[0]['pkkills'] - $donateremovepk1;
+
+						// check if PK Points is greater  or equal to $donateremovepk1
+						if ($pk_amount_fetch[0]['pkkills'] >= $donateremovepk1)
+							{
+								// We will update the new PK Points amount
+								$sql_stat_update = $connection->prepare('UPDATE characters SET pkkills = :calc_pkkills WHERE char_name = :charname');
+								$sql_stat_update->execute(array(
+								':calc_pkkills' => $calc_pkkills,
+								':charname' => $charname
+								));
+							}
+						// Player got less PK Points then hes trying to remove we set PK Points to 0
+						else
+							{
+								// We will set pkkills to 0
+								$pkkills_zero = 0;
+								$sql_stat_update = $connection->prepare('UPDATE characters SET pkkills = :pkkills_zero WHERE char_name = :charname');
+								$sql_stat_update->execute(array(
+								':pkkills_zero' => $pkkills_zero,
+								':charname' => $charname
+								));
+							}
+						} 
+					catch(PDOException $e) 
+						{
+							// Local file reporting
+							// Logging: file location
+							$local_log_file = $log_location_ipn;
+
+							// Logging: Timestamp
+							$local_log = '['.date('m/d/Y g:i A').'] - ';
+
+							// Logging: response from the server
+							$local_log .= "IPN PK POINTS I ERROR: ". $e->getMessage();
+							$local_log .= '</td></tr><tr><td>';
+
+							// Write to log
+							$fp=fopen($local_log_file,'a');
+							fwrite($fp, $local_log . "\n");
+
+							// Close file
+							fclose($fp);
+						}
+					}
+					// Else Someone tried to enter pk points 1 while disabled
+					else
+					{
+						// Local file reporting
+						// Logging: file location
+						$local_log_file = $log_location_ipn;
+
+						// Logging: Timestamp
+						$local_log = '['.date('m/d/Y g:i A').'] - ';
+
+						// Logging: response from the server
+						$local_log .= "IPN PK POINTS I ERROR: Someone tried to enter PK Points option 1 while disabled in config. Exploit attack ? Charname: ". $charname ." amount:". $amount ." donation option:". $donation_option ."Transaction ID:". $transid;
+						$local_log .= '</td></tr><tr><td>';
+
+						// Write to log
+						$fp=fopen($local_log_file,'a');
+						fwrite($fp, $local_log . "\n");
+
+						// Close file
+						fclose($fp);
+					}
+				}
+				// Donate PK Points reward II
+				if ($amount == $donatepkamount2)
+				{
+					// Checks if option pk points 2 is enabled in the config or else make a log.
+					if ($pkpoints2_enabled == true)
+					{
+					try {
+							// How mutch PK Points on character
+							$pk_points_amount = $connection->prepare('SELECT pkkills FROM characters WHERE char_name = :charname');
+							$pk_points_amount->execute(array(
+							':charname' => $charname
+							));
+							$pk_amount_fetch = $pk_points_amount->fetchAll();
+
+							// PK Points minus $donateremovepk2
+							$calc_pkkills = $pk_amount_fetch[0]['pkkills'] - $donateremovepk2;
+
+						// check if PK Points is greater  or equal to $donateremovepk2
+						if ($pk_amount_fetch[0]['pkkills'] >= $donateremovepk2)
+							{
+								// We will update the new PK Points amount
+								$sql_stat_update = $connection->prepare('UPDATE characters SET pkkills = :calc_pkkills WHERE char_name = :charname');
+								$sql_stat_update->execute(array(
+								':calc_pkkills' => $calc_pkkills,
+								':charname' => $charname
+								));
+							}
+						// Player got less PK Points then hes trying to remove we set PK Points to 0
+						else
+							{
+								// We will set pkkills to 0
+								$pkkills_zero = 0;
+								$sql_stat_update = $connection->prepare('UPDATE characters SET pkkills = :pkkills_zero WHERE char_name = :charname');
+								$sql_stat_update->execute(array(
+								':pkkills_zero' => $pkkills_zero,
+								':charname' => $charname
+								));
+							
+							}
+						}
+					catch(PDOException $e) 
+						{
+							// Local file reporting
+							// Logging: file location
+							$local_log_file = $log_location_ipn;
+
+							// Logging: Timestamp
+							$local_log = '['.date('m/d/Y g:i A').'] - ';
+
+							// Logging: response from the server
+							$local_log .= "IPN PK POINTS II ERROR: ". $e->getMessage();
+							$local_log .= '</td></tr><tr><td>';
+
+							// Write to log
+							$fp=fopen($local_log_file,'a');
+							fwrite($fp, $local_log . "\n");
+
+							// Close file
+							fclose($fp);
+						}
+					}
+					// Else Someone tried to enter pk points 2 while disabled
+					else
+					{
+						// Local file reporting
+						// Logging: file location
+						$local_log_file = $log_location_ipn;
+
+						// Logging: Timestamp
+						$local_log = '['.date('m/d/Y g:i A').'] - ';
+
+						// Logging: response from the server
+						$local_log .= "IPN PK POINTS II ERROR: Someone tried to enter PK Points option 2 while disabled in config. Exploit attack ? Charname: ". $charname ." amount:". $amount ." donation option:". $donation_option ."Transaction ID:". $transid;
+						$local_log .= '</td></tr><tr><td>';
+
+						// Write to log
+						$fp=fopen($local_log_file,'a');
+						fwrite($fp, $local_log . "\n");
+
+						// Close file
+						fclose($fp);
+					}
+				}
+				// Donate PK Points reward III
+				if ($amount == $donatepkamount3)
+				{
+					// Checks if option pk points 3 is enabled in the config or else make a log.
+					if ($pkpoints3_enabled == true)
+					{
+					try {
+							// How mutch PK Points on character
+							$pk_points_amount = $connection->prepare('SELECT pkkills FROM characters WHERE char_name = :charname');
+							$pk_points_amount->execute(array(
+							':charname' => $charname
+							));
+							$pk_amount_fetch = $pk_points_amount->fetchAll();
+							
+							// PK Points minus $donateremovepk3
+							$calc_pkkills = $pk_amount_fetch[0]['pkkills'] - $donateremovepk3;
+
+						// check if PK Points is greater  or equal to $donateremovepk3
+						if ($pk_amount_fetch[0]['pkkills'] >= $donateremovepk3)
+							{
+								// We will update the new PK Points amount
+								$sql_stat_update = $connection->prepare('UPDATE characters SET pkkills = :calc_pkkills WHERE char_name = :charname');
+								$sql_stat_update->execute(array(
+								':calc_pkkills' => $calc_pkkills,
+								':charname' => $charname
+								));
+							}
+						// Player got less PK Points then hes trying to remove we set PK Points to 0
+						else
+							{
+								// We will set pkkills to 0
+								$pkkills_zero = 0;
+								$sql_stat_update = $connection->prepare('UPDATE characters SET pkkills = :pkkills_zero WHERE char_name = :charname');
+								$sql_stat_update->execute(array(
+								':pkkills_zero' => $pkkills_zero,
+								':charname' => $charname
+								));
+							}
+						} 
+					catch(PDOException $e) 
+						{
+							// Local file reporting
+							// Logging: file location
+							$local_log_file = $log_location_ipn;
+
+							// Logging: Timestamp
+							$local_log = '['.date('m/d/Y g:i A').'] - ';
+
+							// Logging: response from the server
+							$local_log .= "IPN PK POINTS III ERROR: ". $e->getMessage();
+							$local_log .= '</td></tr><tr><td>';
+
+							// Write to log
+							$fp=fopen($local_log_file,'a');
+							fwrite($fp, $local_log . "\n");
+
+							// Close file
+							fclose($fp);
+						}
+					}
+					// Else Someone tried to enter pk points 3 while disabled
+					else
+					{
+						// Local file reporting
+						// Logging: file location
+						$local_log_file = $log_location_ipn;
+
+						// Logging: Timestamp
+						$local_log = '['.date('m/d/Y g:i A').'] - ';
+
+						// Logging: response from the server
+						$local_log .= "IPN PK POINTS III ERROR: Someone tried to enter PK Points option 3 while disabled in config. Exploit attack ? Charname: ". $charname ." amount:". $amount ." donation option:". $donation_option ."Transaction ID:". $transid;
+						$local_log .= '</td></tr><tr><td>';
+
+						// Write to log
+						$fp=fopen($local_log_file,'a');
+						fwrite($fp, $local_log . "\n");
+
+						// Close file
+						fclose($fp);
+					}
+				}
+				// Donate PK Points reward IV
+				if ($amount == $donatekarmaallamount)
+				{
+					// Checks if option pk points 4 is enabled in the config or else make a log.
+					if ($pkpoints4_enabled == true)
+					{
+					try {
+								// We will set pkkills to 0
+								$pkkills_zero = 0;
+								$sql_stat_update = $connection->prepare('UPDATE characters SET pkkills = :pkkills_zero WHERE char_name = :charname');
+								$sql_stat_update->execute(array(
+								':pkkills_zero' => $pkkills_zero,
+								':charname' => $charname
+								));
+						}
+					catch(PDOException $e)
+						{
+							// Local file reporting
+							// Logging: file location
+							$local_log_file = $log_location_ipn;
+
+							// Logging: Timestamp
+							$local_log = '['.date('m/d/Y g:i A').'] - ';
+
+							// Logging: response from the server
+							$local_log .= "IPN PK POINTS IV ERROR: ". $e->getMessage();
+							$local_log .= '</td></tr><tr><td>';
+
+							// Write to log
+							$fp=fopen($local_log_file,'a');
+							fwrite($fp, $local_log . "\n");
+
+							// Close file
+							fclose($fp);
+						}
+					}
+					// Else Someone tried to enter pk points 4 while disabled
+					else
+					{
+						// Local file reporting
+						// Logging: file location
+						$local_log_file = $log_location_ipn;
+
+						// Logging: Timestamp
+						$local_log = '['.date('m/d/Y g:i A').'] - '; 
+
+						// Logging: response from the server
+						$local_log .= "IPN PK POINTS IV ERROR: Someone tried to enter PK Points option 4 while disabled in config. Exploit attack ? Charname: ". $charname ." amount:". $amount ." donation option:". $donation_option ."Transaction ID:". $transid;
+						$local_log .= '</td></tr><tr><td>';
+
+						// Write to log
+						$fp=fopen($local_log_file,'a');
+						fwrite($fp, $local_log . "\n");
+
+						// Close file
+						fclose($fp);
+					}
+				}
+			}
+				// Else charname does not exists
+				else
+				{
+					// Local file reporting
+					// Logging: file location
+					$local_log_file = $log_location_ipn;
+
+					// Logging: Timestamp
+					$local_log = '['.date('m/d/Y g:i A').'] - ';
+
+					// Logging: response from the server
+					$local_log .= "IPN PK POINTS ERROR: Charname does not exists ? Charname: ". $charname ." amount:". $amount ." donation option:". $donation_option ."Transaction ID:". $transid;
+					$local_log .= '</td></tr><tr><td>';
+
+					// Write to log
+					$fp=fopen($local_log_file,'a');
+					fwrite($fp, $local_log . "\n");
+
+					// Close file
+					fclose($fp);
+				}
+			}
+		// Else Someone tried to enter pk points 4 while disabled
+		else
+		{
+			// Local file reporting
+			// Logging: file location
+			$local_log_file = $log_location_ipn;
+
+			// Logging: Timestamp
+			$local_log = '['.date('m/d/Y g:i A').'] - ';
+
+			// Logging: response from the server
+			$local_log .= "IPN PK POINTS ERROR: Someone tried to enter PK Points option 4 while disabled in config. Exploit attack ? Charname: ". $charname ." amount:". $amount ." donation option:". $donation_option ."Transaction ID:". $transid;
+			$local_log .= '</td></tr><tr><td>';
+
+			// Write to log
+			$fp=fopen($local_log_file,'a');
+			fwrite($fp, $local_log . "\n");
+
+			// Close file
+			fclose($fp);
+		}
+		}
 	}
 }
 ?>
