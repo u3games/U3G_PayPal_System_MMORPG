@@ -48,8 +48,8 @@ $urlipn = 'https://yourwebsite.com/system/ipn';
 
 // File location for your /done.php thank you page
 // Notice this value is used to post back from paypal to your website always use full adress
-// Default: https://yourwebsite.com
-$ipnthnx = 'https://yourwebsite.com';
+// Default: https://yourwebsite.com/done.php
+$ipnthnx = 'https://yourwebsite.com/done.php';
 
 // Define the currency you want to use for paypal
 // You can find them here https://developer.paypal.com/docs/classic/api/currency_codes/
@@ -66,39 +66,100 @@ $item_id = '3470'; // Gold Bar
 $coins_enabled = true;
 // Remove karma
 $karma_enabled = true;
+// Remove PK points
+$pkpoints_enabled = true;
 
-// COINS
-// Define coin option 1, price of the donation and the reward coins amount.
+/**
+ * COIN OPTIONS
+ */
+ 
+// Define coin option 1 (true=on | false=off)
+$coins1_enabled = true;
+// price of the donation.
 $donatecoinamount1 = 1;
+// The reward coins amount.
 $donatecoinreward1 = 1;
 
-// Define coin option 2, price of the donation and the reward coins amount.
+// Define coin option 2 (true=on | false=off)
+$coins2_enabled = true;
+// Price of the donation.
 $donatecoinamount2 = 5;
+//  The reward coins amount.
 $donatecoinreward2 = 6;
 
-// Define coin option 3, price of the donation and the reward coins amount.
+// Define coin option 3 (true=on | false=off)
+$coins3_enabled = true;
+// Price of the donation.
 $donatecoinamount3 = 10;
+// The reward coins amount.
 $donatecoinreward3 = 15;
 
-// Define coin option 4, price of the donation and the reward coins amount.
+// Define coin option 4 (true=on | false=off)
+$coins4_enabled = true;
+// Price of the donation.
 $donatecoinamount4 = 20;
+// The reward coins amount.
 $donatecoinreward4 = 40;
 
-// KARMA
-// Define karma option 1, price of the donation and the amount of karma that needs to be removed.
+/**
+ * KARMA OPTIONS
+ */
+ 
+// Define karma option 1 (true=on | false=off)
+$karma1_enabled = true;
+// Price of the donation.
 $donatekarmaamount1 = 2;
+// The amount of karma that needs to be removed.
 $donateremovekarma1 = 2000;
 
-// Define karma option 2, price of the donation and the amount of karma that needs to be removed.
+// Define karma option 2 (true=on | false=off)
+$karma2_enabled = true;
+// Price of the donation.
 $donatekarmaamount2 = 3;
+// The amount of karma that needs to be removed.
 $donateremovekarma2 = 4000;
 
-// Define karma option 3, price of the donation and the amount of karma that needs to be removed.
+// Define karma option 3 (true=on | false=off)
+$karma3_enabled = true;
+// Price of the donation.
 $donatekarmaamount3 = 5;
+// The amount of karma that needs to be removed.
 $donateremovekarma3 = 6000;
 
-// Define karma option 4, price of the donation. (All karma gets removed)
+// Define karma option 4 (true=on | false=off)
+$karma4_enabled = true;
+// Price of the donation. (All karma gets removed)
 $donatekarmaallamount = 10;
+
+/**
+ * PK POINTS OPTIONS
+ */
+
+// Define PK points option 1 (true=on | false=off)
+$pkpoints1_enabled = true;
+// Price of the donation.
+$donatepkamount1 = 1;
+// The amount of PK points that needs to be removed.
+$donateremovepk1 = 5;
+
+// Define PK points option 2 (true=on | false=off)
+$pkpoints2_enabled = true;
+// Price of the donation.
+$donatepkamount2 = 2;
+// The amount of PK points that needs to be removed.
+$donateremovepk2 = 11;
+
+// Define PK points option 3 (true=on | false=off)
+$pkpoints3_enabled = true;
+// Price of the donation.
+$donatepkamount3 = 5;
+// The amount of PK points that needs to be removed.
+$donateremovepk3 = 25;
+
+// Define PK points option 4 (true=on | false=off)
+$pkpoints4_enabled = true;
+// Price of the donation. (All pk points gets removed)
+$donatepkallamount = 15;
 
 // Enable or Disable Telnet, require config (true=on | false=off )
 // Default: false
