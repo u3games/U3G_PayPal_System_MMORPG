@@ -207,7 +207,7 @@ include_once 'common.php';
 																	<input type="hidden" name="item_name" value="Donation" />
 																	
 																	<!-- custom field that will be passed to paypal -->
-																	<input type="hidden" name="custom" value="<?php echo $charname?>">
+																	<input type="hidden" name="custom" value="<?php echo $charname?>|<?php echo $donation_select?>">
 																	
 																	<!-- Your PayPal email -->
 																	<input type="hidden" name="business" value="<?php echo $myPayPalEmail?>" />
