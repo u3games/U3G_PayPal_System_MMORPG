@@ -210,4 +210,7 @@ $allowed_client2 = '127.0.0.1';
 $allowed_client3 = '127.0.0.1';
 $allowed_client4 = '127.0.0.1';
 $allowed_client5 = '127.0.0.1';
+
+// Sets the title of all the pages.
+$site_title = 'U3G | PayPal System';
 ?>
