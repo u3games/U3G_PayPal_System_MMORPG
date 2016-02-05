@@ -32,9 +32,9 @@ if ($overview_ip_security == true)
 	if (isset($_POST["submit"]))
 		{
 			
-			// for checks
-			$user = $_POST['username'];
-			$pass = $_POST['password'];
+			// gets the selected option from form
+			$user = htmlspecialchars($_POST['username']);
+			$pass = htmlspecialchars($_POST['password']);
 			
 			//try to make connection or give a error
 			try {
@@ -208,7 +208,7 @@ if ($overview_ip_security == true)
 														 
 														try {
 
-															$result = $connection->query('SELECT * FROM log_paypal_donations ORDER BY dt DESC');
+															$result = $connection->query('SELECT * FROM log_paypal_donations ORDER BY dt ASC');
 															# Map results to object
 															$result->setFetchMode(PDO::FETCH_CLASS, 'log_paypal_donations');
 											
