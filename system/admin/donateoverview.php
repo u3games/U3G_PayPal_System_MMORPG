@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <html>
 <head>
+<?php require '../config.php'; ?>
 	<!-- Title -->
-	<title>U3G | PayPal System</title>
+	<title><?php echo $site_title ?></title>
 	
 	<!-- Meta -->
 	<meta charset="utf-8">
@@ -10,7 +11,6 @@
 	<meta name="description" content="Lineage 2: PayPal System!">
 <?php
 require '../connect.php';
-require '../config.php';
 include_once '../../common.php';
 
 if ($donate_overview == false)
