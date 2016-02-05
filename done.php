@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <html>
 <head>
+<?php require 'system/config.php'; ?>
 	<!-- Title -->
-	<title>U3G | PayPal System</title>
+	<title><?php echo $site_title ?></title>
 	
 	<!-- Meta -->
 	<meta charset="utf-8">
