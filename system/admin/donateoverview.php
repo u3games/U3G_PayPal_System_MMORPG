@@ -208,7 +208,7 @@ if ($overview_ip_security == true)
 														 
 														try {
 
-															$result = $connection->query('SELECT * FROM log_paypal_donations');
+															$result = $connection->query('SELECT * FROM log_paypal_donations ORDER BY dt DESC');
 															# Map results to object
 															$result->setFetchMode(PDO::FETCH_CLASS, 'log_paypal_donations');
 											
