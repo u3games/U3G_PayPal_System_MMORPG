@@ -16,7 +16,7 @@
 				<br>
 				<select name="donation_select">
 				  <option value=""></option>
-					<?php 
+					<?php
 						if ($coins_enabled == true)
 							{
 								?>
@@ -27,18 +27,32 @@
 							{
 								?>
 								<option value="Karma"><?php echo $lang['message_8']; echo ' '; echo $lang['message_9'];?></option>
-								<?php 
+								<?php
 							}
 						if ($pkpoints_enabled == true)
 							{
 								?>
 								<option value="Pkpoints"><?php echo $lang['message_8']; echo ' '; echo $lang['message_11'];?></option>
-								<?php 
+								<?php
 							}
 					?>
 				</select>
 				</p>
 			<table>
+		<?php 
+		if ($use_captcha == true)
+		{?>
+			<tr>
+				<td><center><?php echo $lang['captcha']; ?></center></td>
+			</tr>
+			<tr>
+				<td><input class="input" type="text" name="norobot" value="" style="width: 135px"></td>
+			</tr>
+			<tr>
+				<td><center><img src="system/captcha/captcha.php"></center></td>
+			</tr>
+		<?php
+		}?>
 			<tr>
 				<td><center><input type="submit" name="submit" value="<?php echo $lang['character_button']; ?>"></center></td>
 			</tr>

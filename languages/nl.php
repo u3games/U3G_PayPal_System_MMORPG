@@ -12,6 +12,7 @@ $lang = array();
 $lang['character_name'] = 'karakter naam:';
 $lang['character_button'] = 'karakter bevestigen';
 $lang['select_option'] = 'Selecteer optie';
+$lang['captcha'] = 'Captcha';
 
 $lang['message_1'] = 'Sorrie, karakter';
 $lang['message_2'] = 'bestaat niet.';
@@ -33,6 +34,7 @@ $lang['recallform_4'] = 'Je mag maximum 35 characters gebruiken.';
 $lang['recallform_5'] = 'Kan gamesever database niet selecteren.';
 $lang['recallform_6'] = 'Er kan geen verbinding gemaakt worden naar de server.';
 $lang['recallform_7'] = 'Selecteer een donatie optie.';
+$lang['recallform_8'] = 'Captcha is verkeerd.';
 
 $lang['done_1'] = 'Dank u voor het doneren, controleer nu de donatie in je karakter.';
 $lang['done_2'] = 'Als de donatie niet verschijnt op je karakter, Neem dan contact op met de administratie.';

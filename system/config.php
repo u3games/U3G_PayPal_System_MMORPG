@@ -161,6 +161,10 @@ $pkpoints4_enabled = true;
 // Price of the donation. (All pk points gets removed)
 $donatepkallamount = 15;
 
+// Enable or Disable Captcha (true=on | false=off )
+// Default: true
+$use_captcha = true;
+
 // Enable or Disable Telnet, require config (true=on | false=off )
 // Default: false
 $use_telnet = false;

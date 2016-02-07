@@ -138,6 +138,23 @@ include_once 'common.php';
 											</select>
 											</p>
 										<table>
+								<?php
+								// Enable or disable captcha
+								if ($use_captcha == true)
+									{
+								?>
+										<tr>
+											<td><center><?php echo $lang['captcha']; ?></center></td>
+										</tr>
+										<tr>
+											<td><input class="input" type="text" name="norobot" value="" style="width: 135px"></td>
+										</tr>
+										<tr>
+											<td><center><img src="system/captcha/captcha.php"></center></td>
+										</tr>
+								<?php
+									}
+								?>
 										<tr>
 											<td><center><input type="submit" name="submit" value="<?php echo $lang['character_button']; ?>"></center></td>
 										</tr>
@@ -158,12 +175,26 @@ include_once 'common.php';
 						{
 							sleep($delaytime);
 						}
-						// gets the selected option from form
-						$donation_select = htmlspecialchars($_POST['donation_select']);
+						if ($use_captcha == true)
+						{
+							$captcha_post = htmlspecialchars($_POST['norobot']);
+							$captcha_random_ses = $_SESSION['randomnr2'];
+						}
+						if ($use_captcha == false)
+						{
+							$captcha_post = 1;
+							$captcha_random_ses = md5(1);
+						}
+						// Captcha check
+						if (md5($captcha_post) == $captcha_random_ses)	
+						{
+
+							// gets the selected option from form
+							$donation_select = htmlspecialchars($_POST['donation_select']);
 						
-						$donation_option1 = 'Coins';
-						$donation_option2 = 'Karma';
-						$donation_option3 = 'Pkpoints';
+							$donation_option1 = 'Coins';
+							$donation_option2 = 'Karma';
+							$donation_option3 = 'Pkpoints';
 							// Checks the connection
 							if ($connection == true)
 							{
@@ -230,8 +261,7 @@ include_once 'common.php';
 																	<input type="hidden" name="no_shipping" value="1" />
 																	<input type="hidden" name="lc" value="US" />
 																	<input type="hidden" name="currency_code" value="<?php echo $currency_code?>" />
-																	
-																	<!-- here the amount of the coins donation can be configured visible html only -->
+
 																	<center>
 																		<table>
 																			<tr><td>
@@ -516,12 +546,23 @@ include_once 'common.php';
 					$connection = null;
 				}
 			}
-			if ($use_sandbox == true)
-				{
-					echo $lang['message_7'];
-				}
-					?>
-				</td>
+		//message if captcha is wrong
+		else	
+		{			
+		include("recallform.php");
+		?>
+			<center><?php echo $lang['recallform_8']; ?> </center><br>
+		<?php
+			// set connection to null
+				$connection = null;
+		}
+	}
+	if ($use_sandbox == true)
+		{
+			echo $lang['message_7'];
+		}
+		?>
+			</td>
 			</tr>
 		</table>
 	</body>

@@ -12,6 +12,7 @@ $lang = array();
 $lang['character_name'] = 'Nombre del Personaje:';
 $lang['character_button'] = 'Confirmar Personaje';
 $lang['select_option'] = 'Select option';
+$lang['captcha'] = 'Captcha';
 
 $lang['message_1'] = 'Lo siento, el personaje';
 $lang['message_2'] = 'no existe.';
@@ -33,6 +34,7 @@ $lang['recallform_4'] = 'Maximum of 35 characters is allowed.';
 $lang['recallform_5'] = 'Ha habido un error al intentar conectar con el Game Server.';
 $lang['recallform_6'] = 'Ha habido un error al intentar conectar con la Base de Datos';
 $lang['recallform_7'] = 'Select a donation option.';
+$lang['recallform_8'] = 'Captcha is wrong.';
 
 $lang['done_1'] = 'Gracias por la donación realizada, ahora revisa que el item ha sido enviado al personaje indicado.';
 $lang['done_2'] = 'Si no habéis recibido el item, contacte con la administración antes de realizar una nueva donación.';
