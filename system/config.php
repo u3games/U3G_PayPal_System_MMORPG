@@ -30,7 +30,7 @@ $use_sandbox = true;
 if ($use_sandbox == true)	// <-- there is no need to touch this line.
 {
 	// Test seller account
-	$myPayPalEmail = 'test.seller@Account.com';
+	$myPayPalEmail = 'YourSandboxTestPaypal@Account.com';
 	$payPalURL = "https://www.sandbox.paypal.com/cgi-bin/webscr";
 }
 else
@@ -68,9 +68,12 @@ $coins_enabled = true;
 $karma_enabled = true;
 // Remove PK points
 $pkpoints_enabled = true;
+// Enchant equipped items
+$enchant_item_enabled = true;
 
 /**
  * COIN OPTIONS
+ * IMPORTANT: Always use a different $donatecoinamount price amount on eatch option!!!.
  */
  
 // Define coin option 1 (true=on | false=off)
@@ -103,6 +106,7 @@ $donatecoinreward4 = 40;
 
 /**
  * KARMA OPTIONS
+ * IMPORTANT: Always use a different $donatekarmaamount price on eatch option!!!.
  */
  
 // Define karma option 1 (true=on | false=off)
@@ -133,6 +137,7 @@ $donatekarmaallamount = 10;
 
 /**
  * PK POINTS OPTIONS
+ * IMPORTANT: Always use a different $donatepkamount price on eatch option!!!.
  */
 
 // Define PK points option 1 (true=on | false=off)
@@ -161,10 +166,99 @@ $pkpoints4_enabled = true;
 // Price of the donation. (All pk points gets removed)
 $donatepkallamount = 15;
 
+/**
+ * ENCHANT ITEM OPTIONS
+ */
+
+// Define SHIRT enchant (true=on | false=off)
+$shirt_enchant_enabled = true;
+// Enchant amount.
+$shirt_enchant_amount = 18;
+// Price of the donation.
+$shirt_donate_amount = 10;
+
+// Define HELMET enchant (true=on | false=off)
+$helmet_enchant_enabled = true;
+// Enchant amount.
+$helmet_enchant_amount = 18;
+// Price of the donation.
+$helmet_donate_amount = 10;
+
+// Define NECKLACE enchant (true=on | false=off)
+$necklace_enchant_enabled = true;
+// Enchant amount.
+$necklace_enchant_amount = 18;
+// Price of the donation.
+$necklace_donate_amount = 10;
+
+// Define WEAPON enchant (true=on | false=off)
+$weapon_enchant_enabled = true;
+// Enchant amount.
+$weapon_enchant_amount = 18;
+// Price of the donation.
+$weapon_donate_amount = 10;
+
+// Define BREASTPLATE and FULL ARMOR enchant (true=on | false=off)
+$breastplate_full_enchant_enabled = true;
+// Enchant amount.
+$breastplate_full_enchant_amount = 18;
+// Price of the donation.
+$breastplate_full_donate_amount = 10;
+
+// Define SHIELD enchant (true=on | false=off)
+$shield_enchant_enabled = true;
+// Enchant amount.
+$shield_enchant_amount = 18;
+// Price of the donation.
+$shield_donate_amount = 10;
+
+// Define RINGS  enchant (true=on | false=off)
+$ring_enchant_enabled = true;
+// Enchant amount.
+$ring_enchant_amount = 18;
+// Price of the donation.
+$ring_donate_amount = 15;
+
+// Define EARRINGS enchant (true=on | false=off)
+$earring_enchant_enabled = true;
+// Enchant amount.
+$earring_enchant_amount = 18;
+// Price of the donation.
+$earring_donate_amount = 10;
+
+// Define GLOVES enchant (true=on | false=off)
+$gloves_enchant_enabled = true;
+// Enchant amount.
+$gloves_enchant_amount = 18;
+// Price of the donation.
+$gloves_donate_amount = 10;
+
+// Define LEGGINGS enchant (true=on | false=off)
+$leggings_enchant_enabled = true;
+// Enchant amount.
+$leggings_enchant_amount = 18;
+// Price of the donation.
+$leggings_donate_amount = 10;
+
+// Define BOOTS enchant (true=on | false=off)
+$boots_enchant_enabled = true;
+// Enchant amount.
+$boots_enchant_amount = 18;
+// Price of the donation.
+$boots_donate_amount = 10;
+
+// Define BELT enchant (true=on | false=off)
+$belt_enchant_enabled = true;
+// Enchant amount.
+$belt_enchant_amount = 18;
+// Price of the donation.
+$belt_donate_amount = 10;
+
+
 // Enable or Disable Captcha (true=on | false=off )
 // Default: true
 $use_captcha = true;
-
+ 
 // Enable or Disable Telnet, require config (true=on | false=off )
 // Default: false
 $use_telnet = false;

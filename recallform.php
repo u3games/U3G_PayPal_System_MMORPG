@@ -16,26 +16,32 @@
 				<br>
 				<select name="donation_select">
 				  <option value=""></option>
-					<?php
-						if ($coins_enabled == true)
-							{
-								?>
-								<option value="Coins"><?php echo $lang['message_6'];?></option>
-								<?php
-							}
-						if ($karma_enabled == true)
-							{
-								?>
-								<option value="Karma"><?php echo $lang['message_8']; echo ' '; echo $lang['message_9'];?></option>
-								<?php
-							}
-						if ($pkpoints_enabled == true)
-							{
-								?>
-								<option value="Pkpoints"><?php echo $lang['message_8']; echo ' '; echo $lang['message_11'];?></option>
-								<?php
-							}
-					?>
+				<?php
+					if ($coins_enabled == true)
+						{
+							?>
+							<option value="Coins"><?php echo $item_coins_name, 's';?></option>
+							<?php
+						}
+					if ($karma_enabled == true)
+						{
+							?>
+							<option value="Karma"><?php echo $lang['message_8'],' ', $lang['message_9'];?></option>
+							<?php 
+						}
+					if ($pkpoints_enabled == true)
+						{
+							?>
+							<option value="Pkpoints"><?php echo $lang['message_8'],' ', $lang['message_11'];?></option>
+							<?php
+						}
+					if ($enchant_item_enabled == true)
+						{
+							?>
+							<option value="Enchitems"><?php echo $lang['message_13'],' ', $lang['message_14'];?></option>
+							<?php
+						}
+				?>
 				</select>
 				</p>
 			<table>

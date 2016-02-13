@@ -46,10 +46,28 @@ if ($p->validate_ipn())
 		$splitdata = explode('|', $custom);
 		$charname = $splitdata[0];
 		$donation_option = $splitdata[1];
+		$donation_option_enc = $splitdata[2];
 		
 		$donation_option1 = 'Coins';
 		$donation_option2 = 'Karma';
 		$donation_option3 = 'Pkpoints';
+		$donation_option4 = 'Enchitems';
+		
+		// item enchant TODO
+		$donation_enc_option1 = 'Shirt';
+		$donation_enc_option2 = 'Helmet';
+		$donation_enc_option3 = 'Necklace';
+		$donation_enc_option4 = 'Weapon';
+		$donation_enc_option5 = 'FullarmorBreastplate';
+		$donation_enc_option6 = 'Shield';
+		$donation_enc_option7 = 'Ring1';
+		$donation_enc_option8 = 'Ring2';
+		$donation_enc_option9 = 'Earring1';
+		$donation_enc_option10 = 'Earring2';
+		$donation_enc_option11 = 'Gloves';
+		$donation_enc_option12 = 'Leggings';
+		$donation_enc_option13 = 'Boots';
+		$donation_enc_option14 = 'Belt';
 		
 		// get transaction_id from paypal ipn data
 		$transid = $p->ipn_data['txn_id'];
@@ -81,6 +99,10 @@ if ($p->validate_ipn())
 			if ($donation_option === $donation_option3)
 				{
 					$pay_text = 'Remove PK points';
+				}
+			if ($donation_option === $donation_option4)
+				{
+					$pay_text = 'Enchant item';
 				}
 			
 			
@@ -285,7 +307,7 @@ if ($donation_option === $donation_option1)
 					$local_log = '['.date('m/d/Y g:i A').'] - ';
 
 					// Logging: response from the server
-					$local_log .= "IPN COINS I ERROR: Someone tried to enter coins option 1 while disabled in config. Exploit attack ? Charname: ". $charname ." amount:". $amount ." donation option:". $donation_option ."Transaction ID:". $transid;
+					$local_log .= "IPN COINS I ERROR: Someone tried to enter coins option 1 while disabled in config. Exploit attack ? Charname: ". @$charname ." amount:". @$amount ." donation option:". @$donation_option ."Transaction ID:". @$transid;
 					$local_log .= '</td></tr><tr><td>';
 
 					// Write to log
@@ -446,7 +468,7 @@ if ($donation_option === $donation_option1)
 				$local_log = '['.date('m/d/Y g:i A').'] - ';
 
 				// Logging: response from the server
-				$local_log .= "IPN COINS II ERROR: Someone tried to enter coins option 2 while disabled in config. Exploit attack ? Charname: ". $charname ." amount:". $amount ." donation option:". $donation_option ."Transaction ID:". $transid;
+				$local_log .= "IPN COINS II ERROR: Someone tried to enter coins option 2 while disabled in config. Exploit attack ? Charname: ". @$charname ." amount:". @$amount ." donation option:". @$donation_option ."Transaction ID:". @$transid;
 				$local_log .= '</td></tr><tr><td>';
 
 				// Write to log
@@ -608,7 +630,7 @@ if ($donation_option === $donation_option1)
 				$local_log = '['.date('m/d/Y g:i A').'] - ';
 
 				// Logging: response from the server
-				$local_log .= "IPN COINS III ERROR: Someone tried to enter coins option 3 while disabled in config. Exploit attack ? Charname: ". $charname ." amount:". $amount ." donation option:". $donation_option ."Transaction ID:". $transid;
+				$local_log .= "IPN COINS III ERROR: Someone tried to enter coins option 3 while disabled in config. Exploit attack ? Charname: ". @$charname ." amount:". @$amount ." donation option:". @$donation_option ."Transaction ID:". @$transid;
 				$local_log .= '</td></tr><tr><td>';
 
 				// Write to log
@@ -769,7 +791,7 @@ if ($donation_option === $donation_option1)
 					$local_log = '['.date('m/d/Y g:i A').'] - ';
 
 					// Logging: response from the server
-					$local_log .= "IPN COINS IV ERROR: Someone tried to enter coins option 4 while disabled in config. Exploit attack ? Charname: ". $charname ." amount:". $amount ." donation option:". $donation_option ."Transaction ID:". $transid;
+					$local_log .= "IPN COINS IV ERROR: Someone tried to enter coins option 4 while disabled in config. Exploit attack ? Charname: ". @$charname ." amount:". @$amount ." donation option:". @$donation_option ."Transaction ID:". @$transid;
 					$local_log .= '</td></tr><tr><td>';
 
 					// Write to log
@@ -792,7 +814,7 @@ if ($donation_option === $donation_option1)
 				$local_log = '['.date('m/d/Y g:i A').'] - ';
 
 				// Logging: response from the server
-				$local_log .= "IPN COINS ERROR: Charname does not exists ? Charname: ". $charname ." amount:". $amount ." donation option:". $donation_option ."Transaction ID:". $transid;
+				$local_log .= "IPN COINS ERROR: Charname does not exists ? Charname: ". @$charname ." amount:". @$amount ." donation option:". @$donation_option ."Transaction ID:". @$transid;
 				$local_log .= '</td></tr><tr><td>';
 
 				// Write to log
@@ -814,7 +836,7 @@ if ($donation_option === $donation_option1)
 		$local_log = '['.date('m/d/Y g:i A').'] - ';
 
 		// Logging: response from the server
-		$local_log .= "IPN COINS ERROR: Someone tried to enter coins while disabled in config. Exploit attack ? Charname: ". $charname ." amount:". $amount ." donation option:". $donation_option ."Transaction ID:". $transid;
+		$local_log .= "IPN COINS ERROR: Someone tried to enter coins while disabled in config. Exploit attack ? Charname: ". @$charname ." amount:". @$amount ." donation option:". @$donation_option ."Transaction ID:". @$transid;
 		$local_log .= '</td></tr><tr><td>';
 
 		// Write to log
@@ -905,7 +927,7 @@ if ($donation_option === $donation_option2)
 						$local_log = '['.date('m/d/Y g:i A').'] - ';
 
 						// Logging: response from the server
-						$local_log .= "IPN KARMA I ERROR: Someone tried to enter karma option 1 while disabled in config. Exploit attack ? Charname: ". $charname ." amount:". $amount ." donation option:". $donation_option ."Transaction ID:". $transid;
+						$local_log .= "IPN KARMA I ERROR: Someone tried to enter karma option 1 while disabled in config. Exploit attack ? Charname: ". @$charname ." amount:". @$amount ." donation option:". @$donation_option ."Transaction ID:". @$transid;
 						$local_log .= '</td></tr><tr><td>';
 
 						// Write to log
@@ -988,7 +1010,7 @@ if ($donation_option === $donation_option2)
 						$local_log = '['.date('m/d/Y g:i A').'] - ';
 
 						// Logging: response from the server
-						$local_log .= "IPN KARMA II ERROR: Someone tried to enter karma option 2 while disabled in config. Exploit attack ? Charname: ". $charname ." amount:". $amount ." donation option:". $donation_option ."Transaction ID:". $transid;
+						$local_log .= "IPN KARMA II ERROR: Someone tried to enter karma option 2 while disabled in config. Exploit attack ? Charname: ". @$charname ." amount:". @$amount ." donation option:". @$donation_option ."Transaction ID:". @$transid;
 						$local_log .= '</td></tr><tr><td>';
 
 						// Write to log
@@ -1071,7 +1093,7 @@ if ($donation_option === $donation_option2)
 						$local_log = '['.date('m/d/Y g:i A').'] - ';
 
 						// Logging: response from the server
-						$local_log .= "IPN KARMA III ERROR: Someone tried to enter karma option 3 while disabled in config. Exploit attack ? Charname: ". $charname ." amount:". $amount ." donation option:". $donation_option ."Transaction ID:". $transid;
+						$local_log .= "IPN KARMA III ERROR: Someone tried to enter karma option 3 while disabled in config. Exploit attack ? Charname: ". @$charname ." amount:". @$amount ." donation option:". @$donation_option ."Transaction ID:". @$transid;
 						$local_log .= '</td></tr><tr><td>';
 
 						// Write to log
@@ -1129,7 +1151,7 @@ if ($donation_option === $donation_option2)
 						$local_log = '['.date('m/d/Y g:i A').'] - ';
 
 						// Logging: response from the server
-						$local_log .= "IPN KARMA IV ERROR: Someone tried to enter karma option 4 while disabled in config. Exploit attack ? Charname: ". $charname ." amount:". $amount ." donation option:". $donation_option ."Transaction ID:". $transid;
+						$local_log .= "IPN KARMA IV ERROR: Someone tried to enter karma option 4 while disabled in config. Exploit attack ? Charname: ". @$charname ." amount:". @$amount ." donation option:". @$donation_option ."Transaction ID:". @$transid;
 						$local_log .= '</td></tr><tr><td>';
 
 						// Write to log
@@ -1152,7 +1174,7 @@ if ($donation_option === $donation_option2)
 					$local_log = '['.date('m/d/Y g:i A').'] - ';
 
 					// Logging: response from the server
-					$local_log .= "IPN KARMA ERROR: Charname does not exists ? Charname: ". $charname ." amount:". $amount ." donation option:". $donation_option ."Transaction ID:". $transid;
+					$local_log .= "IPN KARMA ERROR: Charname does not exists ? Charname: ". @$charname ." amount:". @$amount ." donation option:". @$donation_option ."Transaction ID:". @$transid;
 					$local_log .= '</td></tr><tr><td>';
 
 					// Write to log
@@ -1174,7 +1196,7 @@ if ($donation_option === $donation_option2)
 			$local_log = '['.date('m/d/Y g:i A').'] - ';
 
 			// Logging: response from the server
-			$local_log .= "IPN KARMA ERROR: Someone tried to enter karma while disabled in config. Exploit attack ? Charname: ". $charname ." amount:". $amount ." donation option:". $donation_option ."Transaction ID:". $transid;
+			$local_log .= "IPN KARMA ERROR: Someone tried to enter karma while disabled in config. Exploit attack ? Charname: ". @$charname ." amount:". @$amount ." donation option:". @$donation_option ."Transaction ID:". @$transid;
 			$local_log .= '</td></tr><tr><td>';
 
 			// Write to log
@@ -1267,7 +1289,7 @@ if ($donation_option === $donation_option3)
 						$local_log = '['.date('m/d/Y g:i A').'] - ';
 
 						// Logging: response from the server
-						$local_log .= "IPN PK POINTS I ERROR: Someone tried to enter PK Points option 1 while disabled in config. Exploit attack ? Charname: ". $charname ." amount:". $amount ." donation option:". $donation_option ."Transaction ID:". $transid;
+						$local_log .= "IPN PK POINTS I ERROR: Someone tried to enter PK Points option 1 while disabled in config. Exploit attack ? Charname: ". @$charname ." amount:". @$amount ." donation option:". @$donation_option ."Transaction ID:". @$transid;
 						$local_log .= '</td></tr><tr><td>';
 
 						// Write to log
@@ -1350,7 +1372,7 @@ if ($donation_option === $donation_option3)
 						$local_log = '['.date('m/d/Y g:i A').'] - ';
 
 						// Logging: response from the server
-						$local_log .= "IPN PK POINTS II ERROR: Someone tried to enter PK Points option 2 while disabled in config. Exploit attack ? Charname: ". $charname ." amount:". $amount ." donation option:". $donation_option ."Transaction ID:". $transid;
+						$local_log .= "IPN PK POINTS II ERROR: Someone tried to enter PK Points option 2 while disabled in config. Exploit attack ? Charname: ". @$charname ." amount:". @$amount ." donation option:". @$donation_option ."Transaction ID:". @$transid;
 						$local_log .= '</td></tr><tr><td>';
 
 						// Write to log
@@ -1432,7 +1454,7 @@ if ($donation_option === $donation_option3)
 						$local_log = '['.date('m/d/Y g:i A').'] - ';
 
 						// Logging: response from the server
-						$local_log .= "IPN PK POINTS III ERROR: Someone tried to enter PK Points option 3 while disabled in config. Exploit attack ? Charname: ". $charname ." amount:". $amount ." donation option:". $donation_option ."Transaction ID:". $transid;
+						$local_log .= "IPN PK POINTS III ERROR: Someone tried to enter PK Points option 3 while disabled in config. Exploit attack ? Charname: ". @$charname ." amount:". @$amount ." donation option:". @$donation_option ."Transaction ID:". @$transid;
 						$local_log .= '</td></tr><tr><td>';
 
 						// Write to log
@@ -1490,7 +1512,7 @@ if ($donation_option === $donation_option3)
 						$local_log = '['.date('m/d/Y g:i A').'] - '; 
 
 						// Logging: response from the server
-						$local_log .= "IPN PK POINTS IV ERROR: Someone tried to enter PK Points option 4 while disabled in config. Exploit attack ? Charname: ". $charname ." amount:". $amount ." donation option:". $donation_option ."Transaction ID:". $transid;
+						$local_log .= "IPN PK POINTS IV ERROR: Someone tried to enter PK Points option 4 while disabled in config. Exploit attack ? Charname: ". @$charname ." amount:". @$amount ." donation option:". @$donation_option ."Transaction ID:". @$transid;
 						$local_log .= '</td></tr><tr><td>';
 
 						// Write to log
@@ -1513,7 +1535,7 @@ if ($donation_option === $donation_option3)
 					$local_log = '['.date('m/d/Y g:i A').'] - ';
 
 					// Logging: response from the server
-					$local_log .= "IPN PK POINTS ERROR: Charname does not exists ? Charname: ". $charname ." amount:". $amount ." donation option:". $donation_option ."Transaction ID:". $transid;
+					$local_log .= "IPN PK POINTS ERROR: Charname does not exists ? Charname: ". @$charname ." amount:". @$amount ." donation option:". @$donation_option ."Transaction ID:". @$transid;
 					$local_log .= '</td></tr><tr><td>';
 
 					// Write to log
@@ -1535,7 +1557,7 @@ if ($donation_option === $donation_option3)
 			$local_log = '['.date('m/d/Y g:i A').'] - ';
 
 			// Logging: response from the server
-			$local_log .= "IPN PK POINTS ERROR: Someone tried to enter PK Points option 4 while disabled in config. Exploit attack ? Charname: ". $charname ." amount:". $amount ." donation option:". $donation_option ."Transaction ID:". $transid;
+			$local_log .= "IPN PK POINTS ERROR: Someone tried to enter PK Points option 4 while disabled in config. Exploit attack ? Charname: ". @$charname ." amount:". @$amount ." donation option:". @$donation_option ."Transaction ID:". @$transid;
 			$local_log .= '</td></tr><tr><td>';
 
 			// Write to log
@@ -1545,7 +1567,921 @@ if ($donation_option === $donation_option3)
 			// Close file
 			fclose($fp);
 		}
+	}
+		
+		// ENCHANT DONATION OPTIONS
+		if ($donation_option === $donation_option4)
+		{
+			// Checks if item enchant is enabled in the config or else log this.
+			if ($enchant_item_enabled == true)
+			{
+				// Checks if charname exists
+				if ($total>0)
+				{
+					// Select item id FROM items WHERE owner id = char id AND loc = PAPERDOLL ( means its equipped )
+					$loc_paper = 'PAPERDOLL';
+					// Loc_data locations
+					// Shirt
+					$locdata0 = 0;
+					// Helmet
+					$locdata1 = 1;
+					// Necklace
+					$locdata4 = 4;
+					// Weapon
+					$locdata5 = 5;
+					// Breastplate and full armor
+					$locdata6 = 6;
+					// Shield
+					$locdata7 = 7;
+					// Earring1
+					$locdata8 = 8;
+					// Earring2
+					$locdata9 = 9;
+					// Gloves
+					$locdata10 = 10;
+					// Leggings
+					$locdata11 = 11;
+					// Boots
+					$locdata12 = 12;
+					// Ring1
+					$locdata13 = 13;
+					// Ring2
+					$locdata14 = 14;
+					// Belt
+					$locdata24 = 24;
+					
+					// Donate enchant shirt
+					if ($donation_option_enc === $donation_enc_option1)
+					{
+						// Checks if enchant shirt is enabled in the config or else make a log.
+						 if ($shirt_enchant_enabled == true)
+						{
+
+								try {
+										// if player is offline we will add shirt enchant trough a mysql query
+										$sql_enchant_shirt = $connection->prepare('UPDATE items SET enchant_level= :shirt_enchant_amount WHERE loc_data= :locdata0 AND owner_id = :charId AND loc = :paperdoll ');
+										$sql_enchant_shirt->execute(array(
+										':shirt_enchant_amount' => $shirt_enchant_amount,
+										':locdata0' => $locdata0,
+										':charId' => $charId,
+										':paperdoll' => $loc_paper
+										));
+									} 
+								catch(PDOException $e) 
+									{
+										// Local file reporting
+										// Logging: file location
+										$local_log_file = $log_location_ipn;
+
+										// Logging: Timestamp
+										$local_log = '['.date('m/d/Y g:i A').'] - ';
+
+										// Logging: response from the server
+										$local_log .= "IPN SHIRT ENCHANT ERROR: ". $e->getMessage();
+										$local_log .= '</td></tr><tr><td>';
+
+										// Write to log
+										$fp=fopen($local_log_file,'a');
+										fwrite($fp, $local_log . "\n");
+
+										// Close file
+										fclose($fp);
+									}
+						}
+						else
+						{
+							// Local file reporting
+							// Logging: file location
+							$local_log_file = $log_location_ipn;
+
+							// Logging: Timestamp
+							$local_log = '['.date('m/d/Y g:i A').'] - ';
+
+							// Logging: response from the server
+							$local_log .= "IPN SHIRT ENCHANT ERROR: Someone tried to enter shirt enchant while disabled in config. Exploit attack ? Charname: ". @$charname ." amount:". @$amount ." donation option:". @$donation_option ."Transaction ID:". @$transid;
+							$local_log .= '</td></tr><tr><td>';
+
+							// Write to log
+							$fp=fopen($local_log_file,'a');
+							fwrite($fp, $local_log . "\n");
+
+							// Close file
+							fclose($fp);				
+						}
+					}
+					// Donate enchant helmet
+					if ($donation_option_enc === $donation_enc_option2)
+					{
+						// Checks if enchant helmet is enabled in the config or else make a log.
+						 if ($helmet_enchant_enabled == true)
+						{
+
+								try {
+										// if player is offline we will add the helmet enchant trough a mysql query
+										$sql_enchant_helmet = $connection->prepare('UPDATE items SET enchant_level= :helmet_enchant_amount WHERE loc_data= :locdata1 AND owner_id = :charId AND loc = :paperdoll ');
+										$sql_enchant_helmet->execute(array(
+										':helmet_enchant_amount' => $helmet_enchant_amount,
+										':locdata1' => $locdata1,
+										':charId' => $charId,
+										':paperdoll' => $loc_paper
+										));
+									} 
+								catch(PDOException $e) 
+									{
+										// Local file reporting
+										// Logging: file location
+										$local_log_file = $log_location_ipn;
+
+										// Logging: Timestamp
+										$local_log = '['.date('m/d/Y g:i A').'] - ';
+
+										// Logging: response from the server
+										$local_log .= "IPN HELMET ENCHANT ERROR: ". $e->getMessage();
+										$local_log .= '</td></tr><tr><td>';
+
+										// Write to log
+										$fp=fopen($local_log_file,'a');
+										fwrite($fp, $local_log . "\n");
+
+										// Close file
+										fclose($fp);
+									}
+						}
+						else
+						{
+							// Local file reporting
+							// Logging: file location
+							$local_log_file = $log_location_ipn;
+
+							// Logging: Timestamp
+							$local_log = '['.date('m/d/Y g:i A').'] - ';
+
+							// Logging: response from the server
+							$local_log .= "IPN HELMET ENCHANT ERROR: Someone tried to enter helmet enchant while disabled in config. Exploit attack ? Charname: ". @$charname ." amount:". @$amount ." donation option:". @$donation_option ."Transaction ID:". @$transid;
+							$local_log .= '</td></tr><tr><td>';
+
+							// Write to log
+							$fp=fopen($local_log_file,'a');
+							fwrite($fp, $local_log . "\n");
+
+							// Close file
+							fclose($fp);				
+						}
+					}
+					// Donate enchant necklace
+					if ($donation_option_enc === $donation_enc_option3)
+					{
+						// Checks if enchant necklace is enabled in the config or else make a log.
+						 if ($necklace_enchant_enabled == true)
+						{
+
+								try {
+										// if player is offline we will add the necklace enchant trough a mysql query
+										$sql_enchant_necklace = $connection->prepare('UPDATE items SET enchant_level= :necklace_enchant_amount WHERE loc_data= :locdata4 AND owner_id = :charId AND loc = :paperdoll ');
+										$sql_enchant_necklace->execute(array(
+										':necklace_enchant_amount' => $necklace_enchant_amount,
+										':locdata4' => $locdata4,
+										':charId' => $charId,
+										':paperdoll' => $loc_paper
+										));
+									} 
+								catch(PDOException $e) 
+									{
+										// Local file reporting
+										// Logging: file location
+										$local_log_file = $log_location_ipn;
+
+										// Logging: Timestamp
+										$local_log = '['.date('m/d/Y g:i A').'] - ';
+
+										// Logging: response from the server
+										$local_log .= "IPN NECKLACE ENCHANT ERROR: ". $e->getMessage();
+										$local_log .= '</td></tr><tr><td>';
+
+										// Write to log
+										$fp=fopen($local_log_file,'a');
+										fwrite($fp, $local_log . "\n");
+
+										// Close file
+										fclose($fp);
+									}
+						}
+						else
+						{
+							// Local file reporting
+							// Logging: file location
+							$local_log_file = $log_location_ipn;
+
+							// Logging: Timestamp
+							$local_log = '['.date('m/d/Y g:i A').'] - ';
+
+							// Logging: response from the server
+							$local_log .= "IPN NECKLACE ENCHANT ERROR: Someone tried to enter necklace enchant while disabled in config. Exploit attack ? Charname: ". @$charname ." amount:". @$amount ." donation option:". @$donation_option ."Transaction ID:". @$transid;
+							$local_log .= '</td></tr><tr><td>';
+
+							// Write to log
+							$fp=fopen($local_log_file,'a');
+							fwrite($fp, $local_log . "\n");
+
+							// Close file
+							fclose($fp);				
+						}
+					}
+					// Donate enchant weapon
+					if ($donation_option_enc === $donation_enc_option4)
+					{
+						// Checks if enchant weapon is enabled in the config or else make a log.
+						 if ($weapon_enchant_enabled == true)
+						{
+
+								try {
+										// if player is offline we will add the weapon enchant trough a mysql query
+										$sql_enchant_weapon = $connection->prepare('UPDATE items SET enchant_level= :weapon_enchant_amount WHERE loc_data= :locdata5 AND owner_id = :charId AND loc = :paperdoll ');
+										$sql_enchant_weapon->execute(array(
+										':weapon_enchant_amount' => $weapon_enchant_amount,
+										':locdata5' => $locdata5,
+										':charId' => $charId,
+										':paperdoll' => $loc_paper
+										));
+									} 
+								catch(PDOException $e) 
+									{
+										// Local file reporting
+										// Logging: file location
+										$local_log_file = $log_location_ipn;
+
+										// Logging: Timestamp
+										$local_log = '['.date('m/d/Y g:i A').'] - ';
+
+										// Logging: response from the server
+										$local_log .= "IPN WEAPON ENCHANT ERROR: ". $e->getMessage();
+										$local_log .= '</td></tr><tr><td>';
+
+										// Write to log
+										$fp=fopen($local_log_file,'a');
+										fwrite($fp, $local_log . "\n");
+
+										// Close file
+										fclose($fp);
+									}
+						}
+						else
+						{
+							// Local file reporting
+							// Logging: file location
+							$local_log_file = $log_location_ipn;
+
+							// Logging: Timestamp
+							$local_log = '['.date('m/d/Y g:i A').'] - ';
+
+							// Logging: response from the server
+							$local_log .= "IPN WEAPON ENCHANT ERROR: Someone tried to enter weapon enchant while disabled in config. Exploit attack ? Charname: ". @$charname ." amount:". @$amount ." donation option:". @$donation_option ."Transaction ID:". @$transid;
+							$local_log .= '</td></tr><tr><td>';
+
+							// Write to log
+							$fp=fopen($local_log_file,'a');
+							fwrite($fp, $local_log . "\n");
+
+							// Close file
+							fclose($fp);				
+						}
+					}
+					// Donate enchant full armor/Breastplate
+					if ($donation_option_enc === $donation_enc_option5)
+					{
+						// Checks if enchant full armor/Breastplate is enabled in the config or else make a log.
+						 if ($breastplate_full_enchant_enabled == true)
+						{
+
+								try {
+										// if player is offline we will add the full armor/Breastplate enchant trough a mysql query
+										$sql_enchant_fullarmor_breastplate = $connection->prepare('UPDATE items SET enchant_level= :breastplate_full_enchant_amount WHERE loc_data= :locdata6 AND owner_id = :charId AND loc = :paperdoll ');
+										$sql_enchant_fullarmor_breastplate->execute(array(
+										':breastplate_full_enchant_amount' => $breastplate_full_enchant_amount,
+										':locdata6' => $locdata6,
+										':charId' => $charId,
+										':paperdoll' => $loc_paper
+										));
+									} 
+								catch(PDOException $e) 
+									{
+										// Local file reporting
+										// Logging: file location
+										$local_log_file = $log_location_ipn;
+
+										// Logging: Timestamp
+										$local_log = '['.date('m/d/Y g:i A').'] - ';
+
+										// Logging: response from the server
+										$local_log .= "IPN FULL ARMOR/BREASTPLATE ENCHANT ERROR: ". $e->getMessage();
+										$local_log .= '</td></tr><tr><td>';
+
+										// Write to log
+										$fp=fopen($local_log_file,'a');
+										fwrite($fp, $local_log . "\n");
+
+										// Close file
+										fclose($fp);
+									}
+						}
+						else
+						{
+							// Local file reporting
+							// Logging: file location
+							$local_log_file = $log_location_ipn;
+
+							// Logging: Timestamp
+							$local_log = '['.date('m/d/Y g:i A').'] - ';
+
+							// Logging: response from the server
+							$local_log .= "IPN FULL ARMOR/BREASTPLATE ENCHANT ERROR: Someone tried to enter full armor/breastplate enchant while disabled in config. Exploit attack ? Charname: ". @$charname ." amount:". @$amount ." donation option:". @$donation_option ."Transaction ID:". @$transid;
+							$local_log .= '</td></tr><tr><td>';
+
+							// Write to log
+							$fp=fopen($local_log_file,'a');
+							fwrite($fp, $local_log . "\n");
+
+							// Close file
+							fclose($fp);				
+						}
+					}
+					// Donate enchant shield
+					if ($donation_option_enc === $donation_enc_option6)
+					{
+						// Checks if enchant shield is enabled in the config or else make a log.
+						 if ($shield_enchant_enabled == true)
+						{
+
+								try {
+										// if player is offline we will add the shield enchant trough a mysql query
+										$sql_enchant_shield = $connection->prepare('UPDATE items SET enchant_level= :shield_enchant_amount WHERE loc_data= :locdata7 AND owner_id = :charId AND loc = :paperdoll ');
+										$sql_enchant_shield->execute(array(
+										':shield_enchant_amount' => $shield_enchant_amount,
+										':locdata7' => $locdata7,
+										':charId' => $charId,
+										':paperdoll' => $loc_paper
+										));
+									} 
+								catch(PDOException $e) 
+									{
+										// Local file reporting
+										// Logging: file location
+										$local_log_file = $log_location_ipn;
+
+										// Logging: Timestamp
+										$local_log = '['.date('m/d/Y g:i A').'] - ';
+
+										// Logging: response from the server
+										$local_log .= "IPN SHIELD ENCHANT ERROR: ". $e->getMessage();
+										$local_log .= '</td></tr><tr><td>';
+
+										// Write to log
+										$fp=fopen($local_log_file,'a');
+										fwrite($fp, $local_log . "\n");
+
+										// Close file
+										fclose($fp);
+									}
+						}
+						else
+						{
+							// Local file reporting
+							// Logging: file location
+							$local_log_file = $log_location_ipn;
+
+							// Logging: Timestamp
+							$local_log = '['.date('m/d/Y g:i A').'] - ';
+
+							// Logging: response from the server
+							$local_log .= "IPN FULL SHIELD ENCHANT ERROR: Someone tried to enter full armor/breastplate enchant while disabled in config. Exploit attack ? Charname: ". @$charname ." amount:". @$amount ." donation option:". @$donation_option ."Transaction ID:". @$transid;
+							$local_log .= '</td></tr><tr><td>';
+
+							// Write to log
+							$fp=fopen($local_log_file,'a');
+							fwrite($fp, $local_log . "\n");
+
+							// Close file
+							fclose($fp);				
+						}
+					}
+					// Donate enchant ring1
+					if ($donation_option_enc === $donation_enc_option7)
+					{
+						// Checks if enchant rings is enabled in the config or else make a log.
+						 if ($ring_enchant_enabled == true)
+						{
+
+								try {
+										// if player is offline we will add the ring1 enchant trough a mysql query
+										$sql_enchant_ring1 = $connection->prepare('UPDATE items SET enchant_level= :ring_enchant_amount WHERE loc_data= :locdata13 AND owner_id = :charId AND loc = :paperdoll ');
+										$sql_enchant_ring1->execute(array(
+										':ring_enchant_amount' => $ring_enchant_amount,
+										':locdata13' => $locdata13,
+										':charId' => $charId,
+										':paperdoll' => $loc_paper
+										));
+									} 
+								catch(PDOException $e) 
+									{
+										// Local file reporting
+										// Logging: file location
+										$local_log_file = $log_location_ipn;
+
+										// Logging: Timestamp
+										$local_log = '['.date('m/d/Y g:i A').'] - ';
+
+										// Logging: response from the server
+										$local_log .= "IPN RING ENCHANT ERROR: ". $e->getMessage();
+										$local_log .= '</td></tr><tr><td>';
+
+										// Write to log
+										$fp=fopen($local_log_file,'a');
+										fwrite($fp, $local_log . "\n");
+
+										// Close file
+										fclose($fp);
+									}
+						}
+						else
+						{
+							// Local file reporting
+							// Logging: file location
+							$local_log_file = $log_location_ipn;
+
+							// Logging: Timestamp
+							$local_log = '['.date('m/d/Y g:i A').'] - ';
+
+							// Logging: response from the server
+							$local_log .= "IPN RING ENCHANT ERROR: Someone tried to enter ring enchant while disabled in config. Exploit attack ? Charname: ". @$charname ." amount:". @$amount ." donation option:". @$donation_option ."Transaction ID:". @$transid;
+							$local_log .= '</td></tr><tr><td>';
+
+							// Write to log
+							$fp=fopen($local_log_file,'a');
+							fwrite($fp, $local_log . "\n");
+
+							// Close file
+							fclose($fp);				
+						}
+					}
+					// Donate enchant ring2
+					if ($donation_option_enc === $donation_enc_option8)
+					{
+						// Checks if enchant rings is enabled in the config or else make a log.
+						 if ($ring_enchant_enabled == true)
+						{
+
+								try {
+										// if player is offline we will add the ring2 enchant trough a mysql query
+										$sql_enchant_ring2 = $connection->prepare('UPDATE items SET enchant_level= :ring_enchant_amount WHERE loc_data= :locdata14 AND owner_id = :charId AND loc = :paperdoll ');
+										$sql_enchant_ring2->execute(array(
+										':ring_enchant_amount' => $ring_enchant_amount,
+										':locdata14' => $locdata14,
+										':charId' => $charId,
+										':paperdoll' => $loc_paper
+										));
+									} 
+								catch(PDOException $e) 
+									{
+										// Local file reporting
+										// Logging: file location
+										$local_log_file = $log_location_ipn;
+
+										// Logging: Timestamp
+										$local_log = '['.date('m/d/Y g:i A').'] - ';
+
+										// Logging: response from the server
+										$local_log .= "IPN RING ENCHANT ERROR: ". $e->getMessage();
+										$local_log .= '</td></tr><tr><td>';
+
+										// Write to log
+										$fp=fopen($local_log_file,'a');
+										fwrite($fp, $local_log . "\n");
+
+										// Close file
+										fclose($fp);
+									}
+						}
+						else
+						{
+							// Local file reporting
+							// Logging: file location
+							$local_log_file = $log_location_ipn;
+
+							// Logging: Timestamp
+							$local_log = '['.date('m/d/Y g:i A').'] - ';
+
+							// Logging: response from the server
+							$local_log .= "IPN RING ENCHANT ERROR: Someone tried to enter ring enchant while disabled in config. Exploit attack ? Charname: ". @$charname ." amount:". @$amount ." donation option:". @$donation_option ."Transaction ID:". @$transid;
+							$local_log .= '</td></tr><tr><td>';
+
+							// Write to log
+							$fp=fopen($local_log_file,'a');
+							fwrite($fp, $local_log . "\n");
+
+							// Close file
+							fclose($fp);				
+						}
+					}
+					// Donate enchant earring1
+					if ($donation_option_enc === $donation_enc_option9)
+					{
+						// Checks if enchant earring is enabled in the config or else make a log.
+						 if ($earring_enchant_enabled == true)
+						{
+
+								try {
+										// if player is offline we will add the earring1 enchant trough a mysql query
+										$sql_enchant_earring1 = $connection->prepare('UPDATE items SET enchant_level= :earring_enchant_amount WHERE loc_data= :locdata8 AND owner_id = :charId AND loc = :paperdoll ');
+										$sql_enchant_earring1->execute(array(
+										':earring_enchant_amount' => $earring_enchant_amount,
+										':locdata8' => $locdata8,
+										':charId' => $charId,
+										':paperdoll' => $loc_paper
+										));
+									} 
+								catch(PDOException $e) 
+									{
+										// Local file reporting
+										// Logging: file location
+										$local_log_file = $log_location_ipn;
+
+										// Logging: Timestamp
+										$local_log = '['.date('m/d/Y g:i A').'] - ';
+
+										// Logging: response from the server
+										$local_log .= "IPN EARRING ENCHANT ERROR: ". $e->getMessage();
+										$local_log .= '</td></tr><tr><td>';
+
+										// Write to log
+										$fp=fopen($local_log_file,'a');
+										fwrite($fp, $local_log . "\n");
+
+										// Close file
+										fclose($fp);
+									}
+						}
+						else
+						{
+							// Local file reporting
+							// Logging: file location
+							$local_log_file = $log_location_ipn;
+
+							// Logging: Timestamp
+							$local_log = '['.date('m/d/Y g:i A').'] - ';
+
+							// Logging: response from the server
+							$local_log .= "IPN EARRING ENCHANT ERROR: Someone tried to enter earring enchant while disabled in config. Exploit attack ? Charname: ". @$charname ." amount:". @$amount ." donation option:". @$donation_option ."Transaction ID:". @$transid;
+							$local_log .= '</td></tr><tr><td>';
+
+							// Write to log
+							$fp=fopen($local_log_file,'a');
+							fwrite($fp, $local_log . "\n");
+
+							// Close file
+							fclose($fp);				
+						}
+					}
+					// Donate enchant earring2
+					if ($donation_option_enc === $donation_enc_option10)
+					{
+						// Checks if enchant earring is enabled in the config or else make a log.
+						 if ($earring_enchant_enabled == true)
+						{
+
+								try {
+										// if player is offline we will add the earring2 enchant trough a mysql query
+										$sql_enchant_earring2 = $connection->prepare('UPDATE items SET enchant_level= :earring_enchant_amount WHERE loc_data= :locdata9 AND owner_id = :charId AND loc = :paperdoll ');
+										$sql_enchant_earring2->execute(array(
+										':earring_enchant_amount' => $earring_enchant_amount,
+										':locdata9' => $locdata9,
+										':charId' => $charId,
+										':paperdoll' => $loc_paper
+										));
+									} 
+								catch(PDOException $e) 
+									{
+										// Local file reporting
+										// Logging: file location
+										$local_log_file = $log_location_ipn;
+
+										// Logging: Timestamp
+										$local_log = '['.date('m/d/Y g:i A').'] - ';
+
+										// Logging: response from the server
+										$local_log .= "IPN EARRING ENCHANT ERROR: ". $e->getMessage();
+										$local_log .= '</td></tr><tr><td>';
+
+										// Write to log
+										$fp=fopen($local_log_file,'a');
+										fwrite($fp, $local_log . "\n");
+
+										// Close file
+										fclose($fp);
+									}
+						}
+						else
+						{
+							// Local file reporting
+							// Logging: file location
+							$local_log_file = $log_location_ipn;
+
+							// Logging: Timestamp
+							$local_log = '['.date('m/d/Y g:i A').'] - ';
+
+							// Logging: response from the server
+							$local_log .= "IPN EARRING ENCHANT ERROR: Someone tried to enter earring enchant while disabled in config. Exploit attack ? Charname: ". @$charname ." amount:". @$amount ." donation option:". @$donation_option ."Transaction ID:". @$transid;
+							$local_log .= '</td></tr><tr><td>';
+
+							// Write to log
+							$fp=fopen($local_log_file,'a');
+							fwrite($fp, $local_log . "\n");
+
+							// Close file
+							fclose($fp);				
+						}
+					}
+					// Donate enchant gloves
+					if ($donation_option_enc === $donation_enc_option11)
+					{
+						// Checks if enchant gloves is enabled in the config or else make a log.
+						 if ($gloves_enchant_enabled == true)
+						{
+
+								try {
+										// if player is offline we will add the gloves enchant trough a mysql query
+										$sql_enchant_gloves = $connection->prepare('UPDATE items SET enchant_level= :gloves_enchant_amount WHERE loc_data= :locdata10 AND owner_id = :charId AND loc = :paperdoll ');
+										$sql_enchant_gloves->execute(array(
+										':gloves_enchant_amount' => $gloves_enchant_amount,
+										':locdata10' => $locdata10,
+										':charId' => $charId,
+										':paperdoll' => $loc_paper
+										));
+									} 
+								catch(PDOException $e) 
+									{
+										// Local file reporting
+										// Logging: file location
+										$local_log_file = $log_location_ipn;
+
+										// Logging: Timestamp
+										$local_log = '['.date('m/d/Y g:i A').'] - ';
+
+										// Logging: response from the server
+										$local_log .= "IPN GLOVES ENCHANT ERROR: ". $e->getMessage();
+										$local_log .= '</td></tr><tr><td>';
+
+										// Write to log
+										$fp=fopen($local_log_file,'a');
+										fwrite($fp, $local_log . "\n");
+
+										// Close file
+										fclose($fp);
+									}
+						}
+						else
+						{
+							// Local file reporting
+							// Logging: file location
+							$local_log_file = $log_location_ipn;
+
+							// Logging: Timestamp
+							$local_log = '['.date('m/d/Y g:i A').'] - ';
+
+							// Logging: response from the server
+							$local_log .= "IPN GLOVES ENCHANT ERROR: Someone tried to enter earring enchant while disabled in config. Exploit attack ? Charname: ". @$charname ." amount:". @$amount ." donation option:". @$donation_option ."Transaction ID:". @$transid;
+							$local_log .= '</td></tr><tr><td>';
+
+							// Write to log
+							$fp=fopen($local_log_file,'a');
+							fwrite($fp, $local_log . "\n");
+
+							// Close file
+							fclose($fp);				
+						}
+					}
+					// Donate enchant leggings
+					if ($donation_option_enc === $donation_enc_option12)
+					{
+						// Checks if enchant leggings is enabled in the config or else make a log.
+						 if ($leggings_enchant_enabled == true)
+						{
+
+								try {
+										// if player is offline we will add the leggings enchant trough a mysql query
+										$sql_enchant_leggings = $connection->prepare('UPDATE items SET enchant_level= :leggings_enchant_amount WHERE loc_data= :locdata11 AND owner_id = :charId AND loc = :paperdoll ');
+										$sql_enchant_leggings->execute(array(
+										':leggings_enchant_amount' => $leggings_enchant_amount,
+										':locdata11' => $locdata11,
+										':charId' => $charId,
+										':paperdoll' => $loc_paper
+										));
+									} 
+								catch(PDOException $e) 
+									{
+										// Local file reporting
+										// Logging: file location
+										$local_log_file = $log_location_ipn;
+
+										// Logging: Timestamp
+										$local_log = '['.date('m/d/Y g:i A').'] - ';
+
+										// Logging: response from the server
+										$local_log .= "IPN LEGGINGS ENCHANT ERROR: ". $e->getMessage();
+										$local_log .= '</td></tr><tr><td>';
+
+										// Write to log
+										$fp=fopen($local_log_file,'a');
+										fwrite($fp, $local_log . "\n");
+
+										// Close file
+										fclose($fp);
+									}
+						}
+						else
+						{
+							// Local file reporting
+							// Logging: file location
+							$local_log_file = $log_location_ipn;
+
+							// Logging: Timestamp
+							$local_log = '['.date('m/d/Y g:i A').'] - ';
+
+							// Logging: response from the server
+							$local_log .= "IPN LEGGINGS ENCHANT ERROR: Someone tried to enter leggings enchant while disabled in config. Exploit attack ? Charname: ". @$charname ." amount:". @$amount ." donation option:". @$donation_option ."Transaction ID:". @$transid;
+							$local_log .= '</td></tr><tr><td>';
+
+							// Write to log
+							$fp=fopen($local_log_file,'a');
+							fwrite($fp, $local_log . "\n");
+
+							// Close file
+							fclose($fp);				
+						}
+					}
+					// Donate enchant boots
+					if ($donation_option_enc === $donation_enc_option13)
+					{
+						// Checks if enchant boots is enabled in the config or else make a log.
+						 if ($boots_enchant_enabled == true)
+						{
+
+								try {
+										// if player is offline we will add the boots enchant trough a mysql query
+										$sql_enchant_boots = $connection->prepare('UPDATE items SET enchant_level= :boots_enchant_amount WHERE loc_data= :locdata12 AND owner_id = :charId AND loc = :paperdoll ');
+										$sql_enchant_boots->execute(array(
+										':boots_enchant_amount' => $boots_enchant_amount,
+										':locdata12' => $locdata12,
+										':charId' => $charId,
+										':paperdoll' => $loc_paper
+										));
+									} 
+								catch(PDOException $e) 
+									{
+										// Local file reporting
+										// Logging: file location
+										$local_log_file = $log_location_ipn;
+
+										// Logging: Timestamp
+										$local_log = '['.date('m/d/Y g:i A').'] - ';
+
+										// Logging: response from the server
+										$local_log .= "IPN BOOTS ENCHANT ERROR: ". $e->getMessage();
+										$local_log .= '</td></tr><tr><td>';
+
+										// Write to log
+										$fp=fopen($local_log_file,'a');
+										fwrite($fp, $local_log . "\n");
+
+										// Close file
+										fclose($fp);
+									}
+						}
+						else
+						{
+							// Local file reporting
+							// Logging: file location
+							$local_log_file = $log_location_ipn;
+
+							// Logging: Timestamp
+							$local_log = '['.date('m/d/Y g:i A').'] - ';
+
+							// Logging: response from the server
+							$local_log .= "IPN BOOTS ENCHANT ERROR: Someone tried to enter boots enchant while disabled in config. Exploit attack ? Charname: ". @$charname ." amount:". @$amount ." donation option:". @$donation_option ."Transaction ID:". @$transid;
+							$local_log .= '</td></tr><tr><td>';
+
+							// Write to log
+							$fp=fopen($local_log_file,'a');
+							fwrite($fp, $local_log . "\n");
+
+							// Close file
+							fclose($fp);				
+						}
+					}
+					// Donate enchant belt
+					if ($donation_option_enc === $donation_enc_option14)
+					{
+						// Checks if enchant belt is enabled in the config or else make a log.
+						 if ($belt_enchant_enabled == true)
+						{
+
+								try {
+										// if player is offline we will add the belt enchant trough a mysql query
+										$sql_enchant_belt = $connection->prepare('UPDATE items SET enchant_level= :belt_enchant_amount WHERE loc_data= :locdata24 AND owner_id = :charId AND loc = :paperdoll ');
+										$sql_enchant_belt->execute(array(
+										':belt_enchant_amount' => $belt_enchant_amount,
+										':locdata24' => $locdata24,
+										':charId' => $charId,
+										':paperdoll' => $loc_paper
+										));
+									} 
+								catch(PDOException $e) 
+									{
+										// Local file reporting
+										// Logging: file location
+										$local_log_file = $log_location_ipn;
+
+										// Logging: Timestamp
+										$local_log = '['.date('m/d/Y g:i A').'] - ';
+
+										// Logging: response from the server
+										$local_log .= "IPN BELT ENCHANT ERROR: ". $e->getMessage();
+										$local_log .= '</td></tr><tr><td>';
+
+										// Write to log
+										$fp=fopen($local_log_file,'a');
+										fwrite($fp, $local_log . "\n");
+
+										// Close file
+										fclose($fp);
+									}
+						}
+						else
+						{
+							// Local file reporting
+							// Logging: file location
+							$local_log_file = $log_location_ipn;
+
+							// Logging: Timestamp
+							$local_log = '['.date('m/d/Y g:i A').'] - ';
+
+							// Logging: response from the server
+							$local_log .= "IPN BELT ENCHANT ERROR: Someone tried to enter belt enchant while disabled in config. Exploit attack ? Charname: ". @$charname ." amount:". @$amount ." donation option:". @$donation_option ."Transaction ID:". @$transid;
+							$local_log .= '</td></tr><tr><td>';
+
+							// Write to log
+							$fp=fopen($local_log_file,'a');
+							fwrite($fp, $local_log . "\n");
+
+							// Close file
+							fclose($fp);				
+						}
+					}
+				}
+				// Else charname does not exists
+				else
+					{
+						// Local file reporting
+						// Logging: file location
+						$local_log_file = $log_location_ipn;
+
+						// Logging: Timestamp
+						$local_log = '['.date('m/d/Y g:i A').'] - ';
+
+						// Logging: response from the server
+						$local_log .= "IPN ITEM ENCHANT ERROR: Charname does not exists ? Charname: ". @$charname ." amount:". @$amount ." donation option:". @$donation_option ."Transaction ID:". @$transid;
+						$local_log .= '</td></tr><tr><td>';
+
+						// Write to log
+						$fp=fopen($local_log_file,'a');
+						fwrite($fp, $local_log . "\n");
+
+						// Close file
+						fclose($fp);
+					}
+			}
+			// Else Someone tried to enter enchant option while disabled
+			else
+			{
+				// Local file reporting
+				// Logging: file location
+				$local_log_file = $log_location_ipn;
+
+				// Logging: Timestamp
+				$local_log = '['.date('m/d/Y g:i A').'] - ';
+
+				// Logging: response from the server
+				$local_log .= "IPN ITEM ENCHANT ERROR: Someone tried to enter item enchant while disabled in config. Exploit attack ? Charname: ". @$charname ." amount:". @$amount ." donation option:". @$donation_option ."Transaction ID:". @$transid;
+				$local_log .= '</td></tr><tr><td>';
+
+				// Write to log
+				$fp=fopen($local_log_file,'a');
+				fwrite($fp, $local_log . "\n");
+
+				// Close file
+				fclose($fp);
+			}
 		}
+
 	}
 }
 ?>

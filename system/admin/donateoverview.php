@@ -188,8 +188,6 @@ if ($overview_ip_security == true)
 															</table>
 														<br>
 													<table cellpadding="0" cellspacing="0" border="1" width="75%" align="center">
-														<tr><td><center><b>Website/ipn error log</b></center></td></tr>
-														<?php include 'log/website_error_log.php';?>
 														<tr><td><center><b>log_paypal_donations database log</b></center></td></tr>
 														<?php 
 														class log_paypal_donations {
@@ -238,6 +236,8 @@ if ($overview_ip_security == true)
 															
 															
 															?>
+														<tr><td><center><b>Website/ipn error log</b></center></td></tr>
+														<?php include 'log/website_error_log.php';?>
 													</table>
 														<table cellpadding="0" cellspacing="0" border="1" width="75%" align="left">
 															<tr><td><center><b>IPN response log</b></center></td></tr>
