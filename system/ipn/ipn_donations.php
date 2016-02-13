@@ -1614,6 +1614,7 @@ if ($donation_option === $donation_option3)
 				if ($donation_option_enc === $donation_enc_option1)
 					{
 					// checks if the correct amount is donated otherwise log this
+					if ($amount == $shirt_donate_amount)
 						{
 						// Checks if enchant shirt is enabled in the config or else make a log.
 						if ($shirt_enchant_enabled == true)
