@@ -1610,12 +1610,14 @@ if ($donation_option === $donation_option3)
 					// Belt
 					$locdata24 = 24;
 					
-					// Donate enchant shirt
-					if ($donation_option_enc === $donation_enc_option1)
+				// Donate enchant shirt
+				if ($donation_option_enc === $donation_enc_option1)
 					{
-						// Checks if enchant shirt is enabled in the config or else make a log.
-						 if ($shirt_enchant_enabled == true)
+					// checks if the correct amount is donated otherwise log this
 						{
+						// Checks if enchant shirt is enabled in the config or else make a log.
+						if ($shirt_enchant_enabled == true)
+							{
 
 								try {
 										// if player is offline we will add shirt enchant trough a mysql query
@@ -1669,12 +1671,36 @@ if ($donation_option === $donation_option3)
 							fclose($fp);				
 						}
 					}
-					// Donate enchant helmet
-					if ($donation_option_enc === $donation_enc_option2)
+					else
 					{
+						// Local file reporting
+						// Logging: file location
+						$local_log_file = $log_location_ipn;
+
+						// Logging: Timestamp
+						$local_log = '['.date('m/d/Y g:i A').'] - ';
+
+						// Logging: response from the server
+						$local_log .= "IPN SHIRT EXPLOIT ENCHANT ATTACK: Someone tried to change the donation amount to get the donation for cheap Charname: ". @$charname ." amount:". @$amount ." donation option:". @$donation_option ."Transaction ID:". @$transid;
+						$local_log .= '</td></tr><tr><td>';
+
+						// Write to log
+						$fp=fopen($local_log_file,'a');
+						fwrite($fp, $local_log . "\n");
+
+						// Close file
+						fclose($fp);				
+					}
+				}
+				// Donate enchant helmet
+				if ($donation_option_enc === $donation_enc_option2)
+					{
+					// checks if the correct amount is donated otherwise log this
+					if ($amount == $helmet_donate_amount)
+						{
 						// Checks if enchant helmet is enabled in the config or else make a log.
 						 if ($helmet_enchant_enabled == true)
-						{
+							{
 
 								try {
 										// if player is offline we will add the helmet enchant trough a mysql query
@@ -1728,12 +1754,36 @@ if ($donation_option === $donation_option3)
 							fclose($fp);				
 						}
 					}
-					// Donate enchant necklace
-					if ($donation_option_enc === $donation_enc_option3)
+					else
 					{
+						// Local file reporting
+						// Logging: file location
+						$local_log_file = $log_location_ipn;
+
+						// Logging: Timestamp
+						$local_log = '['.date('m/d/Y g:i A').'] - ';
+
+						// Logging: response from the server
+						$local_log .= "IPN HELMET EXPLOIT ENCHANT ATTACK: Someone tried to change the donation amount to get the donation for cheap Charname: ". @$charname ." amount:". @$amount ." donation option:". @$donation_option ."Transaction ID:". @$transid;
+						$local_log .= '</td></tr><tr><td>';
+
+						// Write to log
+						$fp=fopen($local_log_file,'a');
+						fwrite($fp, $local_log . "\n");
+
+						// Close file
+						fclose($fp);				
+					}
+				}
+				// Donate enchant necklace
+				if ($donation_option_enc === $donation_enc_option3)
+					{
+					// checks if the correct amount is donated otherwise log this
+					if ($amount == $necklace_donate_amount)
+						{
 						// Checks if enchant necklace is enabled in the config or else make a log.
 						 if ($necklace_enchant_enabled == true)
-						{
+							{
 
 								try {
 										// if player is offline we will add the necklace enchant trough a mysql query
@@ -1787,12 +1837,36 @@ if ($donation_option === $donation_option3)
 							fclose($fp);				
 						}
 					}
+					else
+					{
+						// Local file reporting
+						// Logging: file location
+						$local_log_file = $log_location_ipn;
+
+						// Logging: Timestamp
+						$local_log = '['.date('m/d/Y g:i A').'] - ';
+
+						// Logging: response from the server
+						$local_log .= "IPN NECKLACE EXPLOIT ENCHANT ATTACK: Someone tried to change the donation amount to get the donation for cheap Charname: ". @$charname ." amount:". @$amount ." donation option:". @$donation_option ."Transaction ID:". @$transid;
+						$local_log .= '</td></tr><tr><td>';
+
+						// Write to log
+						$fp=fopen($local_log_file,'a');
+						fwrite($fp, $local_log . "\n");
+
+						// Close file
+						fclose($fp);				
+					}
+				}
 					// Donate enchant weapon
 					if ($donation_option_enc === $donation_enc_option4)
 					{
-						// Checks if enchant weapon is enabled in the config or else make a log.
-						 if ($weapon_enchant_enabled == true)
+						// checks if the correct amount is donated otherwise log this
+						if ($amount == $weapon_donate_amount)
 						{
+							// Checks if enchant weapon is enabled in the config or else make a log.
+							if ($weapon_enchant_enabled == true)
+								{
 
 								try {
 										// if player is offline we will add the weapon enchant trough a mysql query
@@ -1846,12 +1920,36 @@ if ($donation_option === $donation_option3)
 							fclose($fp);				
 						}
 					}
+					else
+					{
+						// Local file reporting
+						// Logging: file location
+						$local_log_file = $log_location_ipn;
+
+						// Logging: Timestamp
+						$local_log = '['.date('m/d/Y g:i A').'] - ';
+
+						// Logging: response from the server
+						$local_log .= "IPN WEAPON EXPLOIT ENCHANT ATTACK: Someone tried to change the donation amount to get the donation for cheap Charname: ". @$charname ." amount:". @$amount ." donation option:". @$donation_option ."Transaction ID:". @$transid;
+						$local_log .= '</td></tr><tr><td>';
+
+						// Write to log
+						$fp=fopen($local_log_file,'a');
+						fwrite($fp, $local_log . "\n");
+
+						// Close file
+						fclose($fp);				
+					}
+				}
 					// Donate enchant full armor/Breastplate
 					if ($donation_option_enc === $donation_enc_option5)
 					{
-						// Checks if enchant full armor/Breastplate is enabled in the config or else make a log.
-						 if ($breastplate_full_enchant_enabled == true)
+						// checks if the correct amount is donated otherwise log this
+						if ($amount == $breastplate_full_donate_amount)
 						{
+							// Checks if enchant full armor/Breastplate is enabled in the config or else make a log.
+							if ($breastplate_full_enchant_enabled == true)
+							{
 
 								try {
 										// if player is offline we will add the full armor/Breastplate enchant trough a mysql query
@@ -1905,12 +2003,36 @@ if ($donation_option === $donation_option3)
 							fclose($fp);				
 						}
 					}
+					else
+					{
+						// Local file reporting
+						// Logging: file location
+						$local_log_file = $log_location_ipn;
+
+						// Logging: Timestamp
+						$local_log = '['.date('m/d/Y g:i A').'] - ';
+
+						// Logging: response from the server
+						$local_log .= "IPN FULL ARMOR/BREASTPLATE ENCHANT EXPLOIT ATTACK: Someone tried to change the donation amount to get the donation for cheap Charname: ". @$charname ." amount:". @$amount ." donation option:". @$donation_option ."Transaction ID:". @$transid;
+						$local_log .= '</td></tr><tr><td>';
+
+						// Write to log
+						$fp=fopen($local_log_file,'a');
+						fwrite($fp, $local_log . "\n");
+
+						// Close file
+						fclose($fp);				
+					}
+			}
 					// Donate enchant shield
 					if ($donation_option_enc === $donation_enc_option6)
 					{
-						// Checks if enchant shield is enabled in the config or else make a log.
-						 if ($shield_enchant_enabled == true)
+						// checks if the correct amount is donated otherwise log this
+						if ($amount == $shield_donate_amount)
 						{
+							// Checks if enchant shield is enabled in the config or else make a log.
+							if ($shield_enchant_enabled == true)
+							{
 
 								try {
 										// if player is offline we will add the shield enchant trough a mysql query
@@ -1964,12 +2086,36 @@ if ($donation_option === $donation_option3)
 							fclose($fp);				
 						}
 					}
+					else
+					{
+						// Local file reporting
+						// Logging: file location
+						$local_log_file = $log_location_ipn;
+
+						// Logging: Timestamp
+						$local_log = '['.date('m/d/Y g:i A').'] - ';
+
+						// Logging: response from the server
+						$local_log .= "IPN SHIELD ENCHANT EXPLOIT ATTACK: Someone tried to change the donation amount to get the donation for cheap Charname: ". @$charname ." amount:". @$amount ." donation option:". @$donation_option ."Transaction ID:". @$transid;
+						$local_log .= '</td></tr><tr><td>';
+
+						// Write to log
+						$fp=fopen($local_log_file,'a');
+						fwrite($fp, $local_log . "\n");
+
+						// Close file
+						fclose($fp);				
+					}
+				}
 					// Donate enchant ring1
 					if ($donation_option_enc === $donation_enc_option7)
 					{
-						// Checks if enchant rings is enabled in the config or else make a log.
-						 if ($ring_enchant_enabled == true)
+						// checks if the correct amount is donated otherwise log this
+						if ($amount == $ring_donate_amount)
 						{
+							// Checks if enchant rings is enabled in the config or else make a log.
+							if ($ring_enchant_enabled == true)
+							{
 
 								try {
 										// if player is offline we will add the ring1 enchant trough a mysql query
@@ -2023,12 +2169,36 @@ if ($donation_option === $donation_option3)
 							fclose($fp);				
 						}
 					}
+					else
+					{
+						// Local file reporting
+						// Logging: file location
+						$local_log_file = $log_location_ipn;
+
+						// Logging: Timestamp
+						$local_log = '['.date('m/d/Y g:i A').'] - ';
+
+						// Logging: response from the server
+						$local_log .= "IPN RING ENCHANT EXPLOIT ATTACK: Someone tried to change the donation amount to get the donation for cheap Charname: ". @$charname ." amount:". @$amount ." donation option:". @$donation_option ."Transaction ID:". @$transid;
+						$local_log .= '</td></tr><tr><td>';
+
+						// Write to log
+						$fp=fopen($local_log_file,'a');
+						fwrite($fp, $local_log . "\n");
+
+						// Close file
+						fclose($fp);				
+					}
+				}
 					// Donate enchant ring2
 					if ($donation_option_enc === $donation_enc_option8)
 					{
-						// Checks if enchant rings is enabled in the config or else make a log.
-						 if ($ring_enchant_enabled == true)
+						// checks if the correct amount is donated otherwise log this
+						if ($amount == $ring_donate_amount)
 						{
+							// Checks if enchant rings is enabled in the config or else make a log.
+							if ($ring_enchant_enabled == true)
+							{
 
 								try {
 										// if player is offline we will add the ring2 enchant trough a mysql query
@@ -2082,12 +2252,36 @@ if ($donation_option === $donation_option3)
 							fclose($fp);				
 						}
 					}
+					else
+					{
+						// Local file reporting
+						// Logging: file location
+						$local_log_file = $log_location_ipn;
+
+						// Logging: Timestamp
+						$local_log = '['.date('m/d/Y g:i A').'] - ';
+
+						// Logging: response from the server
+						$local_log .= "IPN RING ENCHANT EXPLOIT ATTACK: Someone tried to change the donation amount to get the donation for cheap Charname: ". @$charname ." amount:". @$amount ." donation option:". @$donation_option ."Transaction ID:". @$transid;
+						$local_log .= '</td></tr><tr><td>';
+
+						// Write to log
+						$fp=fopen($local_log_file,'a');
+						fwrite($fp, $local_log . "\n");
+
+						// Close file
+						fclose($fp);				
+					}
+				}
 					// Donate enchant earring1
 					if ($donation_option_enc === $donation_enc_option9)
 					{
-						// Checks if enchant earring is enabled in the config or else make a log.
-						 if ($earring_enchant_enabled == true)
+						// checks if the correct amount is donated otherwise log this
+						if ($amount == $earring_donate_amount)
 						{
+							// Checks if enchant earring is enabled in the config or else make a log.
+							if ($earring_enchant_enabled == true)
+							{
 
 								try {
 										// if player is offline we will add the earring1 enchant trough a mysql query
@@ -2141,12 +2335,36 @@ if ($donation_option === $donation_option3)
 							fclose($fp);				
 						}
 					}
+					else
+					{
+						// Local file reporting
+						// Logging: file location
+						$local_log_file = $log_location_ipn;
+
+						// Logging: Timestamp
+						$local_log = '['.date('m/d/Y g:i A').'] - ';
+
+						// Logging: response from the server
+						$local_log .= "IPN EARRING ENCHANT EXPLOIT ATTACK: Someone tried to change the donation amount to get the donation for cheap Charname: ". @$charname ." amount:". @$amount ." donation option:". @$donation_option ."Transaction ID:". @$transid;
+						$local_log .= '</td></tr><tr><td>';
+
+						// Write to log
+						$fp=fopen($local_log_file,'a');
+						fwrite($fp, $local_log . "\n");
+
+						// Close file
+						fclose($fp);				
+					}
+				}
 					// Donate enchant earring2
 					if ($donation_option_enc === $donation_enc_option10)
 					{
-						// Checks if enchant earring is enabled in the config or else make a log.
-						 if ($earring_enchant_enabled == true)
+						// checks if the correct amount is donated otherwise log this
+						if ($amount == $earring_donate_amount)
 						{
+							// Checks if enchant earring is enabled in the config or else make a log.
+							if ($earring_enchant_enabled == true)
+							{
 
 								try {
 										// if player is offline we will add the earring2 enchant trough a mysql query
@@ -2200,12 +2418,36 @@ if ($donation_option === $donation_option3)
 							fclose($fp);				
 						}
 					}
+					else
+					{
+						// Local file reporting
+						// Logging: file location
+						$local_log_file = $log_location_ipn;
+
+						// Logging: Timestamp
+						$local_log = '['.date('m/d/Y g:i A').'] - ';
+
+						// Logging: response from the server
+						$local_log .= "IPN EARRING ENCHANT EXPLOIT ATTACK: Someone tried to change the donation amount to get the donation for cheap Charname: ". @$charname ." amount:". @$amount ." donation option:". @$donation_option ."Transaction ID:". @$transid;
+						$local_log .= '</td></tr><tr><td>';
+
+						// Write to log
+						$fp=fopen($local_log_file,'a');
+						fwrite($fp, $local_log . "\n");
+
+						// Close file
+						fclose($fp);				
+					}
+				}
 					// Donate enchant gloves
 					if ($donation_option_enc === $donation_enc_option11)
 					{
-						// Checks if enchant gloves is enabled in the config or else make a log.
-						 if ($gloves_enchant_enabled == true)
+						// checks if the correct amount is donated otherwise log this
+						if ($amount == $gloves_donate_amount)
 						{
+							// Checks if enchant gloves is enabled in the config or else make a log.
+							if ($gloves_enchant_enabled == true)
+							{
 
 								try {
 										// if player is offline we will add the gloves enchant trough a mysql query
@@ -2259,12 +2501,36 @@ if ($donation_option === $donation_option3)
 							fclose($fp);				
 						}
 					}
+					else
+					{
+						// Local file reporting
+						// Logging: file location
+						$local_log_file = $log_location_ipn;
+
+						// Logging: Timestamp
+						$local_log = '['.date('m/d/Y g:i A').'] - ';
+
+						// Logging: response from the server
+						$local_log .= "IPN GLOVES ENCHANT EXPLOIT ATTACK: Someone tried to change the donation amount to get the donation for cheap Charname: ". @$charname ." amount:". @$amount ." donation option:". @$donation_option ."Transaction ID:". @$transid;
+						$local_log .= '</td></tr><tr><td>';
+
+						// Write to log
+						$fp=fopen($local_log_file,'a');
+						fwrite($fp, $local_log . "\n");
+
+						// Close file
+						fclose($fp);				
+					}
+				}
 					// Donate enchant leggings
 					if ($donation_option_enc === $donation_enc_option12)
 					{
-						// Checks if enchant leggings is enabled in the config or else make a log.
-						 if ($leggings_enchant_enabled == true)
+						// checks if the correct amount is donated otherwise log this
+						if ($amount == $leggings_donate_amount)
 						{
+							// Checks if enchant leggings is enabled in the config or else make a log.
+							if ($leggings_enchant_enabled == true)
+							{
 
 								try {
 										// if player is offline we will add the leggings enchant trough a mysql query
@@ -2318,12 +2584,36 @@ if ($donation_option === $donation_option3)
 							fclose($fp);				
 						}
 					}
+					else
+					{
+						// Local file reporting
+						// Logging: file location
+						$local_log_file = $log_location_ipn;
+
+						// Logging: Timestamp
+						$local_log = '['.date('m/d/Y g:i A').'] - ';
+
+						// Logging: response from the server
+						$local_log .= "IPN LEGGING ENCHANT EXPLOIT ATTACK: Someone tried to change the donation amount to get the donation for cheap Charname: ". @$charname ." amount:". @$amount ." donation option:". @$donation_option ."Transaction ID:". @$transid;
+						$local_log .= '</td></tr><tr><td>';
+
+						// Write to log
+						$fp=fopen($local_log_file,'a');
+						fwrite($fp, $local_log . "\n");
+
+						// Close file
+						fclose($fp);				
+					}
+				}
 					// Donate enchant boots
 					if ($donation_option_enc === $donation_enc_option13)
 					{
-						// Checks if enchant boots is enabled in the config or else make a log.
-						 if ($boots_enchant_enabled == true)
+						// checks if the correct amount is donated otherwise log this
+						if ($amount == $boots_donate_amount)
 						{
+							// Checks if enchant boots is enabled in the config or else make a log.
+							if ($boots_enchant_enabled == true)
+							{
 
 								try {
 										// if player is offline we will add the boots enchant trough a mysql query
@@ -2377,12 +2667,36 @@ if ($donation_option === $donation_option3)
 							fclose($fp);				
 						}
 					}
+					else
+					{
+						// Local file reporting
+						// Logging: file location
+						$local_log_file = $log_location_ipn;
+
+						// Logging: Timestamp
+						$local_log = '['.date('m/d/Y g:i A').'] - ';
+
+						// Logging: response from the server
+						$local_log .= "IPN BOOTS ENCHANT EXPLOIT ATTACK: Someone tried to change the donation amount to get the donation for cheap Charname: ". @$charname ." amount:". @$amount ." donation option:". @$donation_option ."Transaction ID:". @$transid;
+						$local_log .= '</td></tr><tr><td>';
+
+						// Write to log
+						$fp=fopen($local_log_file,'a');
+						fwrite($fp, $local_log . "\n");
+
+						// Close file
+						fclose($fp);				
+					}
+				}
 					// Donate enchant belt
 					if ($donation_option_enc === $donation_enc_option14)
 					{
-						// Checks if enchant belt is enabled in the config or else make a log.
-						 if ($belt_enchant_enabled == true)
+						// checks if the correct amount is donated otherwise log this
+						if ($amount == $belt_donate_amount)
 						{
+							// Checks if enchant belt is enabled in the config or else make a log.
+							if ($belt_enchant_enabled == true)
+							{
 
 								try {
 										// if player is offline we will add the belt enchant trough a mysql query
@@ -2436,7 +2750,28 @@ if ($donation_option === $donation_option3)
 							fclose($fp);				
 						}
 					}
+					else
+					{
+						// Local file reporting
+						// Logging: file location
+						$local_log_file = $log_location_ipn;
+
+						// Logging: Timestamp
+						$local_log = '['.date('m/d/Y g:i A').'] - ';
+
+						// Logging: response from the server
+						$local_log .= "IPN BELT ENCHANT EXPLOIT ATTACK: Someone tried to change the donation amount to get the donation for cheap Charname: ". @$charname ." amount:". @$amount ." donation option:". @$donation_option ."Transaction ID:". @$transid;
+						$local_log .= '</td></tr><tr><td>';
+
+						// Write to log
+						$fp=fopen($local_log_file,'a');
+						fwrite($fp, $local_log . "\n");
+
+						// Close file
+						fclose($fp);				
+					}
 				}
+			}
 				// Else charname does not exists
 				else
 					{
