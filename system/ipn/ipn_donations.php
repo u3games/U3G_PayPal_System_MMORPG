@@ -42,7 +42,7 @@ if ($p->validate_ipn())
 		// Get character name + donation option from paypal ipn data
 		$custom = $p->ipn_data['custom'];
 		
-		// here we need to separate the data into two separate values
+		// here we need to separate the data into separate values
 		$splitdata = explode('|', $custom);
 		$charname = $splitdata[0];
 		$donation_option = $splitdata[1];
@@ -53,7 +53,7 @@ if ($p->validate_ipn())
 		$donation_option3 = 'Pkpoints';
 		$donation_option4 = 'Enchitems';
 		
-		// item enchant TODO
+		// item enchant
 		$donation_enc_option1 = 'Shirt';
 		$donation_enc_option2 = 'Helmet';
 		$donation_enc_option3 = 'Necklace';
@@ -68,7 +68,7 @@ if ($p->validate_ipn())
 		$donation_enc_option12 = 'Leggings';
 		$donation_enc_option13 = 'Boots';
 		$donation_enc_option14 = 'Belt';
-		
+		$donation_enc_option15 = 'All_Enc';
 		// get transaction_id from paypal ipn data
 		$transid = $p->ipn_data['txn_id'];
 		
@@ -2762,6 +2762,206 @@ if ($donation_option === $donation_option3)
 
 						// Logging: response from the server
 						$local_log .= "IPN BELT ENCHANT EXPLOIT ATTACK: Someone tried to change the donation amount to get the donation for cheap Charname: ". @$charname ." amount:". @$amount ." donation option:". @$donation_option ."Transaction ID:". @$transid;
+						$local_log .= '</td></tr><tr><td>';
+
+						// Write to log
+						$fp=fopen($local_log_file,'a');
+						fwrite($fp, $local_log . "\n");
+
+						// Close file
+						fclose($fp);				
+					}
+				}
+					// Donate enchant ALL
+					if ($donation_option_enc === $donation_enc_option15)
+					{
+						// checks if the correct amount is donated otherwise log this
+						if ($amount == $all_donate_amount)
+						{
+							// Checks if enchant all is enabled in the config or else make a log.
+							if ($all_enchant_enabled == true)
+							{
+
+								try {	
+										// if player is offline we will add shirt enchant trough a mysql query
+										$sql_enchant_shirt = $connection->prepare('UPDATE items SET enchant_level= :shirt_enchant_amount WHERE loc_data= :locdata0 AND owner_id = :charId AND loc = :paperdoll ');
+										$sql_enchant_shirt->execute(array(
+										':shirt_enchant_amount' => $shirt_enchant_amount,
+										':locdata0' => $locdata0,
+										':charId' => $charId,
+										':paperdoll' => $loc_paper
+										));
+										
+										// if player is offline we will add the helmet enchant trough a mysql query
+										$sql_enchant_helmet = $connection->prepare('UPDATE items SET enchant_level= :helmet_enchant_amount WHERE loc_data= :locdata1 AND owner_id = :charId AND loc = :paperdoll ');
+										$sql_enchant_helmet->execute(array(
+										':helmet_enchant_amount' => $helmet_enchant_amount,
+										':locdata1' => $locdata1,
+										':charId' => $charId,
+										':paperdoll' => $loc_paper
+										));
+										
+										// if player is offline we will add the necklace enchant trough a mysql query
+										$sql_enchant_necklace = $connection->prepare('UPDATE items SET enchant_level= :necklace_enchant_amount WHERE loc_data= :locdata4 AND owner_id = :charId AND loc = :paperdoll ');
+										$sql_enchant_necklace->execute(array(
+										':necklace_enchant_amount' => $necklace_enchant_amount,
+										':locdata4' => $locdata4,
+										':charId' => $charId,
+										':paperdoll' => $loc_paper
+										));
+										
+										// if player is offline we will add the weapon enchant trough a mysql query
+										$sql_enchant_weapon = $connection->prepare('UPDATE items SET enchant_level= :weapon_enchant_amount WHERE loc_data= :locdata5 AND owner_id = :charId AND loc = :paperdoll ');
+										$sql_enchant_weapon->execute(array(
+										':weapon_enchant_amount' => $weapon_enchant_amount,
+										':locdata5' => $locdata5,
+										':charId' => $charId,
+										':paperdoll' => $loc_paper
+										));
+										
+										// if player is offline we will add the full armor/Breastplate enchant trough a mysql query
+										$sql_enchant_fullarmor_breastplate = $connection->prepare('UPDATE items SET enchant_level= :breastplate_full_enchant_amount WHERE loc_data= :locdata6 AND owner_id = :charId AND loc = :paperdoll ');
+										$sql_enchant_fullarmor_breastplate->execute(array(
+										':breastplate_full_enchant_amount' => $breastplate_full_enchant_amount,
+										':locdata6' => $locdata6,
+										':charId' => $charId,
+										':paperdoll' => $loc_paper
+										));
+										
+										// if player is offline we will add the shield enchant trough a mysql query
+										$sql_enchant_shield = $connection->prepare('UPDATE items SET enchant_level= :shield_enchant_amount WHERE loc_data= :locdata7 AND owner_id = :charId AND loc = :paperdoll ');
+										$sql_enchant_shield->execute(array(
+										':shield_enchant_amount' => $shield_enchant_amount,
+										':locdata7' => $locdata7,
+										':charId' => $charId,
+										':paperdoll' => $loc_paper
+										));
+										
+										// if player is offline we will add the ring1 enchant trough a mysql query
+										$sql_enchant_ring1 = $connection->prepare('UPDATE items SET enchant_level= :ring_enchant_amount WHERE loc_data= :locdata13 AND owner_id = :charId AND loc = :paperdoll ');
+										$sql_enchant_ring1->execute(array(
+										':ring_enchant_amount' => $ring_enchant_amount,
+										':locdata13' => $locdata13,
+										':charId' => $charId,
+										':paperdoll' => $loc_paper
+										));
+										
+										// if player is offline we will add the ring2 enchant trough a mysql query
+										$sql_enchant_ring2 = $connection->prepare('UPDATE items SET enchant_level= :ring_enchant_amount WHERE loc_data= :locdata14 AND owner_id = :charId AND loc = :paperdoll ');
+										$sql_enchant_ring2->execute(array(
+										':ring_enchant_amount' => $ring_enchant_amount,
+										':locdata14' => $locdata14,
+										':charId' => $charId,
+										':paperdoll' => $loc_paper
+										));
+										
+										// if player is offline we will add the earring1 enchant trough a mysql query
+										$sql_enchant_earring1 = $connection->prepare('UPDATE items SET enchant_level= :earring_enchant_amount WHERE loc_data= :locdata8 AND owner_id = :charId AND loc = :paperdoll ');
+										$sql_enchant_earring1->execute(array(
+										':earring_enchant_amount' => $earring_enchant_amount,
+										':locdata8' => $locdata8,
+										':charId' => $charId,
+										':paperdoll' => $loc_paper
+										));
+										
+										// if player is offline we will add the earring2 enchant trough a mysql query
+										$sql_enchant_earring2 = $connection->prepare('UPDATE items SET enchant_level= :earring_enchant_amount WHERE loc_data= :locdata9 AND owner_id = :charId AND loc = :paperdoll ');
+										$sql_enchant_earring2->execute(array(
+										':earring_enchant_amount' => $earring_enchant_amount,
+										':locdata9' => $locdata9,
+										':charId' => $charId,
+										':paperdoll' => $loc_paper
+										));
+										
+										// if player is offline we will add the gloves enchant trough a mysql query
+										$sql_enchant_gloves = $connection->prepare('UPDATE items SET enchant_level= :gloves_enchant_amount WHERE loc_data= :locdata10 AND owner_id = :charId AND loc = :paperdoll ');
+										$sql_enchant_gloves->execute(array(
+										':gloves_enchant_amount' => $gloves_enchant_amount,
+										':locdata10' => $locdata10,
+										':charId' => $charId,
+										':paperdoll' => $loc_paper
+										));
+										
+										// if player is offline we will add the leggings enchant trough a mysql query
+										$sql_enchant_leggings = $connection->prepare('UPDATE items SET enchant_level= :leggings_enchant_amount WHERE loc_data= :locdata11 AND owner_id = :charId AND loc = :paperdoll ');
+										$sql_enchant_leggings->execute(array(
+										':leggings_enchant_amount' => $leggings_enchant_amount,
+										':locdata11' => $locdata11,
+										':charId' => $charId,
+										':paperdoll' => $loc_paper
+										));
+										
+										// if player is offline we will add the boots enchant trough a mysql query
+										$sql_enchant_boots = $connection->prepare('UPDATE items SET enchant_level= :boots_enchant_amount WHERE loc_data= :locdata12 AND owner_id = :charId AND loc = :paperdoll ');
+										$sql_enchant_boots->execute(array(
+										':boots_enchant_amount' => $boots_enchant_amount,
+										':locdata12' => $locdata12,
+										':charId' => $charId,
+										':paperdoll' => $loc_paper
+										));
+										
+										// if player is offline we will add the belt enchant trough a mysql query
+										$sql_enchant_belt = $connection->prepare('UPDATE items SET enchant_level= :belt_enchant_amount WHERE loc_data= :locdata24 AND owner_id = :charId AND loc = :paperdoll ');
+										$sql_enchant_belt->execute(array(
+										':belt_enchant_amount' => $belt_enchant_amount,
+										':locdata24' => $locdata24,
+										':charId' => $charId,
+										':paperdoll' => $loc_paper
+										));
+									}
+								catch(PDOException $e) 
+									{
+										// Local file reporting
+										// Logging: file location
+										$local_log_file = $log_location_ipn;
+
+										// Logging: Timestamp
+										$local_log = '['.date('m/d/Y g:i A').'] - ';
+
+										// Logging: response from the server
+										$local_log .= "IPN ALL ENCHANT ERROR: ". $e->getMessage();
+										$local_log .= '</td></tr><tr><td>';
+
+										// Write to log
+										$fp=fopen($local_log_file,'a');
+										fwrite($fp, $local_log . "\n");
+
+										// Close file
+										fclose($fp);
+									}
+						}
+						else
+						{
+							// Local file reporting
+							// Logging: file location
+							$local_log_file = $log_location_ipn;
+
+							// Logging: Timestamp
+							$local_log = '['.date('m/d/Y g:i A').'] - ';
+
+							// Logging: response from the server
+							$local_log .= "IPN ALL ENCHANT ERROR: Someone tried to enter all enchant while disabled in config. Exploit attack ? Charname: ". @$charname ." amount:". @$amount ." donation option:". @$donation_option ."Transaction ID:". @$transid;
+							$local_log .= '</td></tr><tr><td>';
+
+							// Write to log
+							$fp=fopen($local_log_file,'a');
+							fwrite($fp, $local_log . "\n");
+
+							// Close file
+							fclose($fp);				
+						}
+					}
+					else
+					{
+						// Local file reporting
+						// Logging: file location
+						$local_log_file = $log_location_ipn;
+
+						// Logging: Timestamp
+						$local_log = '['.date('m/d/Y g:i A').'] - ';
+
+						// Logging: response from the server
+						$local_log .= "IPN ALL ENCHANT EXPLOIT ATTACK: Someone tried to change the donation amount to get the donation for cheap Charname: ". @$charname ." amount:". @$amount ." donation option:". @$donation_option ."Transaction ID:". @$transid;
 						$local_log .= '</td></tr><tr><td>';
 
 						// Write to log
