@@ -109,8 +109,12 @@ if (isset($_POST["submit"]))
 	// go in here if enchant submit button is used
 	if (!empty($_POST['enchantsubmit']))
 	{
-				// Get POST selcted enchant option 
-				$get_enchant_option = htmlspecialchars($_POST['os0']);
+		// Get POST selcted enchant option 
+		$get_enchant_option = @htmlspecialchars($_POST['os0']);
+
+		// Checks if something is selected in the enchant select box
+		if ($get_enchant_option != "")
+		{
 				// Get POST character name
 				$selected_charname = htmlspecialchars($_POST['charname_select']);
 				
@@ -356,6 +360,17 @@ if (isset($_POST["submit"]))
 			<?php
 			// set connection to null
 			$connection = null;
+			}
+			// No item has been selected
+			else
+			{
+				include("recallform.php");
+				?>
+					<center><?php echo $lang['message_15']; ?> </center><br>
+				<?php
+				// set connection to null
+				$connection = null;
+			}
 		}
 //Otherwise enchant submit is empty. go to index 
 if (empty($_POST['enchantsubmit']))
@@ -1148,7 +1163,7 @@ if (empty($_POST['enchantsubmit']))
 																								$local_log = '['.date('m/d/Y g:i A').'] - ';
 
 																								//logging: response from the server
-																								$local_log .= "INDEX.PHP ERROR: ". $e->getMessage();	
+																								$local_log .= "INDEX.PHP ENCHANT ITEMS ERROR: ". $e->getMessage();	
 																								$local_log .= '</td></tr><tr><td>';
 
 																								// Write to log
