@@ -151,6 +151,7 @@ if (isset($_POST["submit"]))
 				$leggings_item_enc = htmlspecialchars($_POST['leggings_select_enc']);
 				$boots_item_enc = htmlspecialchars($_POST['boots_select_enc']);
 				$belt_item_enc = htmlspecialchars($_POST['belt_select_enc']);
+				$all_item_enc = htmlspecialchars($_POST['all_select_enc']);
 				
 				// Used for checking
 				$shirt_enc = 'Shirt';
@@ -167,6 +168,7 @@ if (isset($_POST["submit"]))
 				$leggings_enc = 'Leggings';
 				$boots_enc = 'Boots';
 				$belt_enc = 'Belt';
+				$all_enc = 'All_Enc';
 				
 					?>
 				<!-- Player logged in successfully and the character is logged out -->
@@ -185,11 +187,11 @@ if (isset($_POST["submit"]))
 						}
 					if ($necklace_enc == $get_enchant_option)
 						{
-							echo $weapon_item_name, ' +', $weapon_item_enc;
+							echo $necklace_item_name, ' +', $necklace_item_enc;
 						}
 					if ($weapon_enc == $get_enchant_option)
 						{
-							echo $necklace_item_name, ' +', $necklace_item_enc;
+							echo $weapon_item_name, ' +', $weapon_item_enc;
 						}
 					if ($fullarmorbreastplate_enc == $get_enchant_option)
 						{
@@ -230,6 +232,23 @@ if (isset($_POST["submit"]))
 					if ($belt_enc == $get_enchant_option)
 						{
 							echo $belt_item_name, ' +', $belt_item_enc;
+						}
+					if ($all_enc == $get_enchant_option)
+						{
+							echo $shirt_item_name, ' +', $shirt_item_enc, '<br>';
+							echo $helmet_item_name, ' +', $helmet_item_enc, '<br>';
+							echo $necklace_item_name, ' +', $necklace_item_enc, '<br>';
+							echo $weapon_item_name, ' +', $weapon_item_enc, '<br>';
+							echo $breastplate_item_name, ' +', $breastplate_item_enc, '<br>';
+							echo $shield_item_name, ' +', $shield_item_enc, '<br>';
+							echo $ring1_item_name, ' +', $ring1_item_enc, '<br>';
+							echo $ring2_item_name, ' +', $ring2_item_enc, '<br>';
+							echo $lowearring_item_name, ' +', $lowearring_item_enc, '<br>';
+							echo $upearring_item_name, ' +', $upearring_item_enc, '<br>';
+							echo $gloves_item_name, ' +', $gloves_item_enc, '<br>';
+							echo $leggings_item_name, ' +', $leggings_item_enc, '<br>';
+							echo $boots_item_name, ' +', $boots_item_enc, '<br>';
+							echo $belt_item_name, ' +', $belt_item_enc, '<br>';
 						}
 						
 					?>
@@ -300,6 +319,10 @@ if (isset($_POST["submit"]))
 					if ($belt_enc == $get_enchant_option)
 						{
 							echo $belt_item_name, ' +', $belt_enchant_amount;
+						}
+					if ($all_enc == $get_enchant_option)
+						{
+							echo $lang['message_16'];
 						}
 						
 					?>"/>
@@ -410,6 +433,12 @@ if (isset($_POST["submit"]))
 					{
 						?>
 						<option value="<?php echo $belt_donate_amount?>"><?php echo $lang['message_13'], ':',' ',$belt_item_name, ' ', '+', $belt_enchant_amount, ' ',  $currency_code_html, $belt_donate_amount;?>.00 </option>
+						<?php
+					}
+				if ($all_enc == $get_enchant_option)
+					{
+						?>
+						<option value="<?php echo $all_donate_amount?>"><?php echo $lang['message_16'], ' ', '+', $all_enchant_amount, ' ',  $currency_code_html, $all_donate_amount;?>.00 </option>
 						<?php
 					}
 					?>
@@ -1719,6 +1748,41 @@ if (empty($_POST['enchantsubmit']))
 																								<option value="Belt" disabled><?php echo $lang['enchant_27'];?></option>
 																								<?php
 																							}
+																					// Checks if ALL item enchant is enabled in config
+																					if ($all_enchant_enabled == true)
+																						{
+																						// Checks if all items are equipped
+																						if (($char_shirt_id == 0) || ($char_helmet_id == 0) || ($char_necklace_id == 0) || ($char_weapon_id == 0) || ($char_breastplate_full_id == 0) || ($char_shield_id == 0) || ($char_lowring_id == 0) || ($char_upring_id == 0) || ($char_lowearring_id == 0) || ($char_upearring_id == 0) || ($char_gloves_id == 0) || ($char_leggings_id == 0) || ($char_boots_id == 0) || ($char_belt_id == 0))
+																							{
+																								?>
+																								<option value="All_Enc" disabled><?php echo $lang['enchant_28'];?></option>
+																								<?php
+																							}
+																						else
+																							{
+																							// Checks if config amount is higher than the equipped item
+																							if (($all_enchant_amount > $char_shirt_enchant) && ($all_enchant_amount > $char_helmet_enchant) && ($all_enchant_amount > $char_necklace_enchant) && ($all_enchant_amount > $char_weapon_enchant) && ($all_enchant_amount > $char_breastplate_full_enchant) && ($all_enchant_amount > $char_shield_enchant) && ($all_enchant_amount > $char_lowring_enchant) && ($all_enchant_amount > $char_upring_enchant) && ($all_enchant_amount > $char_lowearring_enchant) && ($all_enchant_amount > $char_upearring_enchant) && ($all_enchant_amount > $char_gloves_enchant) && ($all_enchant_amount > $char_leggings_enchant) && ($all_enchant_amount > $char_boots_enchant) && ($all_enchant_amount > $char_belt_enchant))
+																								{
+																									?>
+																									<option value="All_Enc"><?php echo '+', $all_enchant_amount, ' ', $lang['enchant_30'], ' ', $currency_code_html, $all_donate_amount;?>.00 </option>
+																									<?php
+																								}
+																								// Cannot be enchanted higher
+																								else
+																								{
+																									?>
+																									<option value="All_Enc" disabled><?php echo $lang['enchant_31'];?></option>
+																									<?php
+																								}
+																							}
+																						}
+																						// This function is disabled
+																						else
+																							{
+																								?>
+																								<option value="All_Enc" disabled><?php echo $lang['enchant_29'];?></option>
+																								<?php
+																							}
 																				
 																			?>
 																		</select>
@@ -1751,7 +1815,8 @@ if (empty($_POST['enchantsubmit']))
 																		<input type="hidden" name="option_amount12" value="<?php echo $boots_donate_amount?>.00">
 																		<input type="hidden" name="option_select13" value="Belt">
 																		<input type="hidden" name="option_amount13" value="<?php echo $belt_donate_amount?>.00">
-																		
+																		<input type="hidden" name="option_select14" value="All_Enc">
+																		<input type="hidden" name="option_amount14" value="<?php echo $all_donate_amount?>.00">
 																		<!-- Passing own values for enchant end page -->
 																		<!-- Selected charname -->
 																		<input type="hidden" name="charname_select" value="<?php echo $charname; ?>">
