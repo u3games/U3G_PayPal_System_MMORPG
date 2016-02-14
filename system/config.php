@@ -41,7 +41,7 @@ else
 	$payPalURL = "https://www.paypal.com/cgi-bin/webscr";
 }
 
-// Your paypal ipn file /ipn_coins.php directory
+// Your paypal ipn file /ipn_donations.php directory
 // Notice this value is used to post back from paypal to your website always use full adress
 // Default: https://yourwebsite.com/system/ipn
 $urlipn = 'https://yourwebsite.com/system/ipn';
