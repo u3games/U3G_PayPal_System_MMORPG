@@ -30,6 +30,7 @@ $lang['message_12'] = 'Vewijder alle PK punten';
 $lang['message_13'] = 'Enchant';
 $lang['message_14'] = 'equipped items';
 $lang['message_15'] = 'No item has been selected for enchantment.';
+$lang['message_16'] = 'Enchant all items';
 
 $lang['recallform_1'] = 'karakter is online! Verbreek de verbinding om verder te gaan met de donatie.';
 $lang['recallform_2'] = 'Uw karakter naam moet minimaal 3 karakters bevatten.';
@@ -68,6 +69,10 @@ $lang['enchant_24'] = 'Gloves option is disabled.';
 $lang['enchant_25'] = 'Leggings option is disabled.';
 $lang['enchant_26'] = 'Boots option is disabled.';
 $lang['enchant_27'] = 'Belt option is disabled.';
+$lang['enchant_28'] = 'You need to equip some items.';
+$lang['enchant_29'] = 'All items enchant is disabled.';
+$lang['enchant_30'] = 'All equipped items';
+$lang['enchant_31'] = 'Some equipped items are at max enchant.';
 
 $lang['done_1'] = 'Dank u voor het doneren, controleer nu de donatie in je karakter.';
 $lang['done_2'] = 'Als de donatie niet verschijnt op je karakter, Neem dan contact op met de administratie.';
