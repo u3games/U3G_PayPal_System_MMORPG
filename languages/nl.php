@@ -29,6 +29,7 @@ $lang['message_11'] = 'PK punten';
 $lang['message_12'] = 'Vewijder alle PK punten';
 $lang['message_13'] = 'Enchant';
 $lang['message_14'] = 'equipped items';
+$lang['message_15'] = 'No item has been selected for enchantment.';
 
 $lang['recallform_1'] = 'karakter is online! Verbreek de verbinding om verder te gaan met de donatie.';
 $lang['recallform_2'] = 'Uw karakter naam moet minimaal 3 karakters bevatten.';
