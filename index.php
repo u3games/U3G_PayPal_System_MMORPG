@@ -28,7 +28,7 @@ include_once 'common.php';
 		error_reporting(E_ALL ^ (E_NOTICE | E_WARNING));
 	}
 	
-		//XML full names on items
+	//XML full names on items
 	// Load xml file
 	$xml_file = "system/xml/1.xml";
 	$xmlload= simplexml_load_file($xml_file);
@@ -263,7 +263,7 @@ if (isset($_POST["submit"]))
 						}
 					if ($fullarmorbreastplate_enc == $get_enchant_option)
 						{
-							echo $breastplate_item_name, ' +', $breastplate_full_enchant_enabled;
+							echo $breastplate_item_name, ' +', $breastplate_full_enchant_amount;
 						}
 					if ($shield_enc == $get_enchant_option)
 						{
@@ -343,7 +343,73 @@ if (isset($_POST["submit"]))
 				if ($necklace_enc == $get_enchant_option)
 					{
 						?>
-						<option value="<?php echo $helmet_donate_amount?>"><?php echo $lang['message_13'], ':',' ',$necklace_item_name, ' ', '+', $necklac_enchant_amount, ' ',  $currency_code_html, $necklace_donate_amount;?>.00 </option>
+						<option value="<?php echo $necklace_donate_amount?>"><?php echo $lang['message_13'], ':',' ',$necklace_item_name, ' ', '+', $necklace_enchant_amount, ' ',  $currency_code_html, $necklace_donate_amount;?>.00 </option>
+						<?php
+					}
+				if ($weapon_enc == $get_enchant_option)
+					{
+						?>
+						<option value="<?php echo $weapon_donate_amount?>"><?php echo $lang['message_13'], ':',' ',$weapon_item_name, ' ', '+', $weapon_enchant_amount, ' ',  $currency_code_html, $weapon_donate_amount;?>.00 </option>
+						<?php
+					}
+				if ($fullarmorbreastplate_enc == $get_enchant_option)
+					{
+						?>
+						<option value="<?php echo $breastplate_full_donate_amount?>"><?php echo $lang['message_13'], ':',' ',$breastplate_item_name, ' ', '+', $breastplate_full_enchant_amount, ' ',  $currency_code_html, $breastplate_full_donate_amount;?>.00 </option>
+						<?php
+					}
+				if ($shield_enc == $get_enchant_option)
+					{
+						?>
+						<option value="<?php echo $shield_donate_amount?>"><?php echo $lang['message_13'], ':',' ',$shield_item_name, ' ', '+', $shield_enchant_amount, ' ',  $currency_code_html, $shield_donate_amount;?>.00 </option>
+						<?php
+					}
+				if ($ring1_enc == $get_enchant_option)
+					{
+						?>
+						<option value="<?php echo $ring_donate_amount?>"><?php echo $lang['message_13'], ':',' ',$ring1_item_name, ' ', '+', $ring_enchant_amount, ' ',  $currency_code_html, $ring_donate_amount;?>.00 </option>
+						<?php
+					}
+				if ($ring2_enc == $get_enchant_option)
+					{
+						?>
+						<option value="<?php echo $ring_donate_amount?>"><?php echo $lang['message_13'], ':',' ',$ring2_item_name, ' ', '+', $ring_enchant_amount, ' ',  $currency_code_html, $ring_donate_amount;?>.00 </option>
+						<?php
+					}
+				if ($earring1_enc == $get_enchant_option)
+					{
+						?>
+						<option value="<?php echo $earring_donate_amount?>"><?php echo $lang['message_13'], ':',' ',$lowearring_item_name, ' ', '+', $earring_enchant_amount, ' ',  $currency_code_html, $earring_donate_amount;?>.00 </option>
+						<?php
+					}
+				if ($earring2_enc == $get_enchant_option)
+					{
+						?>
+						<option value="<?php echo $earring_donate_amount?>"><?php echo $lang['message_13'], ':',' ',$upearring_item_name, ' ', '+', $earring_enchant_amount, ' ',  $currency_code_html, $earring_donate_amount;?>.00 </option>
+						<?php
+					}
+				if ($gloves_enc == $get_enchant_option)
+					{
+						?>
+						<option value="<?php echo $gloves_donate_amount?>"><?php echo $lang['message_13'], ':',' ',$gloves_item_name, ' ', '+', $gloves_enchant_amount, ' ',  $currency_code_html, $gloves_donate_amount;?>.00 </option>
+						<?php
+					}
+				if ($leggings_enc == $get_enchant_option)
+					{
+						?>
+						<option value="<?php echo $leggings_donate_amount?>"><?php echo $lang['message_13'], ':',' ',$leggings_item_name, ' ', '+', $leggings_enchant_amount, ' ',  $currency_code_html, $leggings_donate_amount;?>.00 </option>
+						<?php
+					}
+				if ($boots_enc == $get_enchant_option)
+					{
+						?>
+						<option value="<?php echo $boots_donate_amount?>"><?php echo $lang['message_13'], ':',' ',$boots_item_name, ' ', '+', $boots_enchant_amount, ' ',  $currency_code_html, $boots_donate_amount;?>.00 </option>
+						<?php
+					}
+				if ($belt_enc == $get_enchant_option)
+					{
+						?>
+						<option value="<?php echo $belt_donate_amount?>"><?php echo $lang['message_13'], ':',' ',$belt_item_name, ' ', '+', $belt_enchant_amount, ' ',  $currency_code_html, $belt_donate_amount;?>.00 </option>
 						<?php
 					}
 					?>
