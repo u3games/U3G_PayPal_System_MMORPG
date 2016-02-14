@@ -30,6 +30,7 @@ $lang['message_12'] = 'Remove all PK points';
 $lang['message_13'] = 'Enchant';
 $lang['message_14'] = 'equipped items';
 $lang['message_15'] = 'No item has been selected for enchantment.';
+$lang['message_16'] = 'Enchant all items';
 
 $lang['recallform_1'] = 'El personaje esta conectado! Por favor, desconéctelo para poder realizar la donación.';
 $lang['recallform_2'] = 'Por favor, introduzque un nombre con más de 3 caracteres.';
@@ -68,6 +69,10 @@ $lang['enchant_24'] = 'Gloves option is disabled.';
 $lang['enchant_25'] = 'Leggings option is disabled.';
 $lang['enchant_26'] = 'Boots option is disabled.';
 $lang['enchant_27'] = 'Belt option is disabled.';
+$lang['enchant_28'] = 'You need to equip some items.';
+$lang['enchant_29'] = 'All items enchant is disabled.';
+$lang['enchant_30'] = 'All equipped items';
+$lang['enchant_31'] = 'Some equipped items are at max enchant.';
 
 $lang['done_1'] = 'Gracias por la donación realizada, ahora revisa que el item ha sido enviado al personaje indicado.';
 $lang['done_2'] = 'Si no habéis recibido el item, contacte con la administración antes de realizar una nueva donación.';
