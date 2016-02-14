@@ -254,6 +254,13 @@ $belt_enchant_amount = 18;
 // Price of the donation.
 $belt_donate_amount = 10;
 
+// Define ALL ITEMS enchant (true=on | false=off)
+$all_enchant_enabled = true;
+// Enchant amount.
+$all_enchant_amount = 18;
+// Price of the donation.
+$all_donate_amount = 100;
+
 
 // Enable or Disable Captcha (true=on | false=off )
 // Default: true
