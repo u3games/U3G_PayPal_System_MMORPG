@@ -29,6 +29,7 @@ $lang['message_11'] = 'PK points';
 $lang['message_12'] = 'Remove all PK points';
 $lang['message_13'] = 'Enchant';
 $lang['message_14'] = 'equipped items';
+$lang['message_15'] = 'No item has been selected for enchantment.';
 
 $lang['recallform_1'] = 'El personaje esta conectado! Por favor, desconéctelo para poder realizar la donación.';
 $lang['recallform_2'] = 'Por favor, introduzque un nombre con más de 3 caracteres.';
