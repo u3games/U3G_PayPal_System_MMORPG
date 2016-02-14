@@ -445,14 +445,21 @@ if (empty($_POST['enchantsubmit']))
 				<?php
 					}
 				}
-					// checks for the first form
-					if (isset($_POST['submit']))
+		// checks for the first form
+		if (isset($_POST['submit']))
+			{
+				// Wait for x seconds
+				if ($loading_delay == true)
 					{
-						// Wait for x seconds
-						if ($loading_delay == true)
-						{
-							sleep($delaytime);
-						}
+						sleep($delaytime);
+					}
+
+					// gets the selected option from form
+					$donation_select = htmlspecialchars($_POST['donation_select']);
+
+					// Checks the connection
+					if ($connection == true)
+					{
 						if ($use_captcha == true)
 						{
 							$captcha_post = htmlspecialchars($_POST['norobot']);
@@ -466,13 +473,6 @@ if (empty($_POST['enchantsubmit']))
 						// Captcha check
 						if (md5($captcha_post) == $captcha_random_ses)	
 						{
-
-							// gets the selected option from form
-							$donation_select = htmlspecialchars($_POST['donation_select']);
-
-							// Checks the connection
-							if ($connection == true)
-							{
 							// Checks if something is selected in the select box
 							if ($donation_select != "")
 							{
@@ -1763,6 +1763,17 @@ if (empty($_POST['enchantsubmit']))
 							$connection = null;
 						}
 					}
+				//message if captcha is wrong
+				else	
+					{		
+						include("recallform.php");
+						?>
+							<center><?php echo $lang['recallform_8']; ?> </center><br>
+						<?php
+						// set connection to null
+						$connection = null;
+					}
+				}
 				// message when the connection fails
 				else
 				{
@@ -1773,17 +1784,7 @@ if (empty($_POST['enchantsubmit']))
 					// set connection to null
 					$connection = null;
 				}
-			}
-		//message if captcha is wrong
-		else	
-		{			
-		include("recallform.php");
-		?>
-			<center><?php echo $lang['recallform_8']; ?> </center><br>
-		<?php
-			// set connection to null
-				$connection = null;
-		}
+
 	}
 	if ($use_sandbox == true)
 		{
