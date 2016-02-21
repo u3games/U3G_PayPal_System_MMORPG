@@ -616,12 +616,6 @@ if (empty($_POST['enchantsubmit']))
 														// Checks if telnet is enabled in the config and if the coins option is selected.
 														if (($use_telnet == true) && ($donation_select == $donation_option1))
 														{
-															// TODO: create a telnet connection check. player needs to logout if telnet connection is false.
-															//	include'system/ipn/l2j_telnet.php';
-															//	// Telnet host, port, pass, timeout.
-															//	$telnet = new telnet("".$telnet_host."", "".$telnet_port."", "".$telnet_pass."", 2);
-															//	$telnet_connect = $telnet->init();
-
 																?>
 																<div id="loginsuccess">
 																	<!-- Oke now lets show the donation options -->
