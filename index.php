@@ -1326,7 +1326,7 @@ if (empty($_POST['enchantsubmit']))
 																										<?php
 																									}
 																									else{
-																										// Checks if config amount is higher than the equipped item.
+																										// Checks if config enchant amount is higher than the equipped item.
 																										if ($helmet_enchant_amount > $char_helmet_enchant)
 																										{
 																											?>
@@ -1370,7 +1370,7 @@ if (empty($_POST['enchantsubmit']))
 																										<?php
 																									}
 																									else{
-																										// Checks if config amount is higher than the equipped item.
+																										// Checks if config enchant amount is higher than the equipped item.
 																										if ($necklace_enchant_amount > $char_necklace_enchant)
 																											{
 																												?>
@@ -1414,7 +1414,7 @@ if (empty($_POST['enchantsubmit']))
 																									<?php
 																								}
 																								else{
-																									// Checks if config amount is higher than the equipped item.
+																									// Checks if config enchant amount is higher than the equipped item.
 																									if ($weapon_enchant_amount > $char_weapon_enchant)
 																										{
 																											?>
@@ -1445,7 +1445,7 @@ if (empty($_POST['enchantsubmit']))
 																						if ($char_breastplate_full_id == 0)
 																							{
 																								?>
-																								<option value="FullarmorBreastplate" disabled>You need to equip a breastplate or full armor.</option>
+																								<option value="FullarmorBreastplate" disabled><?php echo $lang['enchant_8'];?></option>
 																								<?php
 																							}
 																							else
@@ -1459,7 +1459,7 @@ if (empty($_POST['enchantsubmit']))
 																									}
 																									else
 																										{
-																										// Checks if config amount is higher than the equipped item.
+																										// Checks if config enchant amount is higher than the equipped item.
 																										if ($breastplate_full_enchant_amount > $char_breastplate_full_enchant)
 																											{
 																												?>
@@ -1504,7 +1504,7 @@ if (empty($_POST['enchantsubmit']))
 																									}
 																									else
 																										{
-																										// Checks if config amount is higher than the equipped item.
+																										// Checks if config enchant amount is higher than the equipped item.
 																										if ($shield_enchant_amount > $char_shield_enchant)
 																											{
 																												?>
@@ -1549,7 +1549,7 @@ if (empty($_POST['enchantsubmit']))
 																									}
 																									else
 																										{
-																										// Checks if config amount is higher than the equipped item.
+																										// Checks if config enchant amount is higher than the equipped item.
 																										if ($ring_enchant_amount > $char_lowring_enchant)
 																											{
 																												?>
@@ -1583,7 +1583,7 @@ if (empty($_POST['enchantsubmit']))
 																									}
 																									else
 																										{
-																										// Checks if config amount is higher than the equipped item.
+																										// Checks if config enchant amount is higher than the equipped item.
 																										if ($ring_enchant_amount > $char_upring_enchant)
 																											{
 																												?>
@@ -1629,7 +1629,7 @@ if (empty($_POST['enchantsubmit']))
 																									}
 																									else
 																										{
-																										// Checks if config amount is higher than the equipped item.
+																										// Checks if config enchant amount is higher than the equipped item.
 																										if ($earring_enchant_amount > $char_lowearring_enchant)
 																											{
 																												?>
@@ -1663,7 +1663,7 @@ if (empty($_POST['enchantsubmit']))
 																									}
 																									else
 																										{
-																										// Checks if config amount is higher than the equipped item.
+																										// Checks if config enchant amount is higher than the equipped item.
 																										if ($earring_enchant_amount > $char_upearring_enchant)
 																											{
 																												?>
@@ -1709,7 +1709,7 @@ if (empty($_POST['enchantsubmit']))
 																									}
 																									else
 																										{
-																										// Checks if config amount is higher than the equipped item.
+																										// Checks if config enchant amount is higher than the equipped item.
 																										if ($gloves_enchant_amount > $char_gloves_enchant)
 																											{
 																												?>
@@ -1754,7 +1754,7 @@ if (empty($_POST['enchantsubmit']))
 																									}
 																									else
 																										{
-																										// Checks if config amount is higher than the equipped item.
+																										// Checks if config enchant amount is higher than the equipped item.
 																										if ($leggings_enchant_amount > $char_leggings_enchant)
 																											{
 																												?>
@@ -1799,7 +1799,7 @@ if (empty($_POST['enchantsubmit']))
 																									}
 																									else
 																										{
-																										// Checks if config amount is higher than the equipped item.
+																										// Checks if config enchant amount is higher than the equipped item.
 																										if ($boots_enchant_amount > $char_boots_enchant)
 																											{
 																												?>
@@ -1844,7 +1844,7 @@ if (empty($_POST['enchantsubmit']))
 																									}
 																									else
 																										{
-																										// Checks if config amount is higher than the equipped item.
+																										// Checks if config enchant amount is higher than the equipped item.
 																										if ($belt_enchant_amount > $char_belt_enchant)
 																											{
 																												?>
@@ -1889,7 +1889,7 @@ if (empty($_POST['enchantsubmit']))
 																									}
 																									else
 																										{
-																										// Checks if config amount is higher than the equipped item.
+																										// Checks if config enchant amount is higher than the equipped item.
 																										if (($all_enchant_amount > $char_shirt_enchant) && ($all_enchant_amount > $char_helmet_enchant) && ($all_enchant_amount > $char_necklace_enchant) && ($all_enchant_amount > $char_weapon_enchant) && ($all_enchant_amount > $char_breastplate_full_enchant) && ($all_enchant_amount > $char_shield_enchant) && ($all_enchant_amount > $char_lowring_enchant) && ($all_enchant_amount > $char_upring_enchant) && ($all_enchant_amount > $char_lowearring_enchant) && ($all_enchant_amount > $char_upearring_enchant) && ($all_enchant_amount > $char_gloves_enchant) && ($all_enchant_amount > $char_leggings_enchant) && ($all_enchant_amount > $char_boots_enchant) && ($all_enchant_amount > $char_belt_enchant))
 																											{
 																												?>
