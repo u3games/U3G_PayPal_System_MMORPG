@@ -23,7 +23,7 @@ if ($overview_ip_security == true)
 	if (!in_array($_SERVER['REMOTE_ADDR'], array($allowed_client1,$allowed_client2,$allowed_client3,$allowed_client4,$allowed_client5)))
 		{
 			header("HTTP/1.0 403 Forbidden");
-			die("You are not allowed to access this file.");
+			die("<center>You are not allowed to access this file.</center>");
 	}
 }
 
@@ -178,11 +178,11 @@ if ($overview_ip_security == true)
 																	?>
 															<br>Total donated:
 																	<?php
-																		echo $currency_code_html; echo' '; echo $result_amount_fetch;
+																		echo $currency_code_html, ' ', $result_amount_fetch;
 																	?>
 															<br>Total donated - paypal fee:
 																	<?php
-																		echo $currency_code_html; echo' '; echo $result_amount_fee_format;
+																		echo $currency_code_html,' ', $result_amount_fee_format;
 																	?>
 																</td></tr>
 															</table>

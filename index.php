@@ -32,14 +32,16 @@ include_once 'common.php';
 	// Load xml file.
 	$xml_file = "system/xml/1.xml";
 	$xmlload = simplexml_load_file($xml_file);
-	
+
 	// Full item name based on id and xml. Always use item id minus 1.
 	$item_coins_id_min1 = $item_id - 1;
 	$item_coins_name = $xmlload->item[$item_coins_id_min1]['name'];
+
 	// Set charname to false.
 	$charname = false;
 	// Set connection to null.
 	$connection = null;
+
 // Go in here if main submit button is used.
 if (isset($_POST["submit"]))
 	{
@@ -63,7 +65,7 @@ if (isset($_POST["submit"]))
 				$onlinechar_row->bindValue(1, $charname, PDO::PARAM_STR);
 				$onlinechar_row->execute();
 				$character_row_fetch = $onlinechar_row->fetchAll();
-						
+
 			if (!isset($character_row_fetch[0]['online']))
 			{
 				$character_row_fetch[0]['online'] = null;
@@ -91,7 +93,7 @@ if (isset($_POST["submit"]))
 				$local_log = '['.date('m/d/Y g:i A').'] - ';
 
 				// Logging: response from the server.
-				$local_log .= "INDEX.PHP ERROR: ". $e->getMessage();	
+				$local_log .= "INDEX.PHP ERROR: ". $e->getMessage();
 				$local_log .= '</td></tr><tr><td>';
 
 				// Write to log.
@@ -118,9 +120,9 @@ if (isset($_POST["submit"]))
 		{
 				// Get POST character name.
 				$selected_charname = htmlspecialchars($_POST['charname_select']);
-				
+
 				$donation_option4 = 'Enchitems';
-				
+
 				// Get POST  item naming information.
 				$shirt_item_name = htmlspecialchars($_POST['shirt_name_select']);
 				$helmet_item_name = htmlspecialchars($_POST['helmet_name_select']);
@@ -136,7 +138,7 @@ if (isset($_POST["submit"]))
 				$leggings_item_name = htmlspecialchars($_POST['leggings_name_select']);
 				$boots_item_name = htmlspecialchars($_POST['boots_name_select']);
 				$belt_item_name = htmlspecialchars($_POST['belt_name_select']);
-				
+
 				// Get POST enchant information.
 				$shirt_item_enc = htmlspecialchars($_POST['shirt_select_enc']);
 				$helmet_item_enc = htmlspecialchars($_POST['helmet_select_enc']);
@@ -152,7 +154,7 @@ if (isset($_POST["submit"]))
 				$leggings_item_enc = htmlspecialchars($_POST['leggings_select_enc']);
 				$boots_item_enc = htmlspecialchars($_POST['boots_select_enc']);
 				$belt_item_enc = htmlspecialchars($_POST['belt_select_enc']);
-				
+
 				// Used for checking.
 				$shirt_enc = 'Shirt';
 				$helmet_enc = 'Helmet';
@@ -169,7 +171,7 @@ if (isset($_POST["submit"]))
 				$boots_enc = 'Boots';
 				$belt_enc = 'Belt';
 				$all_enc = 'All_Enc';
-				
+
 			?>
 				<!-- Shows the choosen item enchant. -->
 				<center>
@@ -324,23 +326,22 @@ if (isset($_POST["submit"]))
 						{
 							echo $lang['message_16'];
 						}
-						
 					?>"/>
 
 				<!-- Custom field enchant items -->
 				<input type="hidden" name="custom" value="<?php echo $selected_charname, '|', $donation_option4, '|', $get_enchant_option;?>">
-				
+
 				<!-- Your PayPal email -->
 				<input type="hidden" name="business" value="<?php echo $myPayPalEmail?>" />
 				<!-- PayPal will send an IPN notification to this URL -->
 				<input type="hidden" name="notify_url" value="<?php echo $urlipn?>/ipn_donations.php" />
-				
+
 				<!-- The return page to which the user is navigated after the donations is complete -->
 				<input type="hidden" name="return" value="<?php echo $ipnthnx?>/done.php" />
-				
+
 				<!-- Signifies that the transaction data will be passed to the return page by POST -->
 				<input type="hidden" name="rm" value="2" />
-				
+
 				<!-- General configuration variables for the paypal landing page. Consult -->
 				<!-- http://www.paypal.com/IntegrationCenter/ic_std-variable-ref-donate.html for more info -->
 				<input type="hidden" name="no_note" value="1" />
@@ -348,7 +349,7 @@ if (isset($_POST["submit"]))
 				<input type="hidden" name="no_shipping" value="1" />
 				<input type="hidden" name="lc" value="US" />
 				<input type="hidden" name="currency_code" value="<?php echo $currency_code?>" />
-				
+
 				<select name="amount">
 					<?php
 				if ($shirt_enc == $get_enchant_option)
@@ -442,10 +443,9 @@ if (isset($_POST["submit"]))
 						<?php
 					}
 					?>
-					
 				</select><br><br>
-				
-				<!-- Here you can change the image of the coins donation button  -->
+
+				<!-- Here you can change the image of the enchant donation button  -->
 				<input type="image" src="https://www.paypal.com/en_US/i/btn/btn_donate_LG.gif" name="submit" alt="PayPal - The safer, easier way to pay online!" />
 				<img alt="" src="https://www.paypal.com/en_US/i/scr/pixel.gif" width="1" height="1" />
 				<input type="hidden" name="bn" value="PP-DonationsBF:btn_donate_LG.gif:NonHostedGuest" />
@@ -574,7 +574,7 @@ if (empty($_POST['enchantsubmit']))
 							$captcha_random_ses = md5(1);
 						}
 				// Captcha check.
-				if (md5($captcha_post) == $captcha_random_ses)	
+				if (md5($captcha_post) == $captcha_random_ses)
 					{
 					// Gets the selected option from form.
 					$donation_select = htmlspecialchars($_POST['donation_select']);
@@ -616,8 +616,13 @@ if (empty($_POST['enchantsubmit']))
 														// Checks if telnet is enabled in the config and if the coins option is selected.
 														if (($use_telnet == true) && ($donation_select == $donation_option1))
 														{
-																// Character is online and the coin option is selected.
-												?>
+															// TODO: create a telnet connection check. player needs to logout if telnet connection is false.
+															//	include'system/ipn/l2j_telnet.php';
+															//	// Telnet host, port, pass, timeout.
+															//	$telnet = new telnet("".$telnet_host."", "".$telnet_port."", "".$telnet_pass."", 2);
+															//	$telnet_connect = $telnet->init();
+
+																?>
 																<div id="loginsuccess">
 																	<!-- Oke now lets show the donation options -->
 																	<!-- The PayPal coins Donation option list -->
@@ -664,19 +669,19 @@ if (empty($_POST['enchantsubmit']))
 																						{
 																							?>
 																							<option value="<?php echo $donatecoinamount1?>"><?php echo $donatecoinreward1, ' X ', $item_coins_name, ' ', $currency_code_html, $donatecoinamount1;?>.00 </option>
-																							<?php		
+																							<?php
 																						}
 																					if ($coins2_enabled == true)
 																						{
 																							?>
 																							<option value="<?php echo $donatecoinamount2?>"><?php echo $donatecoinreward2, ' X ', $item_coins_name, ' ', $currency_code_html, $donatecoinamount2;?>.00</option>
-																							<?php		
+																							<?php
 																						}
 																					if ($coins3_enabled == true)
 																						{
 																							?>
 																							<option value="<?php echo $donatecoinamount3?>"><?php echo $donatecoinreward3, ' X ', $item_coins_name, ' ', $currency_code_html, $donatecoinamount3;?>.00</option>
-																							<?php		
+																							<?php
 																						}
 																					if ($coins4_enabled == true)
 																						{
@@ -699,7 +704,7 @@ if (empty($_POST['enchantsubmit']))
 															<?php
 															// Set connection to null.
 															$connection = null;
-														}
+													}
 														// Message if telnet is disabled in config and the player needs to logout.
 														else
 														{
@@ -735,7 +740,7 @@ if (empty($_POST['enchantsubmit']))
 																<input type="hidden" name="business" value="<?php echo $myPayPalEmail?>" />
 																<!-- PayPal will send an IPN notification to this URL -->
 																<input type="hidden" name="notify_url" value="<?php echo $urlipn?>/ipn_donations.php" />
-																
+
 																<!-- The return page to which the user is navigated after the donations is complete -->
 																<input type="hidden" name="return" value="<?php echo $ipnthnx?>/done.php" />
 																
@@ -755,17 +760,17 @@ if (empty($_POST['enchantsubmit']))
 																			<?php
 																				// Coins messagebox text.
 																				if ($donation_select == $donation_option1)
-																					{	
+																					{
 																						echo $lang['message_5'];
 																					}
 																				// Karma messagebox text.
 																				if ($donation_select == $donation_option2)
-																					{	
+																					{
 																						echo $lang['message_8'];
 																					}
 																				// PK points messagebox text
 																				if ($donation_select == $donation_option3)
-																					{	
+																					{
 																						echo $lang['message_8'];
 																					}
 																			?>
@@ -781,19 +786,19 @@ if (empty($_POST['enchantsubmit']))
 																						{
 																							?>
 																							<option value="<?php echo $donatecoinamount1?>"><?php echo $donatecoinreward1, ' X ', $item_coins_name, ' ', $currency_code_html, $donatecoinamount1;?>.00 </option>
-																							<?php		
+																							<?php
 																						}
 																					if ($coins2_enabled == true)
 																						{
 																							?>
 																							<option value="<?php echo $donatecoinamount2?>"><?php echo $donatecoinreward2, ' X ', $item_coins_name, ' ', $currency_code_html, $donatecoinamount2;?>.00</option>
-																							<?php		
+																							<?php
 																						}
 																					if ($coins3_enabled == true)
 																						{
 																							?>
 																							<option value="<?php echo $donatecoinamount3?>"><?php echo $donatecoinreward3, ' X ', $item_coins_name, ' ', $currency_code_html, $donatecoinamount3;?>.00</option>
-																							<?php		
+																							<?php
 																						}
 																					if ($coins4_enabled == true)
 																						{
@@ -809,26 +814,26 @@ if (empty($_POST['enchantsubmit']))
 																						{
 																							?>
 																							<option value="<?php echo $donatekarmaamount1?>"><?php echo $lang['message_8'], ' ', $donateremovekarma1, ' ', $lang['message_9'], ' ', $currency_code_html, $donatekarmaamount1;?>.00 </option>
-																							<?php		
+																							<?php
 																						}
 																					if ($karma2_enabled == true)
 																						{
 																							?>
 																							<option value="<?php echo $donatekarmaamount2?>"><?php echo $lang['message_8'], ' ', $donateremovekarma2, ' ', $lang['message_9'], ' ', $currency_code_html, $donatekarmaamount2;?>.00 </option>
-																							<?php		
+																							<?php
 																						}
 																					if ($karma3_enabled == true)
 																						{
 																							?>
 																							<option value="<?php echo $donatekarmaamount3?>"><?php echo $lang['message_8'], ' ', $donateremovekarma3, ' ', $lang['message_9'], ' ', $currency_code_html, $donatekarmaamount3;?>.00 </option>
-																							<?php		
+																							<?php
 																						}
 																					if ($karma4_enabled == true)
 																						{
 																							?>
 																							<option value="<?php echo $donatekarmaallamount?>"><?php echo $lang['message_10'], ' ', $currency_code_html, $donatekarmaallamount;?>.00</option>
 																							<?php
-																						}																			
+																						}
 																					}
 																				// PK POINTS
 																				if ($donation_select == $donation_option3)
@@ -837,19 +842,19 @@ if (empty($_POST['enchantsubmit']))
 																						{
 																							?>
 																							<option value="<?php echo $donatepkamount1?>"><?php echo $lang['message_8'], ' ', $donateremovepk1, ' ', $lang['message_11'], ' ', $currency_code_html, $donatepkamount1;?>.00 </option>
-																							<?php		
+																							<?php
 																						}
 																					if ($pkpoints2_enabled == true)
 																						{
 																							?>
 																							<option value="<?php echo $donatepkamount2?>"><?php echo $lang['message_8'], ' ', $donateremovepk2, ' ', $lang['message_11'], ' ', $currency_code_html, $donatepkamount2;?>.00 </option>
-																							<?php		
+																							<?php
 																						}
 																					if ($pkpoints3_enabled == true)
 																						{
 																							?>
 																							<option value="<?php echo $donatepkamount3?>"><?php echo $lang['message_8'], ' ', $donateremovepk3, ' ', $lang['message_11'], ' ', $currency_code_html, $donatepkamount3;?>.00 </option>
-																							<?php		
+																							<?php
 																						}
 																					if ($pkpoints4_enabled == true)
 																						{
@@ -878,7 +883,7 @@ if (empty($_POST['enchantsubmit']))
 													// Enchant items donation page.
 													else
 													{
-														// Checks if enchant donation option is selected. TODO: maby make a log ?
+														// Checks if enchant donation option is selected.
 														if ($donation_select == $donation_option4)
 															{
 															if (!isset($_POST['enchantsubmit']))
@@ -1217,28 +1222,6 @@ if (empty($_POST['enchantsubmit']))
 																								$char_belt_enchant_select->execute();
 																								$char_belt_enchant_fetch = $char_belt_enchant_select->fetchAll();
 																								$char_belt_enchant = @$char_belt_enchant_fetch[0]['enchant_level'];
-
-																								// TODO: Define a custom array of item id's to block with config option.
-																								
-																								// TODO: Define cursed weapons ids with turn on/off in config.
-																								$bloodswordakamanah = 8689;
-																								$demonicswordzariche = 8190;
-
-																								// TODO: Define hero weapons ids with turn on/off in config.
-																								$heroweap1 = 6611;
-																								$heroweap2 = 6612;
-																								$heroweap3 = 6613;
-																								$heroweap4 = 6614;
-																								$heroweap5 = 6615;
-																								$heroweap6 = 6616;
-																								$heroweap7 = 6617;
-																								$heroweap8 = 6618;
-																								$heroweap9 = 6619;
-																								$heroweap10 = 6620;
-																								$heroweap11 = 6611;
-																								$heroweap12 = 9388;
-																								$heroweap13 = 9389;
-																								$heroweap14 = 9390;
 																							}
 																						catch(PDOException $e) {
 																							// Set connection to null.
@@ -1289,25 +1272,33 @@ if (empty($_POST['enchantsubmit']))
 																								<option value="Shirt" disabled><?php echo $lang['enchant_4'];?></option>
 																								<?php
 																							}
-																						else
-																							{
-																								// Checks if config shirt enchant amount is higher than the equipped item.
-																								if ($shirt_enchant_amount > $char_shirt_enchant)
+																							else
 																								{
-																							
-																									?>
-																									<option value="Shirt"><?php echo '+', $shirt_enchant_amount, ' ', 'Shirt: ', $char_shirt_name, ' ', $currency_code_html, $shirt_donate_amount;?>.00 </option>
-																									<?php
-																								}
-																								// Cannot be enchanted higher.
-																								else
-																								{
-																									?>
-																									<option value="Shirt" disabled><?php echo '+', $char_shirt_enchant, ' ', $char_shirt_name, ' ', $lang['enchant_3'];?></option>
-																									<?php
+																								// Checks if player got a blocked item id equipped.
+																								if (in_array($char_shirt_id, $enc_item_blocked)) 
+																									{
+																										?>
+																										<option value="Shirt" disabled><?php echo $char_shirt_name, ' ', $lang['enchant_32'];?></option>
+																										<?php
+																									}
+																									else{
+																										// Checks if config shirt enchant amount is higher than the equipped item.
+																										if ($shirt_enchant_amount > $char_shirt_enchant)
+																										{
+																											?>
+																											<option value="Shirt"><?php echo '+', $shirt_enchant_amount, ' ', 'Shirt: ', $char_shirt_name, ' ', $currency_code_html, $shirt_donate_amount;?>.00 </option>
+																											<?php
+																										}
+																										// Cannot be enchanted higher.
+																										else
+																										{
+																											?>
+																											<option value="Shirt" disabled><?php echo '+', $char_shirt_enchant, ' ', $char_shirt_name, ' ', $lang['enchant_3'];?></option>
+																											<?php
+																										}
+																									}
 																								}
 																							}
-																						}
 																						// This function is disabled.
 																						else
 																							{
@@ -1325,24 +1316,33 @@ if (empty($_POST['enchantsubmit']))
 																								<option value="Helmet" disabled><?php echo $lang['enchant_5'];?></option>
 																								<?php
 																							}
-																						else
-																							{
-																								// Checks if config amount is higher than the equipped item.
-																								if ($helmet_enchant_amount > $char_helmet_enchant)
+																							else
 																								{
-																									?>
-																									<option value="Helmet"><?php echo '+', $helmet_enchant_amount, ' ', 'Helmet: ', $char_helmet_name, ' ', $currency_code_html, $helmet_donate_amount;?>.00 </option>
-																									<?php
-																								}
-																								// Cannot be enchanted higher.
-																								else
-																								{
-																									?>
-																									<option value="Helmet" disabled><?php echo '+', $char_helmet_enchant, ' ', $char_helmet_name, ' ', $lang['enchant_3'];?></option>
-																									<?php
+																								// Checks if player got a blocked item id equipped.
+																								if (in_array($char_helmet_id, $enc_item_blocked)) 
+																									{
+																										?>
+																										<option value="Helmet" disabled><?php echo $char_helmet_name, ' ', $lang['enchant_32'];?></option>
+																										<?php
+																									}
+																									else{
+																										// Checks if config amount is higher than the equipped item.
+																										if ($helmet_enchant_amount > $char_helmet_enchant)
+																										{
+																											?>
+																											<option value="Helmet"><?php echo '+', $helmet_enchant_amount, ' ', 'Helmet: ', $char_helmet_name, ' ', $currency_code_html, $helmet_donate_amount;?>.00 </option>
+																											<?php
+																										}
+																										// Cannot be enchanted higher.
+																										else
+																										{
+																											?>
+																											<option value="Helmet" disabled><?php echo '+', $char_helmet_enchant, ' ', $char_helmet_name, ' ', $lang['enchant_3'];?></option>
+																											<?php
+																										}
+																									}
 																								}
 																							}
-																						}
 																						// This function is disabled.
 																						else
 																							{
@@ -1360,24 +1360,33 @@ if (empty($_POST['enchantsubmit']))
 																								<option value="Necklace" disabled><?php echo $lang['enchant_6'];?></option>
 																								<?php
 																							}
-																						else
-																							{
-																							// Checks if config amount is higher than the equipped item.
-																							if ($necklace_enchant_amount > $char_necklace_enchant)
+																							else
 																								{
-																									?>
-																									<option value="Necklace"><?php echo '+', $necklace_enchant_amount, ' ', 'Necklace: ', $char_necklace_name, ' ', $currency_code_html, $necklace_donate_amount;?>.00 </option>
-																									<?php
+																								// Checks if player got a blocked item id equipped.
+																								if (in_array($char_necklace_id, $enc_item_blocked)) 
+																									{
+																										?>
+																										<option value="Necklace" disabled><?php echo $char_necklace_name, ' ', $lang['enchant_32'];?></option>
+																										<?php
+																									}
+																									else{
+																										// Checks if config amount is higher than the equipped item.
+																										if ($necklace_enchant_amount > $char_necklace_enchant)
+																											{
+																												?>
+																												<option value="Necklace"><?php echo '+', $necklace_enchant_amount, ' ', 'Necklace: ', $char_necklace_name, ' ', $currency_code_html, $necklace_donate_amount;?>.00 </option>
+																												<?php
+																											}
+																											// Cannot be enchanted higher.
+																											else
+																											{
+																												?>
+																												<option value="Necklace" disabled><?php echo '+', $char_necklace_enchant, ' ', $char_necklace_name, ' ', $lang['enchant_3'];?></option>
+																												<?php
+																											}
+																										}
+																									}
 																								}
-																								// Cannot be enchanted higher.
-																								else
-																								{
-																									?>
-																									<option value="Necklace" disabled><?php echo '+', $char_necklace_enchant, ' ', $char_necklace_name, ' ', $lang['enchant_3'];?></option>
-																									<?php
-																								}
-																							}
-																						}
 																						// This function is disabled.
 																						else
 																							{
@@ -1397,22 +1406,31 @@ if (empty($_POST['enchantsubmit']))
 																							}
 																						else
 																							{
-																								// Checks if config amount is higher than the equipped item.
-																								if ($weapon_enchant_amount > $char_weapon_enchant)
+																							// Checks if player got a blocked item id equipped.
+																							if (in_array($char_weapon_id, $enc_item_blocked)) 
 																								{
 																									?>
-																									<option value="Weapon"><?php echo '+', $weapon_enchant_amount, ' ', 'Weapon: ', $char_weapon_name, ' ', $currency_code_html, $weapon_donate_amount;?>.00 </option>
+																									<option value="Weapon" disabled><?php echo $char_weapon_name, ' ', $lang['enchant_32'];?></option>
 																									<?php
 																								}
-																								// Cannot be enchanted higher.
-																								else
-																								{
-																									?>
-																									<option value="Weapon" disabled><?php echo '+', $char_weapon_enchant, ' ', $char_weapon_name, ' ', $lang['enchant_3'];?></option>
-																									<?php
+																								else{
+																									// Checks if config amount is higher than the equipped item.
+																									if ($weapon_enchant_amount > $char_weapon_enchant)
+																										{
+																											?>
+																											<option value="Weapon"><?php echo '+', $weapon_enchant_amount, ' ', 'Weapon: ', $char_weapon_name, ' ', $currency_code_html, $weapon_donate_amount;?>.00 </option>
+																											<?php
+																										}
+																										// Cannot be enchanted higher.
+																										else
+																										{
+																											?>
+																											<option value="Weapon" disabled><?php echo '+', $char_weapon_enchant, ' ', $char_weapon_name, ' ', $lang['enchant_3'];?></option>
+																											<?php
+																										}
+																									}
 																								}
 																							}
-																						}
 																						// This function is disabled.
 																						else
 																							{
@@ -1430,24 +1448,34 @@ if (empty($_POST['enchantsubmit']))
 																								<option value="FullarmorBreastplate" disabled>You need to equip a breastplate or full armor.</option>
 																								<?php
 																							}
-																						else
-																							{
-																							// Checks if config amount is higher than the equipped item.
-																							if ($breastplate_full_enchant_amount > $char_breastplate_full_enchant)
+																							else
 																								{
-																									?>
-																									<option value="FullarmorBreastplate"><?php echo '+', $breastplate_full_enchant_amount, ' ', 'Armor: ', $char_breastplate_full_name, ' ', $currency_code_html, $breastplate_full_donate_amount;?>.00 </option>
-																									<?php
+																								// Checks if player got a blocked item id equipped.
+																								if (in_array($char_breastplate_full_id, $enc_item_blocked)) 
+																									{
+																										?>
+																										<option value="FullarmorBreastplate" disabled><?php echo $char_breastplate_full_name, ' ', $lang['enchant_32'];?></option>
+																										<?php
+																									}
+																									else
+																										{
+																										// Checks if config amount is higher than the equipped item.
+																										if ($breastplate_full_enchant_amount > $char_breastplate_full_enchant)
+																											{
+																												?>
+																												<option value="FullarmorBreastplate"><?php echo '+', $breastplate_full_enchant_amount, ' ', 'Armor: ', $char_breastplate_full_name, ' ', $currency_code_html, $breastplate_full_donate_amount;?>.00 </option>
+																												<?php
+																											}
+																											// Cannot be enchanted higher.
+																											else
+																											{
+																												?>
+																												<option value="FullarmorBreastplate" disabled><?php echo '+', $char_breastplate_full_enchant, ' ', $char_breastplate_full_name, ' ', $lang['enchant_3'];?></option>
+																												<?php
+																											}
+																										}
+																									}
 																								}
-																								// Cannot be enchanted higher.
-																								else
-																								{
-																									?>
-																									<option value="FullarmorBreastplate" disabled><?php echo '+', $char_breastplate_full_enchant, ' ', $char_breastplate_full_name, ' ', $lang['enchant_3'];?></option>
-																									<?php
-																								}
-																							}
-																						}
 																						// This function is disabled.
 																						else
 																							{
@@ -1465,24 +1493,34 @@ if (empty($_POST['enchantsubmit']))
 																								<option value="Shield" disabled><?php echo $lang['enchant_9'];?></option>
 																								<?php
 																							}
-																						else
-																							{
-																							// Checks if config amount is higher than the equipped item.
-																							if ($shield_enchant_amount > $char_shield_enchant)
+																							else
 																								{
-																									?>
-																									<option value="Shield"><?php echo '+', $shield_enchant_amount, ' ', 'Shield: ', $char_shield_name, ' ', $currency_code_html, $shield_donate_amount;?>.00 </option>
-																									<?php
+																								// Checks if player got a blocked item id equipped.
+																								if (in_array($char_shield_id, $enc_item_blocked)) 
+																									{
+																										?>
+																										<option value="Shield" disabled><?php echo $char_shield_name, ' ', $lang['enchant_32'];?></option>
+																										<?php
+																									}
+																									else
+																										{
+																										// Checks if config amount is higher than the equipped item.
+																										if ($shield_enchant_amount > $char_shield_enchant)
+																											{
+																												?>
+																												<option value="Shield"><?php echo '+', $shield_enchant_amount, ' ', 'Shield: ', $char_shield_name, ' ', $currency_code_html, $shield_donate_amount;?>.00 </option>
+																												<?php
+																											}
+																											// Cannot be enchanted higher.
+																											else
+																											{
+																												?>
+																												<option value="Shield" disabled><?php echo '+', $char_shield_enchant, ' ', $char_shield_name, ' ', $lang['enchant_3'];?></option>
+																												<?php
+																											}
+																										}
+																									}
 																								}
-																								// Cannot be enchanted higher.
-																								else
-																								{
-																									?>
-																									<option value="Shield" disabled><?php echo '+', $char_shield_enchant, ' ', $char_shield_name, ' ', $lang['enchant_3'];?></option>
-																									<?php
-																								}
-																							}
-																						}
 																						// This function is disabled.
 																						else
 																							{
@@ -1500,23 +1538,33 @@ if (empty($_POST['enchantsubmit']))
 																								<option value="Ring1" disabled><?php echo $lang['enchant_10'];?></option>
 																								<?php
 																							}
-																						else
-																							{
-																							// Checks if config amount is higher than the equipped item.
-																							if ($ring_enchant_amount > $char_lowring_enchant)
+																							else
 																								{
-																									?>
-																									<option value="Ring1"><?php echo '+', $ring_enchant_amount, ' ', 'Ring: ', $char_lowring_name, ' ', $currency_code_html, $ring_donate_amount;?>.00 </option>
-																									<?php
-																								}
-																								// Cannot be enchanted higher.
-																								else
-																								{
-																									?>
-																									<option value="Ring1" disabled><?php echo '+', $char_lowring_enchant, ' ', $char_lowring_name, ' ', $lang['enchant_3'];?></option>
-																									<?php
-																								}
-																							}
+																								// Checks if player got a blocked item id equipped.
+																								if (in_array($char_lowring_id, $enc_item_blocked)) 
+																									{
+																										?>
+																										<option value="Ring1" disabled><?php echo $char_lowring_name, ' ', $lang['enchant_32'];?></option>
+																										<?php
+																									}
+																									else
+																										{
+																										// Checks if config amount is higher than the equipped item.
+																										if ($ring_enchant_amount > $char_lowring_enchant)
+																											{
+																												?>
+																												<option value="Ring1"><?php echo '+', $ring_enchant_amount, ' ', 'Ring: ', $char_lowring_name, ' ', $currency_code_html, $ring_donate_amount;?>.00 </option>
+																												<?php
+																											}
+																											// Cannot be enchanted higher.
+																											else
+																											{
+																												?>
+																												<option value="Ring1" disabled><?php echo '+', $char_lowring_enchant, ' ', $char_lowring_name, ' ', $lang['enchant_3'];?></option>
+																												<?php
+																											}
+																										}
+																									}
 																						// Checks if item is equipped.
 																						if ($char_upring_id == 0)
 																							{
@@ -1524,24 +1572,34 @@ if (empty($_POST['enchantsubmit']))
 																								<option value="Ring2" disabled><?php echo $lang['enchant_10'];?></option>
 																								<?php
 																							}
-																						else
-																							{
-																							// Checks if config amount is higher than the equipped item.
-																							if ($ring_enchant_amount > $char_upring_enchant)
+																							else
 																								{
-																									?>
-																									<option value="Ring2"><?php echo '+', $ring_enchant_amount, ' ', 'Ring: ', $char_upring_name, ' ', $currency_code_html, $ring_donate_amount;?>.00 </option>
-																									<?php
+																								// Checks if player got a blocked item id equipped.
+																								if (in_array($char_upring_id, $enc_item_blocked)) 
+																									{
+																										?>
+																										<option value="Ring2" disabled><?php echo $char_upring_name, ' ', $lang['enchant_32'];?></option>
+																										<?php
+																									}
+																									else
+																										{
+																										// Checks if config amount is higher than the equipped item.
+																										if ($ring_enchant_amount > $char_upring_enchant)
+																											{
+																												?>
+																												<option value="Ring2"><?php echo '+', $ring_enchant_amount, ' ', 'Ring: ', $char_upring_name, ' ', $currency_code_html, $ring_donate_amount;?>.00 </option>
+																												<?php
+																											}
+																											// Cannot be enchanted higher.
+																											else
+																											{
+																												?>
+																												<option value="Ring2" disabled><?php echo '+', $char_upring_enchant, ' ', $char_upring_name, ' ', $lang['enchant_3'];?></option>
+																												<?php
+																											}
+																										}
+																									}
 																								}
-																								// Cannot be enchanted higher.
-																								else
-																								{
-																									?>
-																									<option value="Ring2" disabled><?php echo '+', $char_upring_enchant, ' ', $char_upring_name, ' ', $lang['enchant_3'];?></option>
-																									<?php
-																								}
-																							}
-																						}
 																						// This function is disabled.
 																						else
 																							{
@@ -1560,23 +1618,33 @@ if (empty($_POST['enchantsubmit']))
 																								<option value="Earring1" disabled><?php echo $lang['enchant_11'];?></option>
 																								<?php
 																							}
-																						else
-																							{
-																							// Checks if config amount is higher than the equipped item.
-																							if ($earring_enchant_amount > $char_lowearring_enchant)
+																							else
 																								{
-																									?>
-																									<option value="Earring1"><?php echo '+', $earring_enchant_amount, ' ', 'Earring: ', $char_lowearring_name, ' ', $currency_code_html, $earring_donate_amount;?>.00 </option>
-																									<?php
-																								}
-																								// Cannot be enchanted higher.
-																								else
-																								{
-																									?>
-																									<option value="Earring1" disabled><?php echo '+', $char_lowearring_enchant, ' ', $char_lowearring_name, ' ', $lang['enchant_3'];?>option>
-																									<?php
-																								}
-																							}
+																								// Checks if player got a blocked item id equipped.
+																								if (in_array($char_lowearring_id, $enc_item_blocked)) 
+																									{
+																										?>
+																										<option value="Earring1" disabled><?php echo $char_lowearring_name, ' ', $lang['enchant_32'];?></option>
+																										<?php
+																									}
+																									else
+																										{
+																										// Checks if config amount is higher than the equipped item.
+																										if ($earring_enchant_amount > $char_lowearring_enchant)
+																											{
+																												?>
+																												<option value="Earring1"><?php echo '+', $earring_enchant_amount, ' ', 'Earring: ', $char_lowearring_name, ' ', $currency_code_html, $earring_donate_amount;?>.00 </option>
+																												<?php
+																											}
+																											// Cannot be enchanted higher.
+																											else
+																											{
+																												?>
+																												<option value="Earring1" disabled><?php echo '+', $char_lowearring_enchant, ' ', $char_lowearring_name, ' ', $lang['enchant_3'];?>option>
+																												<?php
+																											}
+																										}
+																									}
 																						// Checks if item is equipped.
 																						if ($char_upearring_id == 0)
 																							{
@@ -1584,24 +1652,34 @@ if (empty($_POST['enchantsubmit']))
 																								<option value="Earring2" disabled><?php echo $lang['enchant_11'];?></option>
 																								<?php
 																							}
-																						else
-																							{
-																							// Checks if config amount is higher than the equipped item.
-																							if ($earring_enchant_amount > $char_upearring_enchant)
+																							else
 																								{
-																									?>
-																									<option value="Earring2"><?php echo '+', $earring_enchant_amount, ' ', 'Earring: ', $char_upearring_name, ' ', $currency_code_html, $earring_donate_amount;?>.00 </option>
-																									<?php
+																								// Checks if player got a blocked item id equipped.
+																								if (in_array($char_upearring_id, $enc_item_blocked)) 
+																									{
+																										?>
+																										<option value="Earring2" disabled><?php echo $char_upearring_name, ' ', $lang['enchant_32'];?></option>
+																										<?php
+																									}
+																									else
+																										{
+																										// Checks if config amount is higher than the equipped item.
+																										if ($earring_enchant_amount > $char_upearring_enchant)
+																											{
+																												?>
+																												<option value="Earring2"><?php echo '+', $earring_enchant_amount, ' ', 'Earring: ', $char_upearring_name, ' ', $currency_code_html, $earring_donate_amount;?>.00 </option>
+																												<?php
+																											}
+																											// Cannot be enchanted higher.
+																											else
+																											{
+																												?>
+																												<option value="Earring2" disabled><?php echo '+', $char_upearring_enchant, ' ', $char_upearring_name, ' ', $lang['enchant_3'];?></option>
+																												<?php
+																											}
+																										}
+																									}
 																								}
-																								// Cannot be enchanted higher.
-																								else
-																								{
-																									?>
-																									<option value="Earring2" disabled><?php echo '+', $char_upearring_enchant, ' ', $char_upearring_name, ' ', $lang['enchant_3'];?></option>
-																									<?php
-																								}
-																							}
-																						}
 																						// This function is disabled.
 																						else
 																							{
@@ -1620,24 +1698,34 @@ if (empty($_POST['enchantsubmit']))
 																								<option value="Gloves" disabled><?php echo $lang['enchant_12'];?></option>
 																								<?php
 																							}
-																						else
-																							{
-																							// Checks if config amount is higher than the equipped item.
-																							if ($gloves_enchant_amount > $char_gloves_enchant)
+																							else
 																								{
-																									?>
-																									<option value="Gloves"><?php echo '+', $gloves_enchant_amount, ' ', 'Gloves: ', $char_gloves_name, ' ', $currency_code_html, $gloves_donate_amount;?>.00 </option>
-																									<?php
+																								// Checks if player got a blocked item id equipped.
+																								if (in_array($char_gloves_id, $enc_item_blocked)) 
+																									{
+																										?>
+																										<option value="Gloves" disabled><?php echo $char_gloves_name, ' ', $lang['enchant_32'];?></option>
+																										<?php
+																									}
+																									else
+																										{
+																										// Checks if config amount is higher than the equipped item.
+																										if ($gloves_enchant_amount > $char_gloves_enchant)
+																											{
+																												?>
+																												<option value="Gloves"><?php echo '+', $gloves_enchant_amount, ' ', 'Gloves: ', $char_gloves_name, ' ', $currency_code_html, $gloves_donate_amount;?>.00 </option>
+																												<?php
+																											}
+																											// Cannot be enchanted higher.
+																											else
+																											{
+																												?>
+																												<option value="Gloves" disabled><?php echo '+', $char_gloves_enchant, ' ', $char_gloves_name, ' ', $lang['enchant_3'];?></option>
+																												<?php
+																											}
+																										}
+																									}
 																								}
-																								// Cannot be enchanted higher.
-																								else
-																								{
-																									?>
-																									<option value="Gloves" disabled><?php echo '+', $char_gloves_enchant, ' ', $char_gloves_name, ' ', $lang['enchant_3'];?></option>
-																									<?php
-																								}
-																							}
-																						}
 																						// This function is disabled.
 																						else
 																							{
@@ -1655,24 +1743,34 @@ if (empty($_POST['enchantsubmit']))
 																								<option value="Leggings" disabled><?php echo $lang['enchant_13'];?></option>
 																								<?php
 																							}
-																						else
-																							{
-																							// Checks if config amount is higher than the equipped item.
-																							if ($leggings_enchant_amount > $char_leggings_enchant)
+																							else
 																								{
-																									?>
-																									<option value="Leggings"><?php echo '+', $leggings_enchant_amount, ' ', 'leggings: ', $char_leggings_name, ' ', $currency_code_html, $leggings_donate_amount;?>.00 </option>
-																									<?php
+																								// Checks if player got a blocked item id equipped.
+																								if (in_array($char_leggings_id, $enc_item_blocked)) 
+																									{
+																										?>
+																										<option value="Leggings" disabled><?php echo $char_leggings_name, ' ', $lang['enchant_32'];?></option>
+																										<?php
+																									}
+																									else
+																										{
+																										// Checks if config amount is higher than the equipped item.
+																										if ($leggings_enchant_amount > $char_leggings_enchant)
+																											{
+																												?>
+																												<option value="Leggings"><?php echo '+', $leggings_enchant_amount, ' ', 'leggings: ', $char_leggings_name, ' ', $currency_code_html, $leggings_donate_amount;?>.00 </option>
+																												<?php
+																											}
+																											// Cannot be enchanted higher.
+																											else
+																											{
+																												?>
+																												<option value="Leggings" disabled><?php echo '+', $char_leggings_enchant, ' ', $char_leggings_name, ' ', $lang['enchant_3'];?></option>
+																												<?php
+																											}
+																										}
+																									}
 																								}
-																								// Cannot be enchanted higher.
-																								else
-																								{
-																									?>
-																									<option value="Leggings" disabled><?php echo '+', $char_leggings_enchant, ' ', $char_leggings_name, ' ', $lang['enchant_3'];?></option>
-																									<?php
-																								}
-																							}
-																						}
 																						// This function is disabled.
 																						else
 																							{
@@ -1690,24 +1788,34 @@ if (empty($_POST['enchantsubmit']))
 																								<option value="Boots" disabled><?php echo $lang['enchant_14'];?></option>
 																								<?php
 																							}
-																						else
-																							{
-																							// Checks if config amount is higher than the equipped item.
-																							if ($boots_enchant_amount > $char_boots_enchant)
+																							else
 																								{
-																									?>
-																									<option value="Boots"><?php echo '+', $boots_enchant_amount, ' ', 'Boots: ', $char_boots_name, ' ', $currency_code_html, $boots_donate_amount;?>.00 </option>
-																									<?php
+																								// Checks if player got a blocked item id equipped.
+																								if (in_array($char_boots_id, $enc_item_blocked)) 
+																									{
+																										?>
+																										<option value="Boots" disabled><?php echo $char_boots_name, ' ', $lang['enchant_32'];?></option>
+																										<?php
+																									}
+																									else
+																										{
+																										// Checks if config amount is higher than the equipped item.
+																										if ($boots_enchant_amount > $char_boots_enchant)
+																											{
+																												?>
+																												<option value="Boots"><?php echo '+', $boots_enchant_amount, ' ', 'Boots: ', $char_boots_name, ' ', $currency_code_html, $boots_donate_amount;?>.00 </option>
+																												<?php
+																											}
+																											// Cannot be enchanted higher.
+																											else
+																											{
+																												?>
+																												<option value="Boots" disabled><?php echo '+', $char_boots_enchant, ' ', $char_boots_name, ' ', $lang['enchant_3'];?></option>
+																												<?php
+																											}
+																										}
+																									}
 																								}
-																								// Cannot be enchanted higher.
-																								else
-																								{
-																									?>
-																									<option value="Boots" disabled><?php echo '+', $char_boots_enchant, ' ', $char_boots_name, ' ', $lang['enchant_3'];?></option>
-																									<?php
-																								}
-																							}
-																						}
 																						// This function is disabled.
 																						else
 																							{
@@ -1725,24 +1833,34 @@ if (empty($_POST['enchantsubmit']))
 																								<option value="Belt" disabled><?php echo $lang['enchant_15'];?></option>
 																								<?php
 																							}
-																						else
-																							{
-																							// Checks if config amount is higher than the equipped item.
-																							if ($belt_enchant_amount > $char_belt_enchant)
+																							else
 																								{
-																									?>
-																									<option value="Belt"><?php echo '+', $belt_enchant_amount, ' ', 'Belt: ', $char_belt_name, ' ', $currency_code_html, $belt_donate_amount;?>.00 </option>
-																									<?php
+																								// Checks if player got a blocked item id equipped.
+																								if (in_array($char_belt_id, $enc_item_blocked)) 
+																									{
+																										?>
+																										<option value="Belt" disabled><?php echo $char_belt_name, ' ', $lang['enchant_32'];?></option>
+																										<?php
+																									}
+																									else
+																										{
+																										// Checks if config amount is higher than the equipped item.
+																										if ($belt_enchant_amount > $char_belt_enchant)
+																											{
+																												?>
+																												<option value="Belt"><?php echo '+', $belt_enchant_amount, ' ', 'Belt: ', $char_belt_name, ' ', $currency_code_html, $belt_donate_amount;?>.00 </option>
+																												<?php
+																											}
+																											// Cannot be enchanted higher.
+																											else
+																											{
+																												?>
+																												<option value="Belt" disabled><?php echo '+', $char_belt_enchant, ' ', $char_belt_name, ' ', $lang['enchant_3'];?></option>
+																												<?php
+																											}
+																										}
+																									}
 																								}
-																								// Cannot be enchanted higher.
-																								else
-																								{
-																									?>
-																									<option value="Belt" disabled><?php echo '+', $char_belt_enchant, ' ', $char_belt_name, ' ', $lang['enchant_3'];?></option>
-																									<?php
-																								}
-																							}
-																						}
 																						// This function is disabled.
 																						else
 																							{
@@ -1760,24 +1878,34 @@ if (empty($_POST['enchantsubmit']))
 																								<option value="All_Enc" disabled><?php echo $lang['enchant_28'];?></option>
 																								<?php
 																							}
-																						else
-																							{
-																							// Checks if config amount is higher than the equipped item.
-																							if (($all_enchant_amount > $char_shirt_enchant) && ($all_enchant_amount > $char_helmet_enchant) && ($all_enchant_amount > $char_necklace_enchant) && ($all_enchant_amount > $char_weapon_enchant) && ($all_enchant_amount > $char_breastplate_full_enchant) && ($all_enchant_amount > $char_shield_enchant) && ($all_enchant_amount > $char_lowring_enchant) && ($all_enchant_amount > $char_upring_enchant) && ($all_enchant_amount > $char_lowearring_enchant) && ($all_enchant_amount > $char_upearring_enchant) && ($all_enchant_amount > $char_gloves_enchant) && ($all_enchant_amount > $char_leggings_enchant) && ($all_enchant_amount > $char_boots_enchant) && ($all_enchant_amount > $char_belt_enchant))
+																							else
 																								{
-																									?>
-																									<option value="All_Enc"><?php echo '+', $all_enchant_amount, ' ', $lang['enchant_30'], ' ', $currency_code_html, $all_donate_amount;?>.00 </option>
-																									<?php
+																								// Checks if player got a blocked item id equipped.
+																								if (in_array($char_shirt_id, $enc_item_blocked) || in_array($char_helmet_id, $enc_item_blocked) || in_array($char_necklace_id, $enc_item_blocked) || in_array($char_weapon_id, $enc_item_blocked) || in_array($char_breastplate_full_id, $enc_item_blocked) || in_array($char_shield_id, $enc_item_blocked) || in_array($char_lowring_id, $enc_item_blocked) || in_array($char_upring_id, $enc_item_blocked) || in_array($char_lowearring_id, $enc_item_blocked) || in_array($char_upearring_id, $enc_item_blocked) || in_array($char_gloves_id, $enc_item_blocked) || in_array($char_leggings_id, $enc_item_blocked) || in_array($char_boots_id, $enc_item_blocked) || in_array($char_belt_id, $enc_item_blocked)) 
+																									{
+																										?>
+																										<option value="All_Enc" disabled><?php echo $lang['enchant_33'];?></option>
+																										<?php
+																									}
+																									else
+																										{
+																										// Checks if config amount is higher than the equipped item.
+																										if (($all_enchant_amount > $char_shirt_enchant) && ($all_enchant_amount > $char_helmet_enchant) && ($all_enchant_amount > $char_necklace_enchant) && ($all_enchant_amount > $char_weapon_enchant) && ($all_enchant_amount > $char_breastplate_full_enchant) && ($all_enchant_amount > $char_shield_enchant) && ($all_enchant_amount > $char_lowring_enchant) && ($all_enchant_amount > $char_upring_enchant) && ($all_enchant_amount > $char_lowearring_enchant) && ($all_enchant_amount > $char_upearring_enchant) && ($all_enchant_amount > $char_gloves_enchant) && ($all_enchant_amount > $char_leggings_enchant) && ($all_enchant_amount > $char_boots_enchant) && ($all_enchant_amount > $char_belt_enchant))
+																											{
+																												?>
+																												<option value="All_Enc"><?php echo '+', $all_enchant_amount, ' ', $lang['enchant_30'], ' ', $currency_code_html, $all_donate_amount;?>.00 </option>
+																												<?php
+																											}
+																											// Cannot be enchanted higher.
+																											else
+																											{
+																												?>
+																												<option value="All_Enc" disabled><?php echo $lang['enchant_31'];?></option>
+																												<?php
+																											}
+																										}
+																									}
 																								}
-																								// Cannot be enchanted higher.
-																								else
-																								{
-																									?>
-																									<option value="All_Enc" disabled><?php echo $lang['enchant_31'];?></option>
-																									<?php
-																								}
-																							}
-																						}
 																						// This function is disabled.
 																						else
 																							{
@@ -1785,7 +1913,6 @@ if (empty($_POST['enchantsubmit']))
 																								<option value="All_Enc" disabled><?php echo $lang['enchant_29'];?></option>
 																								<?php
 																							}
-																				
 																			?>
 																		</select>
 																		<input type="hidden" name="option_index" value="0">
@@ -1852,16 +1979,13 @@ if (empty($_POST['enchantsubmit']))
 																		<input type="hidden" name="leggings_select_enc" value="<?php echo $char_leggings_enchant; ?>">
 																		<input type="hidden" name="boots_select_enc" value="<?php echo $char_boots_enchant; ?>">
 																		<input type="hidden" name="belt_select_enc" value="<?php echo $char_belt_enchant; ?>">
-																		
-																		
 																<br>
 																<center><input type="submit" name="enchantsubmit" value="<?php echo $lang['enchant_submit_button']; ?>"></center>
 																</form>
 																</div>
-															
 															<?php
 															}
-														}												
+														}
 													}
 												}
 											}
@@ -1909,7 +2033,6 @@ if (empty($_POST['enchantsubmit']))
 							// set connection to null
 							$connection = null;
 						}
-
 					}
 					// Message when the connection fails.
 					else
@@ -1921,10 +2044,10 @@ if (empty($_POST['enchantsubmit']))
 							// Set connection to null.
 							$connection = null;
 						}
-						}
+					}
 				// Message if captcha is wrong.
-				else	
-					{		
+				else
+					{
 						include("recallform.php");
 						?>
 							<center><?php echo $lang['recallform_8']; ?> </center><br>
@@ -1932,7 +2055,6 @@ if (empty($_POST['enchantsubmit']))
 						// Set connection to null.
 						$connection = null;
 					}
-
 	}
 	if ($use_sandbox == true)
 		{
@@ -1941,7 +2063,6 @@ if (empty($_POST['enchantsubmit']))
 	if (empty($_POST['enchantsubmit']))
 	{
 		?>
-		
 			</td>
 			</tr>
 		</table>

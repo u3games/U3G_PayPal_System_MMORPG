@@ -170,6 +170,11 @@ $donatepkallamount = 15;
  * ENCHANT ITEM OPTIONS
  */
 
+// Specify and disable item ids for enchantment.
+// Default: Cursed Weapons: 8689, 8190 Hero Weapons: 6611, 6612, 6613, 6614, 6615, 6616, 6617, 6618, 6619, 6620, 6621, 9388, 9389, 9390
+// Note: If you dont want to use this option change it to array().
+$enc_item_blocked = array(8689, 8190, 6611, 6612, 6613, 6614, 6615, 6616, 6617, 6618, 6619, 6620, 6621, 9388, 9389, 9390);
+ 
 // Define SHIRT enchant (true=on | false=off)
 $shirt_enchant_enabled = true;
 // Enchant amount.
@@ -217,7 +222,7 @@ $ring_enchant_enabled = true;
 // Enchant amount.
 $ring_enchant_amount = 18;
 // Price of the donation.
-$ring_donate_amount = 15;
+$ring_donate_amount = 10;
 
 // Define EARRINGS enchant (true=on | false=off)
 $earring_enchant_enabled = true;

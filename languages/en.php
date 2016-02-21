@@ -73,6 +73,8 @@ $lang['enchant_28'] = 'You need to equip some items.';
 $lang['enchant_29'] = 'All items enchant is disabled.';
 $lang['enchant_30'] = 'All equipped items';
 $lang['enchant_31'] = 'Some equipped items are at max enchant.';
+$lang['enchant_32'] = 'is not allowed to be enchanted.';
+$lang['enchant_33'] = 'Some items are not allowed to be enchanted.';
 
 $lang['done_1'] = 'Thank you for donating, now check donation in your character.';
 $lang['done_2'] = 'If the item has not been sent to your character, contact the administration.';
