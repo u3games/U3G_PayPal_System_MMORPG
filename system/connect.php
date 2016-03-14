@@ -20,18 +20,17 @@
  */
 
 // Server Database Config
-$db_host		= 'localhost';
-$db_user		= 'root';
-$db_pass		= '';
-$db_database	= '';
+$db_host  = 'Host';
+$db_user  = 'User';
+$db_pass  = 'Pass';
+$db_database  = 'l2jgs';
 
 // Telnet Config
-$telnet_host		= '';
-$telnet_port		= '';
-$telnet_pass		= '';
+$telnet_host  = 'Host';
+$telnet_port  = 'Port';
+$telnet_pass  = 'Pass';
 
 // Admin Panel Config
-$overview_user		= 'admin';
-$overview_password	= 'password';
-
+$overview_user  = 'Username';
+$overview_password  = 'Password';
 ?>

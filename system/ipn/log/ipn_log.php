@@ -28,4 +28,3 @@ if (!in_array($_SERVER['REMOTE_ADDR'], array(@$allowed_client1,@$allowed_client2
 ?>
 
 <tr><td>
-
