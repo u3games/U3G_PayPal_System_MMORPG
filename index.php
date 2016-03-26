@@ -1124,7 +1124,7 @@ if (empty($_POST['enchantsubmit']))
 																								$char_leggings_id_min1 = $char_leggings_id - 1;
 																								$char_leggings_name = $xmlload->item[$char_leggings_id_min1]['name'];
 
-																								// Here we select the gloves enchant level.
+																								// Here we select the leggings enchant level.
 																								$char_leggings_enchant_select = $connection->prepare('SELECT enchant_level FROM items WHERE loc_data = ? AND owner_id = ? AND loc = ? LIMIT 1');
 																								$char_leggings_enchant_select->bindValue(1, $locdata11, PDO::PARAM_INT);
 																								$char_leggings_enchant_select->bindValue(2, $char_id_result, PDO::PARAM_INT);
@@ -1189,7 +1189,7 @@ if (empty($_POST['enchantsubmit']))
 
 																								// Here we select the ring2 enchant level.
 																								$char_upring_enchant_select = $connection->prepare('SELECT enchant_level FROM items WHERE loc_data = ? AND owner_id = ? AND loc = ? LIMIT 1');
-																								$char_upring_enchant_select->bindValue(1, $locdata13, PDO::PARAM_INT);
+																								$char_upring_enchant_select->bindValue(1, $locdata14, PDO::PARAM_INT);
 																								$char_upring_enchant_select->bindValue(2, $char_id_result, PDO::PARAM_INT);
 																								$char_upring_enchant_select->bindValue(3, $loc_paper, PDO::PARAM_STR);
 																								$char_upring_enchant_select->execute();
@@ -1208,9 +1208,9 @@ if (empty($_POST['enchantsubmit']))
 																								$char_belt_id_min1 = $char_belt_id - 1;
 																								$char_belt_name = $xmlload->item[$char_belt_id_min1]['name'];
 
-																								// Here we select the ring2 enchant level.
+																								// Here we select the belt enchant level.
 																								$char_belt_enchant_select = $connection->prepare('SELECT enchant_level FROM items WHERE loc_data = ? AND owner_id = ? AND loc = ? LIMIT 1');
-																								$char_belt_enchant_select->bindValue(1, $locdata13, PDO::PARAM_INT);
+																								$char_belt_enchant_select->bindValue(1, $locdata24, PDO::PARAM_INT);
 																								$char_belt_enchant_select->bindValue(2, $char_id_result, PDO::PARAM_INT);
 																								$char_belt_enchant_select->bindValue(3, $loc_paper, PDO::PARAM_STR);
 																								$char_belt_enchant_select->execute();
